@@ -1,0 +1,2 @@
+/usr/bin/ar qc libVkWrapper.a CMakeFiles/VkWrapper.dir/src/Camera.cpp.o CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o CMakeFiles/VkWrapper.dir/src/EkSwapchain.cpp.o CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o CMakeFiles/VkWrapper.dir/src/main.cpp.o
+/usr/bin/ranlib libVkWrapper.a

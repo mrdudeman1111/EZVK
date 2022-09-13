@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/VkTester.dir/src/main.cpp.o -o VkTester  libVkWrapper.a /lib/libvulkan.so /usr/lib/libglfw.so.3.3 -lVulkanMemoryAllocator 
