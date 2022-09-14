@@ -42,8 +42,6 @@ namespace InitHelpers
 
 namespace Pipeline
 {
-    // std::vector<char> ReadFile(std::string& FileName);
-
     // VkShaderModule CreateShaderModule(std::string& FileName);
 
     // VkWriteDescriptorSet WriteToDescriptor(VkDescriptorType type, VkDescriptorSet dstSet, VkDescriptorBufferInfo* bufferInfo , uint32_t binding);
