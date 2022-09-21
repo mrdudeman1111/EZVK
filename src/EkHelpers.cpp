@@ -209,16 +209,14 @@ namespace InitHelpers
     void PickPhysDev()
     {
         uint32_t DeviceCount = 0;
-        vkEnumeratePhysicalDevices(Instance, &DeviceCount, nullptr);
-
-        if(DeviceCount == 0);
-        {
-            ThrowError("Failed to find a gpu with vulkan support");
-        }
-
         std::vector<VkPhysicalDevice> Devices(DeviceCount);
         vkEnumeratePhysicalDevices(Instance, &DeviceCount, Devices.data());
 
+        if(DeviceCount == 0)
+        {
+            ThrowError("Failed to find Physical Device with vulkan support");
+        }
+        
         for (auto Device : Devices) 
         {
             if (CheckDevice(&Device)) 
