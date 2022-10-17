@@ -214,30 +214,6 @@ src/EkPipeline.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.s
 .PHONY : src/EkPipeline.cpp.s
 
-src/EkSwapchain.o: src/EkSwapchain.cpp.o
-.PHONY : src/EkSwapchain.o
-
-# target to build an object file
-src/EkSwapchain.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/src/EkSwapchain.cpp.o
-.PHONY : src/EkSwapchain.cpp.o
-
-src/EkSwapchain.i: src/EkSwapchain.cpp.i
-.PHONY : src/EkSwapchain.i
-
-# target to preprocess a source file
-src/EkSwapchain.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/src/EkSwapchain.cpp.i
-.PHONY : src/EkSwapchain.cpp.i
-
-src/EkSwapchain.s: src/EkSwapchain.cpp.s
-.PHONY : src/EkSwapchain.s
-
-# target to generate assembly for a file
-src/EkSwapchain.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/src/EkSwapchain.cpp.s
-.PHONY : src/EkSwapchain.cpp.s
-
 src/Mesh.o: src/Mesh.cpp.o
 .PHONY : src/Mesh.o
 
@@ -308,9 +284,6 @@ help:
 	@echo "... src/EkPipeline.o"
 	@echo "... src/EkPipeline.i"
 	@echo "... src/EkPipeline.s"
-	@echo "... src/EkSwapchain.o"
-	@echo "... src/EkSwapchain.i"
-	@echo "... src/EkSwapchain.s"
 	@echo "... src/Mesh.o"
 	@echo "... src/Mesh.i"
 	@echo "... src/Mesh.s"

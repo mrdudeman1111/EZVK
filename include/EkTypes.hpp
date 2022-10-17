@@ -1,77 +1,124 @@
 #pragma once
 
-#define GLM_FORCE_RADIANS
-#define GLM_FORCE_DEPTH_ZERO_TO_ONE
+#include <vulkan/vulkan.h>
 
-#include <glm/vec4.hpp>
-#include <glm/mat4x4.hpp>
-#include <glm/ext/matrix_transform.hpp>
-#include <glm/ext/matrix_clip_space.hpp>
-#include <glm/gtx/string_cast.hpp>
+// GLM/GLFW Includes
+    #include <glm/vec4.hpp>
+    #include <glm/mat4x4.hpp>
+    #include <glm/ext/matrix_transform.hpp>
+    #include <glm/ext/matrix_clip_space.hpp>
+    #include <glm/gtx/string_cast.hpp>
+
+
+// std namespace includes
+    #include <memory>
+    #include <fstream>
+    #include <chrono>
+    #include <cstdarg>
+    #include <array>
+    #include <iostream>
+    #include <vector>
+    #include <queue>
+    #include <stack>
+    #include <functional>
 
 #include <vk_mem_alloc.h>
 
-#define GLFW_INCLUDE_VULKAN
-#include <GLFW/glfw3.h>
-
-#include <memory>
-#include <fstream>
-#include <chrono>
-#include <cstdarg>
-#include <array>
-#include <iostream>
-#include <vector>
-
-namespace GlobalConstants
-{
-    // Vulkan/Glfw Basics
-        extern VkDevice Device;
-        extern VkInstance Instance;
-        extern VkPhysicalDevice PhysDev;
-        extern VkDebugUtilsMessengerEXT DebugMessenger;
-
-    	extern VmaAllocator Allocator;
-
-        extern GLFWwindow* Window;
-        extern VkSurfaceKHR Surface;
-        extern int Width;
-        extern int Height;
-    
-	
-    extern VkDescriptorSetLayout CameraLayout;
-	extern VkDescriptorSetLayout SkeletalLayout;
-    
-    extern VkViewport Viewport;
-        // Viewport.x = 0;
-        // Viewport.y = 0;
-        // Viewport.width = (float) PipelineInfo->Width;
-        // Viewport.height = (float) PipelineInfo->Height;
-        // Viewport.minDepth = 0.0f;
-        // Viewport.maxDepth = 1.0f;
-    extern VkViewport Viewport;
-        // Viewport.x = 0;
-        // Viewport.y = 0;
-        // Viewport.width = (float) PipelineInfo->Width;
-        // Viewport.height = (float) PipelineInfo->Height;
-        // Viewport.minDepth = 0.0f;
-        // Viewport.maxDepth = 1.0f;
-
-    extern VkRect2D Scissor;
-        // Scissor.offset = {0, 0};
-        // Scissor.extent = VkExtent2D{(uint32_t) PipelineInfo->Width, (uint32_t) PipelineInfo->Height};
-
-    extern VkPipelineViewportStateCreateInfo ViewportState;
-        // ViewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
-        // ViewportState.viewportCount = 1;
-        // ViewportState.pViewports = &GlobalConstants::Viewport;
-        // ViewportState.scissorCount = 1;
-        // ViewportState.pScissors = &Scissor;
-}
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
 void ThrowError(const char* Error);
 
+// #ifdef GLFWAPP
+    #define GLFW_INCLUDE_VULKAN
+    #include <GLFW/glfw3.h>
+
+    struct EkWindow
+    {
+        public:
+        GLFWwindow* Window = NULL;
+        VkPhysicalDevice* PhysDevPtr;
+        const char** GlfwExts;
+        uint32_t glfwExtCount = 0;
+        VkSurfaceKHR Surface;
+
+        VkSurfaceFormatKHR QueryFormats(VkFormat FormatTarget)
+        {
+            VkSurfaceCapabilitiesKHR SurfaceCap;
+            vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*PhysDevPtr, Surface, &SurfaceCap);
+
+            uint32_t FormatCount;
+            vkGetPhysicalDeviceSurfaceFormatsKHR(*PhysDevPtr, Surface, &FormatCount, nullptr);
+
+            std::vector<VkSurfaceFormatKHR> Formats(FormatCount);
+            vkGetPhysicalDeviceSurfaceFormatsKHR(*PhysDevPtr, Surface, &FormatCount, Formats.data());
+
+            uint32_t SurfaceModeCount;
+            vkGetPhysicalDeviceSurfacePresentModesKHR(*PhysDevPtr, Surface, &SurfaceModeCount, nullptr);
+
+            std::vector<VkPresentModeKHR> PresentModes(SurfaceModeCount);
+            vkGetPhysicalDeviceSurfacePresentModesKHR(*PhysDevPtr, Surface, &SurfaceModeCount, PresentModes.data());
+
+            for(const VkSurfaceFormatKHR& Format : Formats)
+            {
+                std::cout << Format.format << std::endl;
+            }
+        }
+
+        void CreateWindow(int Width, int Height, std::string AppName)
+        {
+            glfwInit();
+
+            if(glfwVulkanSupported() != GLFW_TRUE)
+            {
+                ThrowError("GLFW: Vulkan Not Supported");
+            }
+
+            glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+            glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
+            Window = glfwCreateWindow(Width, Height, AppName.c_str(), nullptr, nullptr);
+
+            GlfwExts = glfwGetRequiredInstanceExtensions(&glfwExtCount);
+        }
+
+        void CreateSurface(VkInstance* Instance)
+        {
+            VkResult Result = glfwCreateWindowSurface(*Instance, Window, nullptr, &Surface);
+            if(Result != VK_SUCCESS)
+            {
+                std::cout << "Error: " << Result << std::endl;
+                ThrowError("GLFW: Can't create window surface");
+            }
+        }
+    
+        void CreateSwapchain(uint32_t GraphicsFamilyIndex, VkPresentModeKHR PresentationMode, uint ImageCount)
+        {
+            VkSwapchainCreateInfoKHR SwapchainInfo{};
+            SwapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+            SwapchainInfo.surface = Surface;
+            SwapchainInfo.presentMode = PresentationMode;
+            SwapchainInfo.queueFamilyIndexCount = 1;
+            SwapchainInfo.pQueueFamilyIndices = &GraphicsFamilyIndex;
+            SwapchainInfo.minImageCount = ImageCount;
+        }
+
+
+        private:
+        VkSwapchainKHR Swapchain;
+        std::vector<VkFramebuffer> FrameBuffers;
+
+    };
+// #endif
+
 // Types
     enum VertexType{VTX_Basic, VTX_Rigged};
+
+    enum CommandBufferUsage
+    {
+        OneTime = 0x00000001, 
+        RenderPass = 0x00000002, 
+        Simultaneous = 0x00000004
+    };
 
     typedef uint32_t ivec3[3];
 
@@ -91,19 +138,186 @@ void ThrowError(const char* Error);
 
 
 // VkWrappers
-    template<typename CmdArg>
+
+    struct DeleteQueue
+    {
+        std::stack<std::function<void()>> DeletionQueue;
+
+        void operator() (std::function<void()> const& DeleteLambda)
+        {
+            DeletionQueue.push(DeleteLambda);
+        }
+
+        void Run()
+        {
+            int QueueSize = DeletionQueue.size();
+            for(uint32_t i = 0; i < QueueSize; i++)
+            {
+                auto Func = DeletionQueue.top();
+                DeletionQueue.pop();
+                Func();
+            }
+        }
+    };
+
+    // Create Queue Buffer, and then create record buffer, so the user has the choice to just record their own command buffer, or just create a queue of calls
+    // And then record all the queued calls with the bake function
     struct EkCommandBuffer
     {
         public:
+        std::queue<std::function<void()>> Queue;
         VkCommandBuffer CommandBuffer;
-        void Submit();
-        std::vector<CmdArg> Queue;
-            // Always pass a lambda, This lambda should capture whatever you're calling this function from, and sould call all the vulkan API calls you want to make (These are VkCmdXXX such as VkCmdBeginRenderpass, VkCmdDraw, etc)
-        void QueueCommand(CmdArg Function)
+        VkCommandBufferBeginInfo BeginInfo;
+
+        EkCommandBuffer(CommandBufferUsage Usage)
         {
-            Queue.append(Function);
+            BeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+            BeginInfo.flags = Usage;
+        }
+
+        void Allocate(VkDevice* Device, VkCommandPool* Pool, uint32_t Priority)
+        {
+            VkCommandBufferAllocateInfo AllocInfo{};
+            AllocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+            AllocInfo.commandPool = *Pool;
+
+            switch(Priority)
+            {
+                case 0:
+                    AllocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+                    break;
+                case 1:
+                    AllocInfo.level = VK_COMMAND_BUFFER_LEVEL_SECONDARY;
+                    break;
+                default:
+                    AllocInfo.level = VK_COMMAND_BUFFER_LEVEL_SECONDARY;
+                    break;
+            }
+
+            AllocInfo.commandBufferCount = 1;
+
+            if(vkAllocateCommandBuffers(*Device, &AllocInfo, &CommandBuffer) != VK_SUCCESS)
+            {
+                ThrowError("Unexpectedly couldn't Allocate Memmory for a command buffer, perhaps the pool ran out of space");
+            }
+        }
+
+        // Always pass a lambda with no parameters or return types, just wrap all the commands you want run into a labmda object and pass it.
+        void operator() (std::function<void()> Command)
+        {
+            Queue.push(Command);
+        }
+
+        // Really what we're doing here is recording the command buffer.
+        void Bake()
+        {
+            vkBeginCommandBuffer(CommandBuffer, &BeginInfo);
+            for(uint32_t i = 0; i < Queue.size(); i++)
+            {
+                auto Func = Queue.front();
+                Queue.pop();
+                Func();
+            }
+            vkEndCommandBuffer(CommandBuffer);
         }
     };
+
+    struct EkCmdPool
+    {
+        public:
+        VkCommandPool CommandPool;
+        DeleteQueue CleanupQueue;
+        VkDevice* DevicePtr;
+
+        EkCmdPool()
+        {}
+
+        EkCmdPool(VkDevice* Device, uint32_t GraphicsQueueFamilyIndex, DeleteQueue* DeletionQueue)
+        {
+            DevicePtr = Device;
+            Create(GraphicsQueueFamilyIndex, DeletionQueue);
+        }
+
+        ~EkCmdPool()
+        {
+            CleanupQueue.Run();
+        }
+
+        void Create(uint32_t GraphicsQueueFamilyIndex, DeleteQueue* DeletionQueue)
+        {
+            VkCommandPoolCreateInfo PoolInfo{};
+            PoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
+            PoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+            PoolInfo.queueFamilyIndex = GraphicsQueueFamilyIndex;
+
+            if(vkCreateCommandPool(*DevicePtr, &PoolInfo, nullptr, &CommandPool) != VK_SUCCESS)
+            {
+                ThrowError("Failed to create EkCmdPool");
+            }
+
+            VkDevice* DevDelHandle = DevicePtr;
+            CleanupQueue([this, DevDelHandle](){ vkDestroyCommandPool(*DevDelHandle, CommandPool, nullptr); std::cout << "Destroyed A command pool\n"; });
+        }
+
+        // Priority can be 0 or 1, anything else throws error. 0 being primary, and therefore prioritized, and 1 being secondary, and therefore less important, (it's a little less slower than primary, it also gets less resources allocated to it)
+        EkCommandBuffer AllocateCmdBuffer(int Priority, CommandBufferUsage Usage)
+        {
+            switch(Priority)
+            {
+                case 0: 
+                {
+                    EkCommandBuffer NewCmdBuffer(Usage);
+                    NewCmdBuffer.Allocate(DevicePtr, &CommandPool, 0);
+                    CleanupQueue([=](){ vkFreeCommandBuffers(*DevicePtr, CommandPool, 1, &NewCmdBuffer.CommandBuffer); });
+                    return NewCmdBuffer;
+                    break;
+                }
+
+                case 1:
+                {
+                    EkCommandBuffer NewCmdBuffer(Usage);
+                    NewCmdBuffer.Allocate(DevicePtr, &CommandPool, 1);
+                    CleanupQueue([=](){ vkFreeCommandBuffers(*DevicePtr, CommandPool, 1, &NewCmdBuffer.CommandBuffer); });
+                    return NewCmdBuffer;
+                    break;
+                }
+
+                default:
+                    ThrowError("Attempted to allocate a command buffer with uknown priority");
+                    break;
+            }
+        }
+
+        void SubmitCmdBuffer(EkCommandBuffer* CommandBuffer, VkQueue SubmitionQueue, VkPipelineStageFlags* WaitStages = nullptr, VkFence* Fence = nullptr, VkSemaphore* WaitSemaphores = nullptr, VkSemaphore* SignalSemaphores = nullptr)
+        {
+            VkSubmitInfo SubmitInfo{};
+            SubmitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+            
+            if(WaitSemaphores != nullptr)
+            {
+                SubmitInfo.waitSemaphoreCount = sizeof(WaitSemaphores)/sizeof(WaitSemaphores[0]);
+                SubmitInfo.pWaitSemaphores = WaitSemaphores;
+            }
+            
+            if(WaitStages != nullptr)
+            {
+                SubmitInfo.pWaitDstStageMask = WaitStages;
+            }
+            
+            SubmitInfo.commandBufferCount = 1;
+            SubmitInfo.pCommandBuffers = &CommandBuffer->CommandBuffer;
+            
+            if(SignalSemaphores != nullptr)
+            {
+                SubmitInfo.signalSemaphoreCount = sizeof(SignalSemaphores)/sizeof(SignalSemaphores[0]);
+                SubmitInfo.pSignalSemaphores = SignalSemaphores;
+            }
+
+            vkQueueSubmit(SubmitionQueue, 1, &SubmitInfo, *Fence);
+        }
+    };
+
+
 
     // struct Pipeline
     // {
@@ -414,4 +628,39 @@ void ThrowError(const char* Error);
         alignas(16) glm::vec3 Normal;
     };
 
+namespace GlobalConstants
+{
+    // Vulkan Command Buffers
+        extern VkCommandPool CommandPool;
+    
+    // Vulkan Pipeline Info
+        extern VkDescriptorSetLayout CameraLayout;
+        extern VkDescriptorSetLayout SkeletalLayout;
+        
+        extern VkViewport Viewport;
+            // Viewport.x = 0;
+            // Viewport.y = 0;
+            // Viewport.width = (float) PipelineInfo->Width;
+            // Viewport.height = (float) PipelineInfo->Height;
+            // Viewport.minDepth = 0.0f;
+            // Viewport.maxDepth = 1.0f;
+        extern VkViewport Viewport;
+            // Viewport.x = 0;
+            // Viewport.y = 0;
+            // Viewport.width = (float) PipelineInfo->Width;
+            // Viewport.height = (float) PipelineInfo->Height;
+            // Viewport.minDepth = 0.0f;
+            // Viewport.maxDepth = 1.0f;
 
+        extern VkRect2D Scissor;
+            // Scissor.offset = {0, 0};
+            // Scissor.extent = VkExtent2D{(uint32_t) PipelineInfo->Width, (uint32_t) PipelineInfo->Height};
+
+        extern VkPipelineViewportStateCreateInfo ViewportState;
+            // ViewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
+            // ViewportState.viewportCount = 1;
+            // ViewportState.pViewports = &GlobalConstants::Viewport;
+            // ViewportState.scissorCount = 1;
+            // ViewportState.pScissors = &Scissor;
+    
+}

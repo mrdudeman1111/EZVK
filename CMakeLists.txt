@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.22.0)
+cmake_minimum_required(VERSION 3.23.0)
 project("Vulkan Wrapper")
 
 file(GLOB SRC
@@ -14,5 +14,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/
 add_library(VkWrapper ${SRC})
 add_executable(VkTester ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
+add_compile_definitions(GLFWAPP)
+
 target_link_libraries(VkWrapper Vulkan::Vulkan glfw VulkanMemoryAllocator glm)
 target_link_libraries(VkTester VkWrapper Vulkan::Vulkan glfw VulkanMemoryAllocator glm)
+

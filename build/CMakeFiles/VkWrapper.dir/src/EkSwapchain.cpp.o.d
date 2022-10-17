@@ -4,27 +4,28 @@ CMakeFiles/VkWrapper.dir/src/EkSwapchain.cpp.o: \
  /home/ethan/Repos/VulkanWrapper/include/EkSwapchain.hpp \
  /home/ethan/Repos/VulkanWrapper/include/EkHelpers.hpp \
  /home/ethan/Repos/VulkanWrapper/include/EkTypes.hpp \
- /usr/include/glm/vec4.hpp /usr/include/glm/ext/vector_bool4.hpp \
+ /usr/include/vulkan/vulkan.h /usr/include/vulkan/vk_platform.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stddef.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stdint.h \
+ /usr/include/stdint.h /usr/include/bits/libc-header-start.h \
+ /usr/include/features.h /usr/include/features-time64.h \
+ /usr/include/bits/wordsize.h /usr/include/bits/timesize.h \
+ /usr/include/sys/cdefs.h /usr/include/bits/long-double.h \
+ /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h \
+ /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+ /usr/include/bits/time64.h /usr/include/bits/wchar.h \
+ /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
+ /usr/include/vulkan/vulkan_core.h /usr/include/glm/vec4.hpp \
+ /usr/include/glm/ext/vector_bool4.hpp \
  /usr/include/glm/detail/type_vec4.hpp \
  /usr/include/glm/detail/qualifier.hpp /usr/include/glm/detail/setup.hpp \
  /usr/include/c++/12.2.0/cassert \
  /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/c++config.h \
  /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/os_defines.h \
- /usr/include/features.h /usr/include/features-time64.h \
- /usr/include/bits/wordsize.h /usr/include/bits/timesize.h \
- /usr/include/sys/cdefs.h /usr/include/bits/long-double.h \
- /usr/include/gnu/stubs.h /usr/include/gnu/stubs-64.h \
  /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/cpu_defines.h \
  /usr/include/c++/12.2.0/pstl/pstl_config.h /usr/include/assert.h \
- /usr/include/c++/12.2.0/cstddef \
- /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stddef.h \
- /usr/include/glm/simd/platform.h /usr/include/c++/12.2.0/cstdint \
- /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stdint.h \
- /usr/include/stdint.h /usr/include/bits/libc-header-start.h \
- /usr/include/bits/types.h /usr/include/bits/typesizes.h \
- /usr/include/bits/time64.h /usr/include/bits/wchar.h \
- /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
- /usr/include/c++/12.2.0/type_traits \
+ /usr/include/c++/12.2.0/cstddef /usr/include/glm/simd/platform.h \
+ /usr/include/c++/12.2.0/cstdint /usr/include/c++/12.2.0/type_traits \
  /usr/include/glm/detail/type_vec4.inl \
  /usr/include/glm/detail/compute_vector_relational.hpp \
  /usr/include/c++/12.2.0/limits \
@@ -293,8 +294,6 @@ CMakeFiles/VkWrapper.dir/src/EkSwapchain.cpp.o: \
  /usr/include/c++/12.2.0/bits/charconv.h \
  /usr/include/c++/12.2.0/bits/basic_string.tcc \
  /usr/include/glm/gtx/string_cast.inl /usr/include/c++/12.2.0/cstdarg \
- /usr/include/vk_mem_alloc.h /usr/include/vulkan/vulkan.h \
- /usr/include/vulkan/vk_platform.h /usr/include/vulkan/vulkan_core.h \
  /usr/include/GLFW/glfw3.h /usr/include/GL/gl.h /usr/include/GL/glext.h \
  /usr/include/KHR/khrplatform.h /usr/include/c++/12.2.0/memory \
  /usr/include/c++/12.2.0/bits/stl_uninitialized.h \
@@ -364,7 +363,8 @@ CMakeFiles/VkWrapper.dir/src/EkSwapchain.cpp.o: \
  /usr/include/c++/12.2.0/deque /usr/include/c++/12.2.0/bits/stl_deque.h \
  /usr/include/c++/12.2.0/bits/deque.tcc \
  /usr/include/c++/12.2.0/bits/stl_heap.h \
- /usr/include/c++/12.2.0/bits/stl_queue.h \
+ /usr/include/c++/12.2.0/bits/stl_queue.h /usr/include/c++/12.2.0/stack \
+ /usr/include/c++/12.2.0/bits/stl_stack.h \
  /usr/include/c++/12.2.0/functional \
  /usr/include/c++/12.2.0/bits/std_function.h \
  /usr/include/c++/12.2.0/unordered_map \
@@ -376,4 +376,5 @@ CMakeFiles/VkWrapper.dir/src/EkSwapchain.cpp.o: \
  /usr/include/c++/12.2.0/bits/erase_if.h \
  /usr/include/c++/12.2.0/bits/stl_algo.h \
  /usr/include/c++/12.2.0/bits/algorithmfwd.h \
- /usr/include/c++/12.2.0/bits/uniform_int_dist.h
+ /usr/include/c++/12.2.0/bits/uniform_int_dist.h \
+ /usr/include/vk_mem_alloc.h

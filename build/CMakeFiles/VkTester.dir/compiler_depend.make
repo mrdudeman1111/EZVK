@@ -5,14 +5,12 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
   /usr/include/stdc-predef.h \
   /home/ethan/Repos/VulkanWrapper/include/EkHelpers.hpp \
   /home/ethan/Repos/VulkanWrapper/include/EkTypes.hpp \
-  /usr/include/glm/vec4.hpp \
-  /usr/include/glm/ext/vector_bool4.hpp \
-  /usr/include/glm/detail/type_vec4.hpp \
-  /usr/include/glm/detail/qualifier.hpp \
-  /usr/include/glm/detail/setup.hpp \
-  /usr/include/c++/12.2.0/cassert \
-  /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/c++config.h \
-  /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/os_defines.h \
+  /usr/include/vulkan/vulkan.h \
+  /usr/include/vulkan/vk_platform.h \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stddef.h \
+  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stdint.h \
+  /usr/include/stdint.h \
+  /usr/include/bits/libc-header-start.h \
   /usr/include/features.h \
   /usr/include/features-time64.h \
   /usr/include/bits/wordsize.h \
@@ -21,22 +19,27 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
   /usr/include/bits/long-double.h \
   /usr/include/gnu/stubs.h \
   /usr/include/gnu/stubs-64.h \
-  /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/cpu_defines.h \
-  /usr/include/c++/12.2.0/pstl/pstl_config.h \
-  /usr/include/assert.h \
-  /usr/include/c++/12.2.0/cstddef \
-  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stddef.h \
-  /usr/include/glm/simd/platform.h \
-  /usr/include/c++/12.2.0/cstdint \
-  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stdint.h \
-  /usr/include/stdint.h \
-  /usr/include/bits/libc-header-start.h \
   /usr/include/bits/types.h \
   /usr/include/bits/typesizes.h \
   /usr/include/bits/time64.h \
   /usr/include/bits/wchar.h \
   /usr/include/bits/stdint-intn.h \
   /usr/include/bits/stdint-uintn.h \
+  /usr/include/vulkan/vulkan_core.h \
+  /usr/include/glm/vec4.hpp \
+  /usr/include/glm/ext/vector_bool4.hpp \
+  /usr/include/glm/detail/type_vec4.hpp \
+  /usr/include/glm/detail/qualifier.hpp \
+  /usr/include/glm/detail/setup.hpp \
+  /usr/include/c++/12.2.0/cassert \
+  /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/c++config.h \
+  /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/os_defines.h \
+  /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/12.2.0/pstl/pstl_config.h \
+  /usr/include/assert.h \
+  /usr/include/c++/12.2.0/cstddef \
+  /usr/include/glm/simd/platform.h \
+  /usr/include/c++/12.2.0/cstdint \
   /usr/include/c++/12.2.0/type_traits \
   /usr/include/glm/detail/type_vec4.inl \
   /usr/include/glm/detail/compute_vector_relational.hpp \
@@ -369,14 +372,6 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
   /usr/include/c++/12.2.0/bits/basic_string.tcc \
   /usr/include/glm/gtx/string_cast.inl \
   /usr/include/c++/12.2.0/cstdarg \
-  /usr/include/vk_mem_alloc.h \
-  /usr/include/vulkan/vulkan.h \
-  /usr/include/vulkan/vk_platform.h \
-  /usr/include/vulkan/vulkan_core.h \
-  /usr/include/GLFW/glfw3.h \
-  /usr/include/GL/gl.h \
-  /usr/include/GL/glext.h \
-  /usr/include/KHR/khrplatform.h \
   /usr/include/c++/12.2.0/memory \
   /usr/include/c++/12.2.0/bits/stl_uninitialized.h \
   /usr/include/c++/12.2.0/bits/stl_tempbuf.h \
@@ -465,6 +460,8 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
   /usr/include/c++/12.2.0/bits/deque.tcc \
   /usr/include/c++/12.2.0/bits/stl_heap.h \
   /usr/include/c++/12.2.0/bits/stl_queue.h \
+  /usr/include/c++/12.2.0/stack \
+  /usr/include/c++/12.2.0/bits/stl_stack.h \
   /usr/include/c++/12.2.0/functional \
   /usr/include/c++/12.2.0/bits/std_function.h \
   /usr/include/c++/12.2.0/unordered_map \
@@ -476,8 +473,19 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
   /usr/include/c++/12.2.0/bits/erase_if.h \
   /usr/include/c++/12.2.0/bits/stl_algo.h \
   /usr/include/c++/12.2.0/bits/algorithmfwd.h \
-  /usr/include/c++/12.2.0/bits/uniform_int_dist.h
+  /usr/include/c++/12.2.0/bits/uniform_int_dist.h \
+  /usr/include/vk_mem_alloc.h \
+  /usr/include/GLFW/glfw3.h \
+  /usr/include/GL/gl.h \
+  /usr/include/GL/glext.h \
+  /usr/include/KHR/khrplatform.h
 
+
+/usr/include/GL/gl.h:
+
+/usr/include/GLFW/glfw3.h:
+
+/usr/include/vk_mem_alloc.h:
 
 /usr/include/c++/12.2.0/bits/uniform_int_dist.h:
 
@@ -564,16 +572,6 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 /usr/include/c++/12.2.0/bits/align.h:
 
 /usr/include/c++/12.2.0/memory:
-
-/usr/include/GL/gl.h:
-
-/usr/include/GLFW/glfw3.h:
-
-/usr/include/vulkan/vulkan_core.h:
-
-/usr/include/vulkan/vulkan.h:
-
-/usr/include/vk_mem_alloc.h:
 
 /usr/include/c++/12.2.0/bits/basic_string.tcc:
 
@@ -731,7 +729,15 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 
 /usr/include/glm/detail/type_half.inl:
 
-/usr/include/glm/ext/matrix_double4x2.hpp:
+/usr/include/glm/gtx/dual_quaternion.hpp:
+
+/usr/include/glm/detail/type_half.hpp:
+
+/usr/include/glm/detail/func_packing.inl:
+
+/usr/include/c++/12.2.0/bits/locale_classes.tcc:
+
+/usr/include/glm/packing.hpp:
 
 /usr/include/c++/12.2.0/bits/cpp_type_traits.h:
 
@@ -751,19 +757,11 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 
 /usr/include/glm/mat3x3.hpp:
 
-/usr/include/c++/12.2.0/exception:
-
-/usr/include/glm/ext/matrix_float3x2_precision.hpp:
-
 /usr/include/bits/types/wint_t.h:
 
 /usr/include/glm/ext/scalar_int_sized.hpp:
 
 /usr/include/bits/waitflags.h:
-
-/usr/include/c++/12.2.0/bits/locale_classes.tcc:
-
-/usr/include/glm/packing.hpp:
 
 /usr/include/glm/detail/type_mat3x3.hpp:
 
@@ -782,6 +780,8 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 /usr/include/c++/12.2.0/iosfwd:
 
 /usr/include/c++/12.2.0/tr1/bessel_function.tcc:
+
+/usr/include/c++/12.2.0/stack:
 
 /usr/include/glm/detail/type_mat2x4.inl:
 
@@ -835,16 +835,6 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 
 /usr/include/glm/detail/func_trigonometric.inl:
 
-/usr/include/c++/12.2.0/ext/concurrence.h:
-
-/usr/include/glm/ext/matrix_float3x2.hpp:
-
-/usr/include/bits/atomic_wide_counter.h:
-
-/usr/include/glm/detail/type_vec3.inl:
-
-/usr/include/c++/12.2.0/tr1/gamma.tcc:
-
 /usr/include/glm/ext/vector_uint2_sized.hpp:
 
 /usr/include/glm/ext/vector_uint2.hpp:
@@ -861,13 +851,17 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 
 /usr/include/glm/ext/vector_float2.hpp:
 
+/usr/include/glm/ext/scalar_uint_sized.hpp:
+
 /usr/include/glm/gtc/epsilon.hpp:
 
 /usr/include/glm/ext/matrix_float2x2_precision.hpp:
 
 /usr/include/stdc-predef.h:
 
-/usr/include/glm/ext/scalar_uint_sized.hpp:
+/usr/include/glm/detail/type_mat2x2.inl:
+
+/usr/include/glm/mat2x2.hpp:
 
 /usr/include/bits/stdio_lim.h:
 
@@ -875,185 +869,53 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 
 /usr/include/glm/ext/matrix_double3x2_precision.hpp:
 
-/usr/include/bits/uintn-identity.h:
+/usr/include/wchar.h:
 
-/usr/include/glm/ext/vector_double2_precision.hpp:
+/usr/include/bits/posix1_lim.h:
 
-/usr/include/glm/gtc/matrix_transform.hpp:
+/usr/include/glm/mat3x2.hpp:
 
-/usr/include/glm/simd/platform.h:
+/usr/include/gnu/stubs-64.h:
 
-/usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/error_constants.h:
+/usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/c++io.h:
 
-/usr/include/glm/exponential.hpp:
+/usr/include/glm/ext/matrix_double4x2_precision.hpp:
 
-/usr/include/glm/detail/type_mat2x2.inl:
+/usr/include/glm/ext/vector_bool2.hpp:
 
-/usr/include/glm/mat2x2.hpp:
+/usr/include/glm/ext/vector_bool4_precision.hpp:
 
-/usr/include/c++/12.2.0/cstddef:
-
-/usr/include/c++/12.2.0/vector:
-
-/usr/include/glm/ext/matrix_double4x4.hpp:
-
-/usr/include/c++/12.2.0/pstl/execution_defs.h:
-
-/usr/include/glm/ext/matrix_double2x3_precision.hpp:
-
-/usr/include/glm/detail/type_mat3x2.hpp:
-
-/usr/include/c++/12.2.0/array:
-
-/usr/include/glm/ext/matrix_float3x3_precision.hpp:
-
-/usr/include/glm/ext/vector_int3_sized.hpp:
-
-/usr/include/assert.h:
-
-/usr/include/c++/12.2.0/tr1/beta_function.tcc:
-
-/usr/include/c++/12.2.0/pstl/pstl_config.h:
-
-/usr/include/glm/detail/type_quat.inl:
-
-/usr/include/features-time64.h:
-
-/usr/include/bits/posix2_lim.h:
-
-/usr/include/glm/ext/matrix_float2x3_precision.hpp:
-
-/usr/include/c++/12.2.0/bits/stringfwd.h:
-
-/usr/include/c++/12.2.0/cassert:
-
-/usr/include/stdio.h:
-
-/usr/include/bits/wordsize.h:
-
-/usr/include/glm/ext/matrix_float2x4.hpp:
-
-/usr/include/c++/12.2.0/debug/debug.h:
-
-/usr/include/c++/12.2.0/bits/memoryfwd.h:
-
-/usr/include/glm/vec3.hpp:
-
-/usr/include/c++/12.2.0/bits/hashtable_policy.h:
-
-/usr/include/c++/12.2.0/tr1/modified_bessel_func.tcc:
-
-/usr/include/glm/detail/type_mat2x2.hpp:
-
-/usr/include/bits/types.h:
-
-/usr/include/linux/limits.h:
-
-/usr/include/c++/12.2.0/bits/refwrap.h:
-
-/usr/include/gnu/stubs.h:
-
-/usr/include/bits/pthreadtypes-arch.h:
-
-/usr/include/locale.h:
-
-/usr/include/glm/detail/type_vec4.hpp:
-
-/usr/include/c++/12.2.0/cwctype:
-
-/usr/include/glm/detail/type_mat4x4.inl:
-
-/usr/include/c++/12.2.0/bits/hashtable.h:
-
-/usr/include/glm/ext/quaternion_relational.hpp:
-
-/usr/include/glm/ext/matrix_double2x4_precision.hpp:
-
-/usr/include/glm/vec4.hpp:
-
-/usr/include/c++/12.2.0/tr1/poly_hermite.tcc:
-
-/usr/include/bits/types/clock_t.h:
-
-/usr/include/glm/ext/matrix_double3x4.hpp:
-
-/usr/include/bits/sched.h:
-
-/usr/include/bits/types/__FILE.h:
-
-/usr/include/features.h:
-
-/usr/include/c++/12.2.0/bits/functional_hash.h:
-
-/usr/include/bits/endianness.h:
-
-/usr/include/c++/12.2.0/bits/charconv.h:
-
-/usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stddef.h:
-
-/usr/include/c++/12.2.0/cstdint:
-
-/usr/include/glm/ext/matrix_double2x3.hpp:
-
-/usr/include/glm/ext/vector_int2_sized.hpp:
-
-/usr/include/bits/timesize.h:
-
-/usr/include/bits/types/struct___jmp_buf_tag.h:
-
-/usr/include/glm/detail/type_mat3x4.inl:
-
-/usr/include/bits/wchar.h:
-
-/usr/include/bits/waitstatus.h:
-
-/usr/include/glm/detail/type_vec3.hpp:
-
-/usr/include/sys/cdefs.h:
-
-/usr/include/glm/detail/type_mat3x4.hpp:
-
-/usr/include/bits/long-double.h:
+/usr/include/alloca.h:
 
 /usr/include/c++/12.2.0/bits/basic_ios.tcc:
 
 /usr/include/glm/vec2.hpp:
 
-/usr/include/vulkan/vk_platform.h:
+/usr/include/vulkan/vulkan.h:
 
-/usr/include/asm/errno.h:
+/usr/include/c++/12.2.0/exception:
 
-/usr/include/bits/stdint-uintn.h:
+/usr/include/glm/ext/matrix_float3x2_precision.hpp:
 
-/usr/include/c++/12.2.0/ext/string_conversions.h:
+/usr/include/vulkan/vulkan_core.h:
 
-/usr/include/bits/types/time_t.h:
+/usr/include/glm/detail/type_mat4x2.inl:
 
-/usr/include/glm/detail/type_vec4.inl:
+/usr/include/glm/detail/type_mat4x2.hpp:
 
-/usr/include/c++/12.2.0/bits/stl_bvector.h:
+/home/ethan/Repos/VulkanWrapper/src/main.cpp:
 
-/usr/include/bits/types/struct_tm.h:
+/usr/include/c++/12.2.0/bits/stl_raw_storage_iter.h:
 
-/usr/include/glm/detail/type_vec1.hpp:
+/usr/include/glm/ext/vector_relational.hpp:
 
-/usr/include/glm/ext/matrix_float3x4_precision.hpp:
+/usr/include/glm/ext/vector_float2_precision.hpp:
 
-/usr/include/glm/mat4x2.hpp:
+/usr/include/bits/time64.h:
 
-/usr/include/glm/mat4x3.hpp:
+/usr/include/bits/stdlib-float.h:
 
-/usr/include/glm/ext/vector_double4_precision.hpp:
-
-/usr/include/glm/ext/vector_float4_precision.hpp:
-
-/usr/include/glm/ext/matrix_float2x3.hpp:
-
-/home/ethan/Repos/VulkanWrapper/include/EkTypes.hpp:
-
-/usr/include/c++/12.2.0/deque:
-
-/usr/include/bits/local_lim.h:
+/usr/include/bits/long-double.h:
 
 /usr/include/glm/detail/type_vec2.hpp:
 
@@ -1069,23 +931,195 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 
 /usr/include/glm/detail/qualifier.hpp:
 
-/usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/cpu_defines.h:
+/usr/include/glm/detail/type_mat3x4.hpp:
 
-/usr/include/bits/typesizes.h:
+/usr/include/glm/ext/matrix_double2x3.hpp:
 
-/usr/include/c++/12.2.0/type_traits:
+/usr/include/glm/ext/vector_int2_sized.hpp:
 
-/usr/include/glm/gtx/string_cast.hpp:
+/usr/include/bits/timesize.h:
 
-/usr/include/c++/12.2.0/bits/stl_raw_storage_iter.h:
+/usr/include/bits/types/struct___jmp_buf_tag.h:
 
-/usr/include/glm/ext/vector_relational.hpp:
+/usr/include/glm/detail/type_mat3x4.inl:
 
-/usr/include/glm/ext/vector_float2_precision.hpp:
+/usr/include/bits/wchar.h:
 
-/usr/include/bits/time64.h:
+/usr/include/bits/waitstatus.h:
 
-/usr/include/bits/stdlib-float.h:
+/usr/include/bits/uintn-identity.h:
+
+/usr/include/glm/ext/vector_double2_precision.hpp:
+
+/usr/include/glm/gtc/matrix_transform.hpp:
+
+/usr/include/glm/simd/platform.h:
+
+/usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/error_constants.h:
+
+/usr/include/glm/exponential.hpp:
+
+/usr/include/bits/types/clock_t.h:
+
+/usr/include/glm/ext/matrix_double3x4.hpp:
+
+/usr/include/bits/sched.h:
+
+/usr/include/bits/types/__FILE.h:
+
+/usr/include/features.h:
+
+/usr/include/c++/12.2.0/bits/functional_hash.h:
+
+/usr/include/bits/endianness.h:
+
+/usr/include/c++/12.2.0/bits/hashtable.h:
+
+/usr/include/glm/ext/quaternion_relational.hpp:
+
+/usr/include/glm/ext/matrix_double2x4_precision.hpp:
+
+/usr/include/glm/vec4.hpp:
+
+/usr/include/c++/12.2.0/cwctype:
+
+/usr/include/glm/detail/type_mat4x4.inl:
+
+/usr/include/c++/12.2.0/tr1/poly_hermite.tcc:
+
+/usr/include/glm/detail/type_vec4.inl:
+
+/usr/include/c++/12.2.0/bits/stl_bvector.h:
+
+/usr/include/bits/types/struct_tm.h:
+
+/usr/include/glm/detail/type_vec1.hpp:
+
+/usr/include/glm/ext/vector_int3_sized.hpp:
+
+/usr/include/assert.h:
+
+/usr/include/glm/ext/matrix_float3x4_precision.hpp:
+
+/usr/include/glm/ext/vector_double4_precision.hpp:
+
+/usr/include/glm/ext/vector_float4_precision.hpp:
+
+/usr/include/glm/detail/type_mat3x2.hpp:
+
+/usr/include/c++/12.2.0/pstl/execution_defs.h:
+
+/usr/include/glm/ext/matrix_double2x3_precision.hpp:
+
+/usr/include/c++/12.2.0/vector:
+
+/usr/include/glm/ext/matrix_double4x4.hpp:
+
+/usr/include/stdio.h:
+
+/usr/include/bits/wordsize.h:
+
+/usr/include/c++/12.2.0/bits/stringfwd.h:
+
+/usr/include/c++/12.2.0/cassert:
+
+/usr/include/glm/ext/matrix_float2x4.hpp:
+
+/usr/include/c++/12.2.0/debug/debug.h:
+
+/usr/include/locale.h:
+
+/usr/include/glm/detail/type_vec4.hpp:
+
+/usr/include/c++/12.2.0/bits/refwrap.h:
+
+/usr/include/gnu/stubs.h:
+
+/usr/include/bits/pthreadtypes-arch.h:
+
+/usr/include/c++/12.2.0/bits/memoryfwd.h:
+
+/usr/include/glm/vec3.hpp:
+
+/usr/include/c++/12.2.0/bits/hashtable_policy.h:
+
+/usr/include/c++/12.2.0/tr1/modified_bessel_func.tcc:
+
+/usr/include/glm/detail/type_mat2x2.hpp:
+
+/usr/include/bits/types.h:
+
+/usr/include/bits/posix2_lim.h:
+
+/usr/include/glm/ext/matrix_float2x3_precision.hpp:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/glm/detail/type_vec3.hpp:
+
+/usr/include/c++/12.2.0/tr1/beta_function.tcc:
+
+/usr/include/c++/12.2.0/pstl/pstl_config.h:
+
+/usr/include/glm/detail/type_quat.inl:
+
+/usr/include/features-time64.h:
+
+/usr/include/asm/errno.h:
+
+/usr/include/vulkan/vk_platform.h:
+
+/usr/include/bits/stdint-uintn.h:
+
+/usr/include/glm/ext/matrix_float2x3.hpp:
+
+/home/ethan/Repos/VulkanWrapper/include/EkTypes.hpp:
+
+/usr/include/c++/12.2.0/deque:
+
+/usr/include/bits/local_lim.h:
+
+/usr/include/c++/12.2.0/bits/charconv.h:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stddef.h:
+
+/usr/include/c++/12.2.0/cstdint:
+
+/usr/include/c++/12.2.0/istream:
+
+/usr/include/glm/ext/vector_int2.hpp:
+
+/usr/include/glm/gtc/constants.hpp:
+
+/usr/include/glm/detail/type_vec2.inl:
+
+/usr/include/glm/ext/vector_int4_sized.hpp:
+
+/usr/include/glm/detail/type_mat4x4.hpp:
+
+/usr/include/c++/12.2.0/bits/new_allocator.h:
+
+/usr/include/bits/struct_mutex.h:
+
+/usr/include/glm/ext/vector_uint3.hpp:
+
+/usr/include/bits/libc-header-start.h:
+
+/usr/include/c++/12.2.0/bits/stl_tempbuf.h:
+
+/usr/include/c++/12.2.0/tr1/hypergeometric.tcc:
+
+/usr/include/c++/12.2.0/ext/concurrence.h:
+
+/usr/include/glm/ext/matrix_float3x2.hpp:
+
+/usr/include/bits/atomic_wide_counter.h:
+
+/usr/include/glm/detail/type_vec3.inl:
+
+/usr/include/c++/12.2.0/tr1/gamma.tcc:
+
+/usr/include/c++/12.2.0/cstddef:
 
 /usr/include/glm/ext/quaternion_float.hpp:
 
@@ -1096,6 +1130,26 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 /usr/include/glm/common.hpp:
 
 /usr/include/math.h:
+
+/usr/include/linux/limits.h:
+
+/usr/include/c++/12.2.0/bits/stl_stack.h:
+
+/usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/cpu_defines.h:
+
+/usr/include/bits/typesizes.h:
+
+/usr/include/c++/12.2.0/type_traits:
+
+/usr/include/glm/gtx/string_cast.hpp:
+
+/usr/include/c++/12.2.0/array:
+
+/usr/include/glm/ext/matrix_float3x3_precision.hpp:
+
+/usr/include/c++/12.2.0/ext/string_conversions.h:
+
+/usr/include/bits/types/time_t.h:
 
 /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/c++allocator.h:
 
@@ -1117,30 +1171,6 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 
 /usr/include/glm/ext/vector_bool2_precision.hpp:
 
-/usr/include/c++/12.2.0/istream:
-
-/usr/include/glm/ext/vector_int2.hpp:
-
-/usr/include/glm/gtc/constants.hpp:
-
-/usr/include/glm/detail/type_vec2.inl:
-
-/usr/include/glm/ext/vector_uint3.hpp:
-
-/usr/include/bits/libc-header-start.h:
-
-/usr/include/c++/12.2.0/bits/stl_tempbuf.h:
-
-/usr/include/c++/12.2.0/tr1/hypergeometric.tcc:
-
-/usr/include/glm/ext/vector_int4_sized.hpp:
-
-/usr/include/glm/detail/type_mat4x4.hpp:
-
-/usr/include/c++/12.2.0/bits/new_allocator.h:
-
-/usr/include/bits/struct_mutex.h:
-
 /usr/include/glm/ext/matrix_float2x2.hpp:
 
 /usr/include/c++/12.2.0/bits/enable_special_members.h:
@@ -1155,24 +1185,6 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 
 /usr/include/glm/ext/vector_uint4_sized.hpp:
 
-/usr/include/glm/detail/type_mat4x2.inl:
-
-/home/ethan/Repos/VulkanWrapper/src/main.cpp:
-
-/usr/include/glm/detail/type_mat4x2.hpp:
-
-/usr/include/gnu/stubs-64.h:
-
-/usr/include/wchar.h:
-
-/usr/include/bits/posix1_lim.h:
-
-/usr/include/glm/mat3x2.hpp:
-
-/usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/c++io.h:
-
-/usr/include/glm/ext/matrix_double4x2_precision.hpp:
-
 /usr/include/glm/ext/vector_bool3.hpp:
 
 /usr/include/glm/matrix.hpp:
@@ -1181,11 +1193,11 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 
 /usr/include/bits/types/__sigset_t.h:
 
-/usr/include/glm/ext/vector_bool2.hpp:
+/usr/include/glm/mat4x3.hpp:
 
-/usr/include/glm/ext/vector_bool4_precision.hpp:
+/usr/include/glm/mat4x2.hpp:
 
-/usr/include/alloca.h:
+/usr/include/glm/ext/matrix_double4x2.hpp:
 
 /usr/include/glm/ext/matrix_float4x2.hpp:
 
@@ -1418,9 +1430,3 @@ CMakeFiles/VkTester.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main
 /usr/include/bits/fp-logb.h:
 
 /usr/include/c++/12.2.0/cfloat:
-
-/usr/include/glm/detail/func_packing.inl:
-
-/usr/include/glm/gtx/dual_quaternion.hpp:
-
-/usr/include/glm/detail/type_half.hpp:

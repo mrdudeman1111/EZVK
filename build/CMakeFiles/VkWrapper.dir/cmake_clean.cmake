@@ -5,8 +5,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o.d"
   "CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o"
   "CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o.d"
-  "CMakeFiles/VkWrapper.dir/src/EkSwapchain.cpp.o"
-  "CMakeFiles/VkWrapper.dir/src/EkSwapchain.cpp.o.d"
   "CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o"
   "CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o.d"
   "CMakeFiles/VkWrapper.dir/src/main.cpp.o"
