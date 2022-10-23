@@ -241,7 +241,7 @@ void EkSubPass::Build(VkPipelineBindPoint BindPoint, uint32_t InputSize = 0, std
                 Colors.push_back(&Attachment);
                 break;
             case RtColor | RtResolve:
-                
+
             default:
                 Warn("Uknown attachment is connected to a subpass");
                 break;
