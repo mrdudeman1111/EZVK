@@ -1,0 +1,111 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.23.0"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				},
+				{
+					"build" : "Codec",
+					"jsonFile" : "directory-Codec-Debug-7044f63f3a4a3f11b729.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.22.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "Codec",
+					"targetIndexes" : 
+					[
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "Vulkan Wrapper",
+					"targetIndexes" : 
+					[
+						0,
+						1
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "VulkanEncoder",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "VkTester::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-VkTester-Debug-444c67c375e57c55e07d.json",
+					"name" : "VkTester",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "VkWrapper::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-VkWrapper-Debug-4e3dcebbfd8c73f10239.json",
+					"name" : "VkWrapper",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "VulkanEncoder::@bb96d3e2447f05723594",
+					"jsonFile" : "target-VulkanEncoder-Debug-b005b05edc995b21dec0.json",
+					"name" : "VulkanEncoder",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/ethan/Repos/VulkanWrapper/build",
+		"source" : "/home/ethan/Repos/VulkanWrapper"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}

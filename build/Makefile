@@ -142,6 +142,19 @@ VkTester/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkTester.dir/build.make CMakeFiles/VkTester.dir/build
 .PHONY : VkTester/fast
 
+#=============================================================================
+# Target rules for targets named VulkanEncoder
+
+# Build rule for target.
+VulkanEncoder: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 VulkanEncoder
+.PHONY : VulkanEncoder
+
+# fast build rule for target.
+VulkanEncoder/fast:
+	$(MAKE) $(MAKESILENT) -f Codec/CMakeFiles/VulkanEncoder.dir/build.make Codec/CMakeFiles/VulkanEncoder.dir/build
+.PHONY : VulkanEncoder/fast
+
 src/Camera.o: src/Camera.cpp.o
 .PHONY : src/Camera.o
 
@@ -275,6 +288,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... VkTester"
 	@echo "... VkWrapper"
+	@echo "... VulkanEncoder"
 	@echo "... src/Camera.o"
 	@echo "... src/Camera.i"
 	@echo "... src/Camera.s"

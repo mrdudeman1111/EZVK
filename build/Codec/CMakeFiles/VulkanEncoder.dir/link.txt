@@ -1,0 +1,1 @@
+/usr/bin/g++ -g CMakeFiles/VulkanEncoder.dir/main.cpp.o -o VulkanEncoder  /lib/libvulkan.so 

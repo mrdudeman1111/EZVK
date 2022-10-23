@@ -8,6 +8,7 @@ CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o: /home/ethan/Repos/VulkanWrapper/sr
   /usr/include/stdc-predef.h \
   /home/ethan/Repos/VulkanWrapper/include/EkHelpers.hpp \
   /home/ethan/Repos/VulkanWrapper/include/EkTypes.hpp \
+  /home/ethan/Repos/VulkanWrapper/include/EkImages.hpp \
   /usr/include/vulkan/vulkan.h \
   /usr/include/vulkan/vk_platform.h \
   /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stddef.h \
@@ -29,6 +30,7 @@ CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o: /home/ethan/Repos/VulkanWrapper/sr
   /usr/include/bits/stdint-intn.h \
   /usr/include/bits/stdint-uintn.h \
   /usr/include/vulkan/vulkan_core.h \
+  /usr/include/vk_mem_alloc.h \
   /usr/include/glm/vec4.hpp \
   /usr/include/glm/ext/vector_bool4.hpp \
   /usr/include/glm/detail/type_vec4.hpp \
@@ -477,7 +479,8 @@ CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o: /home/ethan/Repos/VulkanWrapper/sr
   /usr/include/c++/12.2.0/bits/stl_algo.h \
   /usr/include/c++/12.2.0/bits/algorithmfwd.h \
   /usr/include/c++/12.2.0/bits/uniform_int_dist.h \
-  /usr/include/vk_mem_alloc.h \
+  /home/ethan/Repos/VulkanWrapper/include/EkPipeline.hpp \
+  /home/ethan/Repos/VulkanWrapper/include/EkWindow.hpp \
   /usr/include/GLFW/glfw3.h \
   /usr/include/GL/gl.h \
   /usr/include/GL/glext.h \
@@ -973,6 +976,7 @@ CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o: /home/ethan/Repos/VulkanWrapper/s
   /usr/include/c++/12.2.0/bits/algorithmfwd.h \
   /usr/include/c++/12.2.0/bits/uniform_int_dist.h \
   /usr/include/vk_mem_alloc.h \
+  /home/ethan/Repos/VulkanWrapper/include/EkWindow.hpp \
   /usr/include/GLFW/glfw3.h \
   /usr/include/GL/gl.h \
   /usr/include/GL/glext.h \
@@ -1455,13 +1459,13 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
   /usr/include/c++/12.2.0/bits/algorithmfwd.h \
   /usr/include/c++/12.2.0/bits/uniform_int_dist.h \
   /usr/include/vk_mem_alloc.h \
+  /home/ethan/Repos/VulkanWrapper/include/EkWindow.hpp \
   /usr/include/GLFW/glfw3.h \
   /usr/include/GL/gl.h \
   /usr/include/GL/glext.h \
-  /usr/include/KHR/khrplatform.h
+  /usr/include/KHR/khrplatform.h \
+  /home/ethan/Repos/VulkanWrapper/include/EkPipeline.hpp
 
-
-/home/ethan/Repos/VulkanWrapper/include/EkPipeline.hpp:
 
 /usr/include/c++/12.2.0/bits/sstream.tcc:
 
@@ -1477,7 +1481,7 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 
 /usr/include/GLFW/glfw3.h:
 
-/usr/include/vk_mem_alloc.h:
+/home/ethan/Repos/VulkanWrapper/include/EkPipeline.hpp:
 
 /usr/include/c++/12.2.0/bits/uniform_int_dist.h:
 
@@ -1749,12 +1753,6 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 
 /usr/include/glm/ext/matrix_double3x3.hpp:
 
-/usr/include/c++/12.2.0/bits/unordered_map.h:
-
-/usr/include/glm/ext/matrix_double3x4_precision.hpp:
-
-/usr/include/glm/ext/scalar_constants.hpp:
-
 /usr/include/glm/mat3x3.hpp:
 
 /usr/include/bits/types/wint_t.h:
@@ -1823,21 +1821,7 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 
 /usr/include/glm/ext/vector_float3_precision.hpp:
 
-/usr/include/glm/detail/type_mat2x4.hpp:
-
-/usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/c++config.h:
-
-/usr/include/glm/ext/matrix_float4x3.hpp:
-
-/usr/include/c++/12.2.0/bits/chrono.h:
-
-/usr/include/glm/ext/vector_bool3_precision.hpp:
-
-/usr/include/glm/ext/matrix_double2x2.hpp:
-
-/usr/include/c++/12.2.0/cstdarg:
-
-/usr/include/glm/detail/func_trigonometric.inl:
+/home/ethan/Repos/VulkanWrapper/include/EkWindow.hpp:
 
 /usr/include/c++/12.2.0/cwctype:
 
@@ -1927,6 +1911,8 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 
 /usr/include/vulkan/vulkan_core.h:
 
+/usr/include/vk_mem_alloc.h:
+
 /usr/include/c++/12.2.0/bits/stl_raw_storage_iter.h:
 
 /usr/include/glm/ext/vector_relational.hpp:
@@ -1983,19 +1969,39 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 
 /usr/include/c++/12.2.0/debug/debug.h:
 
+/usr/include/glm/detail/type_mat4x4.hpp:
+
+/usr/include/glm/ext/vector_int4_sized.hpp:
+
+/usr/include/c++/12.2.0/bits/new_allocator.h:
+
+/usr/include/bits/struct_mutex.h:
+
 /usr/include/glm/ext/vector_double4_precision.hpp:
 
 /usr/include/glm/ext/vector_float4_precision.hpp:
 
-/usr/include/locale.h:
+/usr/include/glm/detail/type_mat2x4.hpp:
 
-/usr/include/glm/detail/type_vec4.hpp:
+/usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/c++config.h:
 
-/usr/include/c++/12.2.0/bits/refwrap.h:
+/usr/include/glm/ext/matrix_float4x3.hpp:
 
-/usr/include/gnu/stubs.h:
+/usr/include/c++/12.2.0/bits/chrono.h:
 
-/usr/include/bits/pthreadtypes-arch.h:
+/usr/include/glm/ext/vector_bool3_precision.hpp:
+
+/usr/include/glm/ext/matrix_double2x2.hpp:
+
+/usr/include/c++/12.2.0/cstdarg:
+
+/usr/include/glm/detail/func_trigonometric.inl:
+
+/home/ethan/Repos/VulkanWrapper/include/EkImages.hpp:
+
+/usr/include/c++/12.2.0/tr1/special_function_util.h:
+
+/usr/include/glm/gtc/constants.inl:
 
 /usr/include/c++/12.2.0/bits/memoryfwd.h:
 
@@ -2043,6 +2049,16 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 
 /usr/include/bits/local_lim.h:
 
+/usr/include/c++/12.2.0/bits/refwrap.h:
+
+/usr/include/gnu/stubs.h:
+
+/usr/include/bits/pthreadtypes-arch.h:
+
+/usr/include/locale.h:
+
+/usr/include/glm/detail/type_vec4.hpp:
+
 /usr/include/c++/12.2.0/bits/charconv.h:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stddef.h:
@@ -2072,10 +2088,6 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 /usr/include/glm/common.hpp:
 
 /usr/include/math.h:
-
-/usr/include/bits/uintn-identity.h:
-
-/usr/include/glm/ext/vector_double2_precision.hpp:
 
 /usr/include/glm/gtc/matrix_transform.hpp:
 
@@ -2115,30 +2127,6 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 
 /usr/include/glm/detail/type_vec1.hpp:
 
-/usr/include/c++/12.2.0/istream:
-
-/usr/include/glm/ext/vector_int2.hpp:
-
-/usr/include/glm/gtc/constants.hpp:
-
-/usr/include/glm/detail/type_vec2.inl:
-
-/usr/include/glm/ext/vector_int4_sized.hpp:
-
-/usr/include/glm/detail/type_mat4x4.hpp:
-
-/usr/include/c++/12.2.0/bits/new_allocator.h:
-
-/usr/include/bits/struct_mutex.h:
-
-/usr/include/glm/ext/vector_uint3.hpp:
-
-/usr/include/bits/libc-header-start.h:
-
-/usr/include/c++/12.2.0/bits/stl_tempbuf.h:
-
-/usr/include/c++/12.2.0/tr1/hypergeometric.tcc:
-
 /usr/include/linux/limits.h:
 
 /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/messages_members.h:
@@ -2148,6 +2136,22 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 /usr/include/c++/12.2.0/bits/stl_stack.h:
 
 /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/cpu_defines.h:
+
+/usr/include/c++/12.2.0/istream:
+
+/usr/include/glm/ext/vector_int2.hpp:
+
+/usr/include/glm/gtc/constants.hpp:
+
+/usr/include/glm/detail/type_vec2.inl:
+
+/usr/include/glm/ext/vector_uint3.hpp:
+
+/usr/include/bits/libc-header-start.h:
+
+/usr/include/c++/12.2.0/bits/stl_tempbuf.h:
+
+/usr/include/c++/12.2.0/tr1/hypergeometric.tcc:
 
 /usr/include/glm/detail/type_vec2.hpp:
 
@@ -2207,6 +2211,16 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 
 /usr/include/glm/ext/vector_uint4_sized.hpp:
 
+/usr/include/c++/12.2.0/bits/unordered_map.h:
+
+/usr/include/glm/ext/matrix_double3x4_precision.hpp:
+
+/usr/include/glm/ext/vector_double2_precision.hpp:
+
+/usr/include/bits/uintn-identity.h:
+
+/usr/include/glm/ext/scalar_constants.hpp:
+
 /usr/include/glm/ext/matrix_float3x4_precision.hpp:
 
 /usr/include/glm/mat4x3.hpp:
@@ -2234,6 +2248,10 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 /usr/include/glm/ext/matrix_double4x3.hpp:
 
 /usr/include/c++/12.2.0/climits:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/float.h:
+
+/usr/include/glm/detail/type_mat4x3.hpp:
 
 /usr/include/c++/12.2.0/tr1/riemann_zeta.tcc:
 
@@ -2280,6 +2298,10 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 /usr/include/c++/12.2.0/bits/concept_check.h:
 
 /usr/include/bits/flt-eval-method.h:
+
+/usr/include/c++/12.2.0/cfloat:
+
+/usr/include/bits/fp-logb.h:
 
 /usr/include/c++/12.2.0/bits/stl_uninitialized.h:
 
@@ -2375,10 +2397,6 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 
 /usr/include/c++/12.2.0/bits/predefined_ops.h:
 
-/usr/include/c++/12.2.0/tr1/special_function_util.h:
-
-/usr/include/glm/gtc/constants.inl:
-
 /usr/include/c++/12.2.0/tr1/ell_integral.tcc:
 
 /usr/include/glm/detail/_fixes.hpp:
@@ -2419,10 +2437,6 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 
 /usr/include/glm/ext/matrix_float4x4.hpp:
 
-/usr/include/glm/detail/type_mat4x3.hpp:
-
-/usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/float.h:
-
 /usr/include/glm/ext/matrix_transform.hpp:
 
 /usr/include/glm/ext/scalar_constants.inl:
@@ -2448,7 +2462,3 @@ CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/mai
 /usr/include/bits/math-vector.h:
 
 /usr/include/bits/uio_lim.h:
-
-/usr/include/bits/fp-logb.h:
-
-/usr/include/c++/12.2.0/cfloat:

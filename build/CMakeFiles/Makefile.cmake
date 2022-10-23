@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
   "/home/ethan/Repos/VulkanWrapper/CMakeLists.txt"
+  "/home/ethan/Repos/VulkanWrapper/Codec/CMakeLists.txt"
   "CMakeFiles/3.24.2/CMakeCCompiler.cmake"
   "CMakeFiles/3.24.2/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.24.2/CMakeSystem.cmake"
@@ -49,10 +50,12 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "Codec/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/VkWrapper.dir/DependInfo.cmake"
   "CMakeFiles/VkTester.dir/DependInfo.cmake"
+  "Codec/CMakeFiles/VulkanEncoder.dir/DependInfo.cmake"
   )

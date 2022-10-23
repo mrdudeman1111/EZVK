@@ -2,3 +2,6 @@
 /home/ethan/Repos/VulkanWrapper/build/CMakeFiles/VkTester.dir
 /home/ethan/Repos/VulkanWrapper/build/CMakeFiles/edit_cache.dir
 /home/ethan/Repos/VulkanWrapper/build/CMakeFiles/rebuild_cache.dir
+/home/ethan/Repos/VulkanWrapper/build/Codec/CMakeFiles/VulkanEncoder.dir
+/home/ethan/Repos/VulkanWrapper/build/Codec/CMakeFiles/edit_cache.dir
+/home/ethan/Repos/VulkanWrapper/build/Codec/CMakeFiles/rebuild_cache.dir

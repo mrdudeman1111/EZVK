@@ -73,71 +73,71 @@ CMakeFiles/VkWrapper.dir/src/Camera.cpp.o: CMakeFiles/VkWrapper.dir/flags.make
 CMakeFiles/VkWrapper.dir/src/Camera.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Camera.cpp
 CMakeFiles/VkWrapper.dir/src/Camera.cpp.o: CMakeFiles/VkWrapper.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/VkWrapper.dir/src/Camera.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VkWrapper.dir/src/Camera.cpp.o -MF CMakeFiles/VkWrapper.dir/src/Camera.cpp.o.d -o CMakeFiles/VkWrapper.dir/src/Camera.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Camera.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VkWrapper.dir/src/Camera.cpp.o -MF CMakeFiles/VkWrapper.dir/src/Camera.cpp.o.d -o CMakeFiles/VkWrapper.dir/src/Camera.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Camera.cpp
 
 CMakeFiles/VkWrapper.dir/src/Camera.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/VkWrapper.dir/src/Camera.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/Camera.cpp > CMakeFiles/VkWrapper.dir/src/Camera.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/Camera.cpp > CMakeFiles/VkWrapper.dir/src/Camera.cpp.i
 
 CMakeFiles/VkWrapper.dir/src/Camera.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/VkWrapper.dir/src/Camera.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/Camera.cpp -o CMakeFiles/VkWrapper.dir/src/Camera.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/Camera.cpp -o CMakeFiles/VkWrapper.dir/src/Camera.cpp.s
 
 CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o: CMakeFiles/VkWrapper.dir/flags.make
 CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o: /home/ethan/Repos/VulkanWrapper/src/EkHelpers.cpp
 CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o: CMakeFiles/VkWrapper.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o -MF CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o.d -o CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/EkHelpers.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o -MF CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o.d -o CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/EkHelpers.cpp
 
 CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/EkHelpers.cpp > CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/EkHelpers.cpp > CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.i
 
 CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/EkHelpers.cpp -o CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/EkHelpers.cpp -o CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.s
 
 CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o: CMakeFiles/VkWrapper.dir/flags.make
 CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o: /home/ethan/Repos/VulkanWrapper/src/EkPipeline.cpp
 CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o: CMakeFiles/VkWrapper.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o -MF CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o.d -o CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/EkPipeline.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o -MF CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o.d -o CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/EkPipeline.cpp
 
 CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/EkPipeline.cpp > CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/EkPipeline.cpp > CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.i
 
 CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/EkPipeline.cpp -o CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/EkPipeline.cpp -o CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.s
 
 CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o: CMakeFiles/VkWrapper.dir/flags.make
 CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Mesh.cpp
 CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o: CMakeFiles/VkWrapper.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o -MF CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o.d -o CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Mesh.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o -MF CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o.d -o CMakeFiles/VkWrapper.dir/src/Mesh.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Mesh.cpp
 
 CMakeFiles/VkWrapper.dir/src/Mesh.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/VkWrapper.dir/src/Mesh.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/Mesh.cpp > CMakeFiles/VkWrapper.dir/src/Mesh.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/Mesh.cpp > CMakeFiles/VkWrapper.dir/src/Mesh.cpp.i
 
 CMakeFiles/VkWrapper.dir/src/Mesh.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/VkWrapper.dir/src/Mesh.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/Mesh.cpp -o CMakeFiles/VkWrapper.dir/src/Mesh.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/Mesh.cpp -o CMakeFiles/VkWrapper.dir/src/Mesh.cpp.s
 
 CMakeFiles/VkWrapper.dir/src/main.cpp.o: CMakeFiles/VkWrapper.dir/flags.make
 CMakeFiles/VkWrapper.dir/src/main.cpp.o: /home/ethan/Repos/VulkanWrapper/src/main.cpp
 CMakeFiles/VkWrapper.dir/src/main.cpp.o: CMakeFiles/VkWrapper.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/VkWrapper.dir/src/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VkWrapper.dir/src/main.cpp.o -MF CMakeFiles/VkWrapper.dir/src/main.cpp.o.d -o CMakeFiles/VkWrapper.dir/src/main.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/main.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/VkWrapper.dir/src/main.cpp.o -MF CMakeFiles/VkWrapper.dir/src/main.cpp.o.d -o CMakeFiles/VkWrapper.dir/src/main.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/main.cpp
 
 CMakeFiles/VkWrapper.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/VkWrapper.dir/src/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/main.cpp > CMakeFiles/VkWrapper.dir/src/main.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/main.cpp > CMakeFiles/VkWrapper.dir/src/main.cpp.i
 
 CMakeFiles/VkWrapper.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/VkWrapper.dir/src/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/main.cpp -o CMakeFiles/VkWrapper.dir/src/main.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/main.cpp -o CMakeFiles/VkWrapper.dir/src/main.cpp.s
 
 # Object files for target VkWrapper
 VkWrapper_OBJECTS = \

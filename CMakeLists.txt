@@ -13,6 +13,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/
 
 add_library(VkWrapper ${SRC})
 add_executable(VkTester ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+add_subdirectory(Codec)
 
 add_compile_definitions(GLFWAPP)
 

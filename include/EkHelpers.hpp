@@ -1,6 +1,8 @@
 #pragma once
 
 #include <EkTypes.hpp>
+#include <EkPipeline.hpp>
+#include <EkWindow.hpp>
 
 namespace Mesh
 {
@@ -34,7 +36,6 @@ class EkVulkan
 {
     private:
     // Basic Structures
-        VkDebugUtilsMessengerEXT DebugMessenger;
         VkPhysicalDevice PhysDev;
         VkInstance Instance;
         
@@ -58,11 +59,12 @@ class EkVulkan
         VkSwapchainKHR Swapchain;
 
     public:
+    // My Custom Structures
     #ifdef GLFWAPP
         EkWindow Window;
     #endif
-    // My Custom Structures
         DeleteQueue DeletionQueue;
+
     private:
 
 
@@ -90,6 +92,8 @@ class EkVulkan
     // Query/Request
 
         void CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMemoryPropertyFlags Properties, AllocatedBuffer* AllocatedBuffer, VmaMemoryUsage MemUse);
+
+        VkExtent2D GetWindowExtent();
 
         // Deprecated
         bool CheckDeviceExtensionSupport(const char* ExtensionName, const char* ExtensionLayer = NULL);
@@ -123,15 +127,11 @@ class EkVulkan
 
         void CreateDevice(std::vector<std::string>* DesiredQueues);
 
-        void CreateSwapChain(VkFormat ImageFormat);
+        void CreateSwapChain(VkPresentModeKHR TargetPresent, uint BufferCount);
+
+        void CreateRenderPass();
+
+        #ifdef GLFWAPP
+            void CreateFrameBuffers();
+        #endif
 };
-
-namespace Pipeline
-{
-    // VkShaderModule CreateShaderModule(std::string& FileName);
-
-    // VkWriteDescriptorSet WriteToDescriptor(VkDescriptorType type, VkDescriptorSet dstSet, VkDescriptorBufferInfo* bufferInfo , uint32_t binding);
-
-    // // When messing with descriptors you do have to mess with the pipelinelayout in CreateGraphicsPipeline
-    // void CreateGraphicsPipeline();
-}

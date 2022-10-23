@@ -3,6 +3,7 @@ CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o: \
  /usr/include/stdc-predef.h \
  /home/ethan/Repos/VulkanWrapper/include/EkHelpers.hpp \
  /home/ethan/Repos/VulkanWrapper/include/EkTypes.hpp \
+ /home/ethan/Repos/VulkanWrapper/include/EkImages.hpp \
  /usr/include/vulkan/vulkan.h /usr/include/vulkan/vk_platform.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stddef.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stdint.h \
@@ -14,8 +15,8 @@ CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o: \
  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
  /usr/include/bits/time64.h /usr/include/bits/wchar.h \
  /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
- /usr/include/vulkan/vulkan_core.h /usr/include/glm/vec4.hpp \
- /usr/include/glm/ext/vector_bool4.hpp \
+ /usr/include/vulkan/vulkan_core.h /usr/include/vk_mem_alloc.h \
+ /usr/include/glm/vec4.hpp /usr/include/glm/ext/vector_bool4.hpp \
  /usr/include/glm/detail/type_vec4.hpp \
  /usr/include/glm/detail/qualifier.hpp /usr/include/glm/detail/setup.hpp \
  /usr/include/c++/12.2.0/cassert \
@@ -375,8 +376,9 @@ CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o: \
  /usr/include/c++/12.2.0/bits/stl_algo.h \
  /usr/include/c++/12.2.0/bits/algorithmfwd.h \
  /usr/include/c++/12.2.0/bits/uniform_int_dist.h \
- /usr/include/vk_mem_alloc.h /usr/include/GLFW/glfw3.h \
- /usr/include/GL/gl.h /usr/include/GL/glext.h \
+ /home/ethan/Repos/VulkanWrapper/include/EkPipeline.hpp \
+ /home/ethan/Repos/VulkanWrapper/include/EkWindow.hpp \
+ /usr/include/GLFW/glfw3.h /usr/include/GL/gl.h /usr/include/GL/glext.h \
  /usr/include/KHR/khrplatform.h \
  /home/ethan/Repos/VulkanWrapper/include/VkBootstrap.h \
  /usr/include/c++/12.2.0/cstring /usr/include/string.h \

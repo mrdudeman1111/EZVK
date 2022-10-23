@@ -50,14 +50,14 @@ bool EkVulkan::CheckInstanceExtensionSupport(const char* ExtensionName, const ch
 
     for(int i = 0; i < AvailableExtensions->size(); i++)
     {
-        if(ExtensionName == AvailableExtensions->at(i).extensionName);
+        if(ExtensionName == AvailableExtensions->at(i).extensionName)
         {
             return true;
         }
     }
 
     std::cout << ExtensionName << " is not available" << std::endl;
-    delete[] AvailableExtensions;
+    delete AvailableExtensions;
     return false;
 }
 
@@ -79,7 +79,7 @@ bool EkVulkan::CheckDeviceExtensionSupport(const char* ExtensionName, const char
     }
     
     std::cout << ExtensionName << " is not available" << std::endl;
-    delete[] AvailableDeviceExtensions;
+    delete AvailableDeviceExtensions;
     return false;
 }
 
@@ -248,12 +248,15 @@ void EkVulkan::FindQueueFamilies()
     }
 }
 
-static VkBool32 DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
+VkExtent2D EkVulkan::GetWindowExtent()
 {
-    std::cerr << "Validation Layer: " << pCallbackData->pMessage;
-
-    return VK_FALSE;
+    int Height, Width;
+    glfwGetFramebufferSize(Window.Window, &Width, &Height);
+    VkExtent2D ReturnExtent = { static_cast<uint32_t>(Height), static_cast<uint32_t>(Width) };
+    return ReturnExtent;
 }
+
+
 
 bool EkVulkan::CheckDevice(VkPhysicalDevice* PhysicalDevice)
 {
@@ -309,13 +312,6 @@ void EkVulkan::CreateInstance()
 
     VkInstance& LambdaInstance = Instance;
     DeletionQueue( [&LambdaInstance](){ vkDestroyInstance(LambdaInstance, nullptr); } );
-
-    auto Func = ( PFN_vkCreateDebugUtilsMessengerEXT )vkGetInstanceProcAddr(Instance "vkCreateDebugUtilsMessengerEXT");
-    VkDebugUtilsMessengerCreateInfoEXT DebugMessengerInfo{};
-    DebugMessengerInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-    DebugMessengerInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT;
-    DebugMessengerInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_INFO_BIT_EXT;
-        DebugMessengerInfo.pfnUserCallback = [] (VkDebugUtilsMessageSeverityFlagBitsEXT MessageSeverity, VkDebugUtilsMessageTypeFlagsEXT MessageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData) -> VkBool32 {  }
 
     #ifdef GLFWAPP
         Window.CreateSurface(&Instance);
@@ -696,4 +692,22 @@ EkCmdPool* EkVulkan::CreateCommandPool(std::string QueueType)
 void EkVulkan::CreateWindow(int Width, int Height, const char* AppName)
 {
     Window.CreateWindow(Width, Height, AppName);
+}
+
+void EkVulkan::CreateSwapChain(VkPresentModeKHR TargetPresent, uint BufferCount)
+{
+    Window.BufferCount = BufferCount;
+    Window.CreateSwapchain(&Device, FamilyIndices.GraphicsFamily, TargetPresent);
+}
+
+#ifdef GLFWAPP
+void EkVulkan::CreateFrameBuffers()
+{
+
+}
+#endif
+
+void CreateRenderPass(VkRenderPass RenderPass, std::vector<RenderTarget> FrameBuffers, std::vector<VkAttachmentDescription> Attachments)
+{
+
 }

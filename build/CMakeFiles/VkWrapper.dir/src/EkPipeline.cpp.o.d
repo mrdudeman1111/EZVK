@@ -375,6 +375,7 @@ CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o: \
  /usr/include/c++/12.2.0/bits/stl_algo.h \
  /usr/include/c++/12.2.0/bits/algorithmfwd.h \
  /usr/include/c++/12.2.0/bits/uniform_int_dist.h \
- /usr/include/vk_mem_alloc.h /usr/include/GLFW/glfw3.h \
- /usr/include/GL/gl.h /usr/include/GL/glext.h \
+ /usr/include/vk_mem_alloc.h \
+ /home/ethan/Repos/VulkanWrapper/include/EkWindow.hpp \
+ /usr/include/GLFW/glfw3.h /usr/include/GL/gl.h /usr/include/GL/glext.h \
  /usr/include/KHR/khrplatform.h

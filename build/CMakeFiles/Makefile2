@@ -65,16 +65,33 @@ CMAKE_BINARY_DIR = /home/ethan/Repos/VulkanWrapper/build
 # The main recursive "all" target.
 all: CMakeFiles/VkWrapper.dir/all
 all: CMakeFiles/VkTester.dir/all
+all: Codec/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: Codec/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/VkWrapper.dir/clean
 clean: CMakeFiles/VkTester.dir/clean
+clean: Codec/clean
 .PHONY : clean
+
+#=============================================================================
+# Directory level rules for directory Codec
+
+# Recursive "all" directory target.
+Codec/all: Codec/CMakeFiles/VulkanEncoder.dir/all
+.PHONY : Codec/all
+
+# Recursive "preinstall" directory target.
+Codec/preinstall:
+.PHONY : Codec/preinstall
+
+# Recursive "clean" directory target.
+Codec/clean: Codec/CMakeFiles/VulkanEncoder.dir/clean
+.PHONY : Codec/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/VkWrapper.dir
@@ -127,6 +144,32 @@ VkTester: CMakeFiles/VkTester.dir/rule
 CMakeFiles/VkTester.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkTester.dir/build.make CMakeFiles/VkTester.dir/clean
 .PHONY : CMakeFiles/VkTester.dir/clean
+
+#=============================================================================
+# Target rules for target Codec/CMakeFiles/VulkanEncoder.dir
+
+# All Build rule for target.
+Codec/CMakeFiles/VulkanEncoder.dir/all:
+	$(MAKE) $(MAKESILENT) -f Codec/CMakeFiles/VulkanEncoder.dir/build.make Codec/CMakeFiles/VulkanEncoder.dir/depend
+	$(MAKE) $(MAKESILENT) -f Codec/CMakeFiles/VulkanEncoder.dir/build.make Codec/CMakeFiles/VulkanEncoder.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=9,10 "Built target VulkanEncoder"
+.PHONY : Codec/CMakeFiles/VulkanEncoder.dir/all
+
+# Build rule for subdir invocation for target.
+Codec/CMakeFiles/VulkanEncoder.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethan/Repos/VulkanWrapper/build/CMakeFiles 2
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Codec/CMakeFiles/VulkanEncoder.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethan/Repos/VulkanWrapper/build/CMakeFiles 0
+.PHONY : Codec/CMakeFiles/VulkanEncoder.dir/rule
+
+# Convenience name for target.
+VulkanEncoder: Codec/CMakeFiles/VulkanEncoder.dir/rule
+.PHONY : VulkanEncoder
+
+# clean rule for target.
+Codec/CMakeFiles/VulkanEncoder.dir/clean:
+	$(MAKE) $(MAKESILENT) -f Codec/CMakeFiles/VulkanEncoder.dir/build.make Codec/CMakeFiles/VulkanEncoder.dir/clean
+.PHONY : Codec/CMakeFiles/VulkanEncoder.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.
