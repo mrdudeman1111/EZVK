@@ -1,6 +1,7 @@
 #pragma once
 
 #include <EkTypes.hpp>
+#include <EkWindow.hpp>
 
 struct EkShader
 {
@@ -9,35 +10,32 @@ struct EkShader
     VkShaderStageFlagBits Stage;
 };
 
-struct AttachmentRef : VkAttachmentReference
+struct EkSubPass : VkSubpassDescription
 {
     public:
-    RtType Type;
-    VkImageLayout Layout;
-};
-
-struct EkSubPass
-{
-    public:
-
-    std::vector<AttachmentRef> Attachments;
-    AttachmentRef DepthStencil;
+    std::vector<AttDesc> Attachments;
+    AttDesc DepthStencil;
     VkFormat RenderFormat;
 
     VkSubpassDescription Subpass;
-    void Build(VkPipelineBindPoint BindPoint, uint32_t InputSize, std::vector<uint32_t> Preserves, std::vector<AttachmentRef> Inputs);
+    void Build(VkPipelineBindPoint BindPoint, std::vector<AttDesc>* Inputs, uint32_t InputSize = 0);
 };
 
 class EkRenderPass
 {
     public:
-    EkRenderPass();
+    EkRenderPass()
+    {
+
+    };
     std::vector<RenderTarget> RenderTargets;
     std::vector<EkSubPass> Subpasses;
+    VkRenderPass RenderPass;
+
+    VkDevice* DevicePtr;
     
     VkFormat RenderFormat;
     VkSampleCountFlagBits Samples;
-    VkRenderPass RenderPass;
 
     void CreateRenderPass();
 };
@@ -48,12 +46,13 @@ class EkPipeline
     std::string VertPath, FragPath;
     VkDevice* DevicePtr;
     DeleteQueue CleanupQueue;
+    VkExtent3D* ExtentPtr;
 
     std::vector<VkDescriptorSetLayout> DescriptorLayouts;
     std::vector<EkShader> Shaders;
 
     // When messing with descriptors you do have to mess with the pipelinelayout in CreateGraphicsPipeline
-    void CreateGraphicsPipeline(uint32_t width, uint32_t height);
+    void CreateGraphicsPipeline();
     VkWriteDescriptorSet WriteToDescriptor(VkDescriptorType type, VkDescriptorSet dstSet, VkDescriptorBufferInfo* bufferInfo , uint32_t binding);
 
     private:

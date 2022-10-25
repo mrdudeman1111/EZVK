@@ -11,7 +11,7 @@
 int main()
 {
     EkVulkan VulkanInterface;
-    VulkanInterface.CreateWindow(1280, 720, "VulkanInterface");
+    EkWindow* Window = VulkanInterface.CreateWindow(1280, 720, "VulkanInterface");
     VulkanInterface.RequestLayer("VK_LAYER_KHRONOS_validation");
     VulkanInterface.RequestInstanceExtension("VK_EXT_debug_utils");
     VulkanInterface.CreateInstance();
@@ -22,9 +22,14 @@ int main()
     EkCmdPool* GraphicsPool = VulkanInterface.CreateCommandPool("graphics");
     EkCommandBuffer RenderCmdBuffer = GraphicsPool->AllocateCmdBuffer(0, CommandBufferUsage::OneTime);
 
+    VkExtent2D WindowSize = VulkanInterface.GetWindowExtent();
+    VkSurfaceFormatKHR ImgFormat = Window->QueryFormats(VK_FORMAT_R32G32B32_SFLOAT);
+
+    EkRenderPass RenderPass;
+    RenderPass.RenderFormat = ImgFormat.format;
 
     #ifdef GLFWAPP
-        while(!glfwWindowShouldClose(VulkanInterface.Window.Window))
+        while(!glfwWindowShouldClose(Window->Window))
         {
             glfwPollEvents();
         }

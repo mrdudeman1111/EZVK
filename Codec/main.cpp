@@ -41,7 +41,11 @@ struct VulkanBaseStructs
             }
         }
 
-        std::vector<vk::QueueFamilyProperties> QueueFamilyProperties = PhysDev.getQueueFamilyProperties();
+        uint32_t QFamPropCount;
+        PhysDev.getQueueFamilyProperties(&QFamPropCount, nullptr);
+
+        std::vector<vk::QueueFamilyProperties> QueueFamilyProperties(QFamPropCount);
+        PhysDev.getQueueFamilyProperties(&QFamPropCount, QueueFamilyProperties.data());
 
         uint32_t GraphicsQueueCount, ComputeQueueCount, EncodeQueueCount;
 

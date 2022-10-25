@@ -4,7 +4,6 @@
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
-#include <EkPipeline.hpp>
 
 struct EkWindow
 {
@@ -22,7 +21,6 @@ struct EkWindow
     std::vector<AllocatedImage> ImageBuffers;
     std::vector<VkFramebuffer> FrameBuffers;
 
-
     ~EkWindow()
     {
         CleanupQueue.Run();
@@ -30,7 +28,7 @@ struct EkWindow
 
     VkSurfaceFormatKHR QueryFormats(VkFormat FormatTarget)
     {
-        uint32_t FormatCount;
+        uint32_t FormatCount = 0;
         vkGetPhysicalDeviceSurfaceFormatsKHR(*PhysDevPtr, Surface, &FormatCount, nullptr);
 
         std::vector<VkSurfaceFormatKHR> Formats(FormatCount);
@@ -66,7 +64,7 @@ struct EkWindow
         return PresentModes[0];
     }
 
-    void CreateWindow(int Width, int Height, std::string AppName)
+    EkWindow* CreateWindow(int Width, int Height, std::string AppName)
     {
         glfwInit();
 
@@ -81,7 +79,8 @@ struct EkWindow
 
         GlfwExts = glfwGetRequiredInstanceExtensions(&glfwExtCount);
 
-        CleanupQueue([this](){ glfwDestroyWindow(Window); glfwTerminate(); });
+        CleanupQueue([this](){ glfwDestroyWindow(Window); glfwTerminate(); std::cout << "Deleted and terminated glfwWindow\n"; });
+        return this;
     }
 
     void CreateSurface(VkInstance* Instance)
@@ -93,7 +92,7 @@ struct EkWindow
             ThrowError("GLFW: Can't create window surface");
         }
 
-        CleanupQueue([Instance, this](){ vkDestroySurfaceKHR(*Instance, Surface, nullptr); });
+        CleanupQueue([this, Instance](){ vkDestroySurfaceKHR(*Instance, Surface, nullptr); std::cout << "Deleted surface"; });
     }
 
     void CreateSwapchain(VkDevice* Device, uint32_t GraphicsFamilyIndex, VkPresentModeKHR PresentationMode)
@@ -118,7 +117,7 @@ struct EkWindow
         SwapchainInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
         SwapchainInfo.clipped = VK_TRUE;
 
-        if(vkCreateSwapchainKHR(*Device, &SwapchainInfo, nullptr, &Swapchain) != VK_SUCCESS);
+        if(vkCreateSwapchainKHR(*Device, &SwapchainInfo, nullptr, &Swapchain) != VK_SUCCESS)
         {
             ThrowError("failed to create a swapchain.");
         }
@@ -127,12 +126,12 @@ struct EkWindow
         SwapchainImages.resize(BufferCount);
         vkGetSwapchainImagesKHR(*Device, Swapchain, &BufferCount, SwapchainImages.data());
 
-        CleanupQueue([Device, this](){ vkDeviceWaitIdle(*Device); vkDestroySwapchainKHR(*Device, Swapchain, nullptr); });
+        CleanupQueue([Device, this](){ vkDeviceWaitIdle(*Device); vkDestroySwapchainKHR(*Device, Swapchain, nullptr); std::cout << "Deleted Swapchain\n"; });
 
         ImageFormat = SurfaceFormat.format;
     }
 
-    void CreateFrameBuffers(EkRenderPass* RenderPass, VkDevice* DevicePtr)
+    void CreateFrameBuffers(VkDevice* DevicePtr, VkRenderPass* RenderPass)
     {
         ImageBuffers.resize(BufferCount);
         FrameBuffers.resize(BufferCount);
@@ -148,7 +147,7 @@ struct EkWindow
         {
             VkFramebufferCreateInfo FrameBufferInfo{};
             FrameBufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-            FrameBufferInfo.renderPass = RenderPass->RenderPass;
+            FrameBufferInfo.renderPass = *RenderPass;
             FrameBufferInfo.attachmentCount = Attachments.size();
             FrameBufferInfo.pAttachments = Attachments.data();
             FrameBufferInfo.width = ImageExtents.width;
@@ -160,7 +159,7 @@ struct EkWindow
                 ThrowError("Failed to create a framebuffer");
             }
             VkFramebuffer* FBHandle = &FrameBuffers[i];
-            CleanupQueue([DevicePtr, FBHandle](){ vkDestroyFramebuffer(*DevicePtr, *FBHandle, nullptr); });
+            CleanupQueue([DevicePtr, FBHandle](){ vkDestroyFramebuffer(*DevicePtr, *FBHandle, nullptr); std::cout << "Destroyed a framebuffer\n"; });
         }
     }
 

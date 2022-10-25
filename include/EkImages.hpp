@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include <iostream>
 #include <string>
@@ -7,10 +9,8 @@
 #include <vk_mem_alloc.h>
 
 void ThrowError(const char* Error);
-void Warn(const char* Error)
-{
-    std::cerr << Error << std::endl;
-}
+
+void Warn(const char* Error);
 
 // Explanation: DepthBuffer RenderTargets are depth stencils, only one of them can be attached to a renderpass
 enum RtType
@@ -28,6 +28,8 @@ struct AllocatedImage
     VkImageView ImageView;
 
     VkFormat Format;
+
+    VkImageLayout Layout;
 
     VmaAllocation Allocation;
     VmaAllocator* AllocatorPtr;
@@ -56,8 +58,11 @@ struct AllocatedImage
         }
     }
 
-    void AllocateImage(VkImageType ImageType, VkExtent3D Extent, VkFormat ImageFormat, VmaMemoryUsage MemUse, uint32_t MipLevels, VkImageCreateFlags ImageUsage, VkImageLayout ImgLayout)
+    bool AllocateImage(VkImageType ImageType, VkExtent3D Extent, VkFormat ImageFormat, VmaMemoryUsage MemUse, uint32_t MipLevels, VkImageCreateFlags ImageUsage, VkImageLayout ImgLayout)
     {
+        Format = ImageFormat;
+        Layout = ImgLayout;
+
         VkImageCreateInfo ImageInfo{};
         ImageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
         ImageInfo.pNext = nullptr;
@@ -76,49 +81,58 @@ struct AllocatedImage
 
         if(vmaCreateImage(*AllocatorPtr, &ImageInfo, &AllocInfo, &Image, &Allocation, nullptr) != VK_SUCCESS)
         {
-            ThrowError("Failed to Create an image");
+            Warn("Failed to Create an image");
+            return false;
         }
 
-        Format = ImageFormat;
+        return true;
     }
 
 };
 
-struct RenderTarget
+struct AttDesc : VkAttachmentDescription
 {
     public:
-    AllocatedImage Image;
-
-    VkAttachmentDescription RenderTarget;
-
+    RtType Type;
     VkImageLayout Layout;
+};
 
+struct RenderTarget : AllocatedImage
+{
+    public:
+
+    AttDesc AttachmentDesc;
     RtType Type;
 
-    void Build(RtType RenderTargetType, VkExtent3D ImageExtent, VkFormat ImageFormat, VkImageCreateFlags ImageUse, VkImageLayout InitLayout, VkImageLayout FinalLayout, VkAttachmentLoadOp LoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE, VkAttachmentStoreOp StoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE, VkAttachmentLoadOp StencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE, VkAttachmentStoreOp StencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE)
+    AttDesc Build(RtType RenderTargetType, VkExtent3D ImageExtent, VkFormat ImageFormat, VkImageCreateFlags ImageUse, VkImageLayout InitLayout, VkImageLayout FinalLayout, VkAttachmentLoadOp LoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE, VkAttachmentStoreOp StoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE, VkAttachmentLoadOp StencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE, VkAttachmentStoreOp StencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE)
     {
         Type = RenderTargetType;
         Layout = InitLayout;
-        Image.AllocateImage(VK_IMAGE_TYPE_2D, ImageExtent, ImageFormat, VMA_MEMORY_USAGE_GPU_ONLY, 0, ImageUse, InitLayout);
-        RenderTarget.format = Image.Format;
-        RenderTarget.samples = VK_SAMPLE_COUNT_1_BIT;
-        RenderTarget.loadOp = LoadOp;
-        RenderTarget.storeOp = StoreOp;
-        RenderTarget.stencilLoadOp = StencilLoadOp;
-        RenderTarget.stencilStoreOp = StencilStoreOp;
-        RenderTarget.initialLayout = InitLayout;
-        RenderTarget.finalLayout = FinalLayout;
+        AllocateImage(VK_IMAGE_TYPE_2D, ImageExtent, ImageFormat, VMA_MEMORY_USAGE_GPU_ONLY, 0, ImageUse, InitLayout);
+        AttachmentDesc.format = Format;
+        AttachmentDesc.samples = VK_SAMPLE_COUNT_1_BIT;
+        AttachmentDesc.loadOp = LoadOp;
+        AttachmentDesc.storeOp = StoreOp;
+        AttachmentDesc.stencilLoadOp = StencilLoadOp;
+        AttachmentDesc.stencilStoreOp = StencilStoreOp;
+        AttachmentDesc.initialLayout = InitLayout;
+        AttachmentDesc.finalLayout = FinalLayout;
+
+        AttachmentDesc.Layout = Layout;
     }
 
-    void BuildFrameBuffer(VkExtent3D ImageExtent, VkFormat ImageFormat)
+    void BuildFrameBuffer(VkDevice* DevicePtr, VkExtent3D ImageExtent, VkFormat ImageFormat, VkImageViewType ViewType = VK_IMAGE_VIEW_TYPE_2D)
     {
-        Build(RtType::FrameBuffer, ImageExtent, ImageFormat, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE);
-        Type = RtType::FrameBuffer;
+        Build(RtType::RtColor, ImageExtent, ImageFormat, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE);
+        Type = RtType::RtColor;
+        AllocateImageView(DevicePtr, ViewType);
     }
 
-    void BuildDepthBuffer(VkExtent3D ImageExtent, VkFormat ImageFormat)
+    void BuildDepthBuffer(VkDevice* DevicePtr, VkExtent3D ImageExtent, VkFormat ImageFormat, VkImageViewType ViewType = VK_IMAGE_VIEW_TYPE_2D)
     {
-        Build(RtType::DepthBuffer, ImageExtent, ImageFormat, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_ATTACHMENT_LOAD_OP_LOAD, VK_ATTACHMENT_STORE_OP_STORE);
-        Type = RtType::DepthBuffer;
+        Build(RtType::RtDepth, ImageExtent, ImageFormat, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_ATTACHMENT_LOAD_OP_LOAD, VK_ATTACHMENT_STORE_OP_STORE);
+        Type = RtType::RtDepth;
+        AllocateImageView(DevicePtr, ViewType);
     }
+    
 };

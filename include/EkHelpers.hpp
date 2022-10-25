@@ -56,13 +56,11 @@ class EkVulkan
 
         VmaAllocator Allocator;
 
-        VkSwapchainKHR Swapchain;
-
-    public:
     // My Custom Structures
     #ifdef GLFWAPP
         EkWindow Window;
     #endif
+    public:
         DeleteQueue DeletionQueue;
 
     private:
@@ -105,6 +103,8 @@ class EkVulkan
             bool CheckLayerSupport(const char* LayerName);
             void RequestLayer(const char* LayerName);
             void PrintAvailableLayers();
+            void PrintAvailableDeviceExtensions();
+            void PrintAvailableExtensions();
             void RequestInstanceExtension(const char* ExtensionName);
 
 
@@ -119,7 +119,9 @@ class EkVulkan
         
         void InitVMA();
 
-        void CreateWindow(int Width, int Height, const char* AppName);
+    #ifdef GLFWAPP
+        EkWindow* CreateWindow(int Width, int Height, const char* AppName);
+    #endif
 
         void CreateInstance();
 
@@ -128,8 +130,6 @@ class EkVulkan
         void CreateDevice(std::vector<std::string>* DesiredQueues);
 
         void CreateSwapChain(VkPresentModeKHR TargetPresent, uint BufferCount);
-
-        void CreateRenderPass();
 
         #ifdef GLFWAPP
             void CreateFrameBuffers();

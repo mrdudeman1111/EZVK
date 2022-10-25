@@ -42,22 +42,19 @@ void EkVulkan::CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMemor
 
 bool EkVulkan::CheckInstanceExtensionSupport(const char* ExtensionName, const char* ExtensionLayer)
 {
-    uint32_t ExtensionCount = 0;
-    vkEnumerateInstanceExtensionProperties(ExtensionLayer, &ExtensionCount, nullptr);
+    uint32_t ExtCount = 0;
+    vkEnumerateInstanceExtensionProperties(ExtensionLayer, &ExtCount, nullptr);
 
-    auto* AvailableExtensions = new std::vector<VkExtensionProperties>(ExtensionCount);
-    vkEnumerateInstanceExtensionProperties(ExtensionLayer, &ExtensionCount, AvailableExtensions->data());
+    std::vector<VkExtensionProperties> ExtProps(ExtCount);
+    vkEnumerateInstanceExtensionProperties(ExtensionLayer, &ExtCount, ExtProps.data());
 
-    for(int i = 0; i < AvailableExtensions->size(); i++)
+    for(const auto& ExtProp : ExtProps)
     {
-        if(ExtensionName == AvailableExtensions->at(i).extensionName)
+        if(strcmp(ExtensionName, ExtProp.extensionName) == 0)
         {
             return true;
         }
     }
-
-    std::cout << ExtensionName << " is not available" << std::endl;
-    delete AvailableExtensions;
     return false;
 }
 
@@ -127,6 +124,44 @@ void EkVulkan::PrintAvailableLayers()
         std::cout << AvailableLayers[i].layerName << std::endl;
     }
     std::cout << "are all available Layers" << std::endl;
+}
+
+void EkVulkan::PrintAvailableDeviceExtensions()
+{
+    uint32_t ExtCount = 0;
+    vkEnumerateDeviceExtensionProperties(PhysDev, nullptr, &ExtCount, nullptr);
+
+    std::vector<VkExtensionProperties> ExtProps;
+    vkEnumerateDeviceExtensionProperties(PhysDev, nullptr, &ExtCount, ExtProps.data());
+
+    std::cout << "\n ***** Available Extensions include: ******\n";
+
+    for(const auto& ExtProp : ExtProps)
+    {
+        std::cout << ExtProp.extensionName << std::endl;
+    }
+    
+    std::cout << "\n ******************************************\n";
+}
+
+void EkVulkan::PrintAvailableExtensions()
+{
+    uint32_t ExtCount = 0;
+    vkEnumerateInstanceExtensionProperties(nullptr, &ExtCount, nullptr);
+
+    std::vector<VkExtensionProperties> ExtProps(ExtCount);
+    vkEnumerateInstanceExtensionProperties(nullptr, &ExtCount, ExtProps.data());
+
+    std::cout << ExtCount << std::endl;
+
+    std::cout << "\n ***** Available Extensions include: ******\n";
+
+    for(const auto& ExtProp : ExtProps)
+    {
+        std::cout << ExtProp.extensionName << std::endl;
+    }
+    
+    std::cout << "\n ******************************************\n";
 }
 
 void EkVulkan::RequestInstanceExtension(const char* ExtensionName)
@@ -689,10 +724,14 @@ EkCmdPool* EkVulkan::CreateCommandPool(std::string QueueType)
     ThrowError("Failed to create CommandPool");
 }
 
-void EkVulkan::CreateWindow(int Width, int Height, const char* AppName)
+#ifdef GLFWAPP
+EkWindow* EkVulkan::CreateWindow(int Width, int Height, const char* AppName)
 {
-    Window.CreateWindow(Width, Height, AppName);
+    Window.PhysDevPtr = &PhysDev;
+    Window.CreateWindow(Width, Height, "Vulkan wrapper tester");
+    return &Window;
 }
+#endif
 
 void EkVulkan::CreateSwapChain(VkPresentModeKHR TargetPresent, uint BufferCount)
 {
@@ -703,11 +742,6 @@ void EkVulkan::CreateSwapChain(VkPresentModeKHR TargetPresent, uint BufferCount)
 #ifdef GLFWAPP
 void EkVulkan::CreateFrameBuffers()
 {
-
 }
 #endif
 
-void CreateRenderPass(VkRenderPass RenderPass, std::vector<RenderTarget> FrameBuffers, std::vector<VkAttachmentDescription> Attachments)
-{
-
-}
