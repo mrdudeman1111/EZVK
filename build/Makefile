@@ -203,6 +203,30 @@ src/EkHelpers.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.s
 .PHONY : src/EkHelpers.cpp.s
 
+src/EkImages.o: src/EkImages.cpp.o
+.PHONY : src/EkImages.o
+
+# target to build an object file
+src/EkImages.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/src/EkImages.cpp.o
+.PHONY : src/EkImages.cpp.o
+
+src/EkImages.i: src/EkImages.cpp.i
+.PHONY : src/EkImages.i
+
+# target to preprocess a source file
+src/EkImages.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/src/EkImages.cpp.i
+.PHONY : src/EkImages.cpp.i
+
+src/EkImages.s: src/EkImages.cpp.s
+.PHONY : src/EkImages.s
+
+# target to generate assembly for a file
+src/EkImages.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/src/EkImages.cpp.s
+.PHONY : src/EkImages.cpp.s
+
 src/EkPipeline.o: src/EkPipeline.cpp.o
 .PHONY : src/EkPipeline.o
 
@@ -226,6 +250,30 @@ src/EkPipeline.s: src/EkPipeline.cpp.s
 src/EkPipeline.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.s
 .PHONY : src/EkPipeline.cpp.s
+
+src/EkRenderpass.o: src/EkRenderpass.cpp.o
+.PHONY : src/EkRenderpass.o
+
+# target to build an object file
+src/EkRenderpass.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/src/EkRenderpass.cpp.o
+.PHONY : src/EkRenderpass.cpp.o
+
+src/EkRenderpass.i: src/EkRenderpass.cpp.i
+.PHONY : src/EkRenderpass.i
+
+# target to preprocess a source file
+src/EkRenderpass.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/src/EkRenderpass.cpp.i
+.PHONY : src/EkRenderpass.cpp.i
+
+src/EkRenderpass.s: src/EkRenderpass.cpp.s
+.PHONY : src/EkRenderpass.s
+
+# target to generate assembly for a file
+src/EkRenderpass.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/src/EkRenderpass.cpp.s
+.PHONY : src/EkRenderpass.cpp.s
 
 src/Mesh.o: src/Mesh.cpp.o
 .PHONY : src/Mesh.o
@@ -295,9 +343,15 @@ help:
 	@echo "... src/EkHelpers.o"
 	@echo "... src/EkHelpers.i"
 	@echo "... src/EkHelpers.s"
+	@echo "... src/EkImages.o"
+	@echo "... src/EkImages.i"
+	@echo "... src/EkImages.s"
 	@echo "... src/EkPipeline.o"
 	@echo "... src/EkPipeline.i"
 	@echo "... src/EkPipeline.s"
+	@echo "... src/EkRenderpass.o"
+	@echo "... src/EkRenderpass.i"
+	@echo "... src/EkRenderpass.s"
 	@echo "... src/Mesh.o"
 	@echo "... src/Mesh.i"
 	@echo "... src/Mesh.s"

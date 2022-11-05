@@ -11,8 +11,18 @@
 },
 {
   "directory": "/home/ethan/Repos/VulkanWrapper/build",
+  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethan/Repos/VulkanWrapper/src -I/home/ethan/Repos/VulkanWrapper/include -g -o CMakeFiles/VkWrapper.dir/src/EkImages.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/EkImages.cpp",
+  "file": "/home/ethan/Repos/VulkanWrapper/src/EkImages.cpp"
+},
+{
+  "directory": "/home/ethan/Repos/VulkanWrapper/build",
   "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethan/Repos/VulkanWrapper/src -I/home/ethan/Repos/VulkanWrapper/include -g -o CMakeFiles/VkWrapper.dir/src/EkPipeline.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/EkPipeline.cpp",
   "file": "/home/ethan/Repos/VulkanWrapper/src/EkPipeline.cpp"
+},
+{
+  "directory": "/home/ethan/Repos/VulkanWrapper/build",
+  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethan/Repos/VulkanWrapper/src -I/home/ethan/Repos/VulkanWrapper/include -g -o CMakeFiles/VkWrapper.dir/src/EkRenderpass.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/EkRenderpass.cpp",
+  "file": "/home/ethan/Repos/VulkanWrapper/src/EkRenderpass.cpp"
 },
 {
   "directory": "/home/ethan/Repos/VulkanWrapper/build",

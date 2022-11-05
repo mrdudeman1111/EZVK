@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vulkan/vulkan.h>
 #include <EkImages.hpp>
 
 // GLM/GLFW Includes
@@ -80,7 +81,7 @@
             BeginInfo.flags = Usage;
         }
 
-        void Allocate(VkDevice* Device, VkCommandPool* Pool, uint32_t Priority)
+        void Allocate(VkCommandPool* Pool, uint32_t Priority)
         {
             VkCommandBufferAllocateInfo AllocInfo{};
             AllocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -101,7 +102,7 @@
 
             AllocInfo.commandBufferCount = 1;
 
-            if(vkAllocateCommandBuffers(*Device, &AllocInfo, &CommandBuffer) != VK_SUCCESS)
+            if(vkAllocateCommandBuffers(GlobDevice, &AllocInfo, &CommandBuffer) != VK_SUCCESS)
             {
                 ThrowError("Unexpectedly couldn't Allocate Memmory for a command buffer, perhaps the pool ran out of space");
             }
@@ -137,9 +138,8 @@
         EkCmdPool()
         {}
 
-        EkCmdPool(VkDevice* Device, uint32_t GraphicsQueueFamilyIndex, DeleteQueue* DeletionQueue)
+        EkCmdPool(uint32_t GraphicsQueueFamilyIndex, DeleteQueue* DeletionQueue)
         {
-            DevicePtr = Device;
             Create(GraphicsQueueFamilyIndex, DeletionQueue);
         }
 
@@ -155,13 +155,12 @@
             PoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
             PoolInfo.queueFamilyIndex = GraphicsQueueFamilyIndex;
 
-            if(vkCreateCommandPool(*DevicePtr, &PoolInfo, nullptr, &CommandPool) != VK_SUCCESS)
+            if(vkCreateCommandPool(GlobDevice, &PoolInfo, nullptr, &CommandPool) != VK_SUCCESS)
             {
                 ThrowError("Failed to create EkCmdPool");
             }
 
-            VkDevice* DevDelHandle = DevicePtr;
-            CleanupQueue([this, DevDelHandle](){ vkDestroyCommandPool(*DevDelHandle, CommandPool, nullptr); std::cout << "Destroyed A command pool\n"; });
+            CleanupQueue([this](){ vkDestroyCommandPool(GlobDevice, CommandPool, nullptr); std::cout << "Destroyed A command pool\n"; });
         }
 
         // Priority can be 0 or 1, anything else throws error. 0 being primary, and therefore prioritized, and 1 being secondary, and therefore less important, (it's a little less slower than primary, it also gets less resources allocated to it)
@@ -172,7 +171,7 @@
                 case 0: 
                 {
                     EkCommandBuffer NewCmdBuffer(Usage);
-                    NewCmdBuffer.Allocate(DevicePtr, &CommandPool, 0);
+                    NewCmdBuffer.Allocate(&CommandPool, 0);
                     CleanupQueue([=](){ vkFreeCommandBuffers(*DevicePtr, CommandPool, 1, &NewCmdBuffer.CommandBuffer); });
                     return NewCmdBuffer;
                     break;
@@ -181,7 +180,7 @@
                 case 1:
                 {
                     EkCommandBuffer NewCmdBuffer(Usage);
-                    NewCmdBuffer.Allocate(DevicePtr, &CommandPool, 1);
+                    NewCmdBuffer.Allocate(&CommandPool, 1);
                     CleanupQueue([=](){ vkFreeCommandBuffers(*DevicePtr, CommandPool, 1, &NewCmdBuffer.CommandBuffer); });
                     return NewCmdBuffer;
                     break;
@@ -191,6 +190,7 @@
                     ThrowError("Attempted to allocate a command buffer with uknown priority");
                     break;
             }
+            ThrowError("Attempted to allocate a command buffer with uknown priority, only 0 and 1 are allowed");
         }
 
         void SubmitCmdBuffer(EkCommandBuffer* CommandBuffer, VkQueue SubmitionQueue, VkPipelineStageFlags* WaitStages = nullptr, VkFence* Fence = nullptr, VkSemaphore* WaitSemaphores = nullptr, VkSemaphore* SignalSemaphores = nullptr)

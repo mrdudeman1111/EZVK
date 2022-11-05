@@ -1,7 +1,7 @@
 #pragma once
 
 #include <EkTypes.hpp>
-#include <EkWindow.hpp>
+#include <EkRenderpass.hpp>
 
 struct EkShader
 {
@@ -10,35 +10,6 @@ struct EkShader
     VkShaderStageFlagBits Stage;
 };
 
-struct EkSubPass : VkSubpassDescription
-{
-    public:
-    std::vector<AttDesc> Attachments;
-    AttDesc DepthStencil;
-    VkFormat RenderFormat;
-
-    VkSubpassDescription Subpass;
-    void Build(VkPipelineBindPoint BindPoint, std::vector<AttDesc>* Inputs, uint32_t InputSize = 0);
-};
-
-class EkRenderPass
-{
-    public:
-    EkRenderPass()
-    {
-
-    };
-    std::vector<RenderTarget> RenderTargets;
-    std::vector<EkSubPass> Subpasses;
-    VkRenderPass RenderPass;
-
-    VkDevice* DevicePtr;
-    
-    VkFormat RenderFormat;
-    VkSampleCountFlagBits Samples;
-
-    void CreateRenderPass();
-};
 
 class EkPipeline
 {
@@ -60,5 +31,5 @@ class EkPipeline
     VkShaderModule CreateShaderModule(std::string& FileName);
     VkPipeline Pipeline;
     VkViewport ViewPort;
-    EkRenderPass RenderPass;
+    Ek::Renderpass* RenderPass;
 };

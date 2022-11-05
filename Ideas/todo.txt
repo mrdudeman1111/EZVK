@@ -1,0 +1,4 @@
+todo: handle the sub/renderpass attachments, we should have a special structure called EkRenderpass and it should have methods for making subpasses and renderpasses.
+ And keep all the attachments neat
+
+todo: Fix the issue with the ImageBuffer being passed to the Subpass builder in EkWindow's Create FrameBufferPass, with no imageview.

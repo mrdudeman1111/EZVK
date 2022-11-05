@@ -1,0 +1,65 @@
+the layer VK_LAYER_KHRONOS_validation is supported and is being loaded
+Extension VK_EXT_debug_utils is supported and is loading
+Extension VK_KHR_surface is supported and is loading
+Extension VK_KHR_xcb_surface is supported and is loading
+You have 1 Physical Devices
+Device extension VK_KHR_swapchain is availableDevice extension VK_KHR_swapchain is not availableFound 2 QueueFamilies
+Parsing Queue type of : 15
+Found Graphics Family
+Parsing Queue type of : 14
+Found Compute Family
+Family indices full
+Graphics Queue Info Pushed
+Compute Queue Info Pushed
+VUID-VkDeviceQueueCreateInfo-pQueuePriorities-parameter(ERROR / SPEC): msgNum: -690544442 - Validation Error: [ VUID-VkDeviceQueueCreateInfo-pQueuePriorities-parameter ] Object 0: VK_NULL_HANDLE, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0xd6d720c6 | vkCreateDevice: required parameter pCreateInfo->pQueueCreateInfos[0].pQueuePriorities specified as NULL. The Vulkan spec states: pQueuePriorities must be a valid pointer to an array of queueCount float values (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkDeviceQueueCreateInfo-pQueuePriorities-parameter)
+    Objects: 1
+        [0] 0, type: 3, name: NULL
+VUID-VkDeviceQueueCreateInfo-pQueuePriorities-parameter(ERROR / SPEC): msgNum: -690544442 - Validation Error: [ VUID-VkDeviceQueueCreateInfo-pQueuePriorities-parameter ] Object 0: VK_NULL_HANDLE, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0xd6d720c6 | vkCreateDevice: required parameter pCreateInfo->pQueueCreateInfos[1].pQueuePriorities specified as NULL. The Vulkan spec states: pQueuePriorities must be a valid pointer to an array of queueCount float values (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkDeviceQueueCreateInfo-pQueuePriorities-parameter)
+    Objects: 1
+        [0] 0, type: 3, name: NULL
+Successfully made 2 Framebuffers
+VUID-VkImageCreateInfo-initialLayout-00993(ERROR / SPEC): msgNum: 1279008160 - Validation Error: [ VUID-VkImageCreateInfo-initialLayout-00993 ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x4c3c1da0 | vkCreateImage(): initialLayout is VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, must be VK_IMAGE_LAYOUT_UNDEFINED or VK_IMAGE_LAYOUT_PREINITIALIZED. The Vulkan spec states: initialLayout must be VK_IMAGE_LAYOUT_UNDEFINED or VK_IMAGE_LAYOUT_PREINITIALIZED (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkImageCreateInfo-initialLayout-00993)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkImageCreateInfo-initialLayout-00993(ERROR / SPEC): msgNum: 1279008160 - Validation Error: [ VUID-VkImageCreateInfo-initialLayout-00993 ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x4c3c1da0 | vkCreateImage(): initialLayout is VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, must be VK_IMAGE_LAYOUT_UNDEFINED or VK_IMAGE_LAYOUT_PREINITIALIZED. The Vulkan spec states: initialLayout must be VK_IMAGE_LAYOUT_UNDEFINED or VK_IMAGE_LAYOUT_PREINITIALIZED (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkImageCreateInfo-initialLayout-00993)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkAttachmentDescription-flags-parameter(ERROR / SPEC): msgNum: -790865670 - Validation Error: [ VUID-VkAttachmentDescription-flags-parameter ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0xd0dc58fa | vkCreateRenderPass: value of pCreateInfo->pAttachments[0].flags contains flag bits that are not recognized members of VkAttachmentDescriptionFlagBits The Vulkan spec states: flags must be a valid combination of VkAttachmentDescriptionFlagBits values (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkAttachmentDescription-flags-parameter)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkAttachmentDescription-format-parameter(ERROR / SPEC): msgNum: 131892354 - Validation Error: [ VUID-VkAttachmentDescription-format-parameter ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x7dc8482 | vkCreateRenderPass: value of pCreateInfo->pAttachments[0].format (21962) does not fall within the begin..end range of the core VkFormat enumeration tokens and is not an extension added token. The Vulkan spec states: format must be a valid VkFormat value (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkAttachmentDescription-format-parameter)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkAttachmentDescription-samples-parameter(ERROR / SPEC): msgNum: -1403786440 - Validation Error: [ VUID-VkAttachmentDescription-samples-parameter ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0xac53eb38 | vkCreateRenderPass: value of pCreateInfo->pAttachments[0].samples contains flag bits that are not recognized members of VkSampleCountFlagBits The Vulkan spec states: samples must be a valid VkSampleCountFlagBits value (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkAttachmentDescription-samples-parameter)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkAttachmentDescription-samples-parameter(ERROR / SPEC): msgNum: -1403786440 - Validation Error: [ VUID-VkAttachmentDescription-samples-parameter ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0xac53eb38 | vkCreateRenderPass: value of pCreateInfo->pAttachments[0].samples contains multiple members of VkSampleCountFlagBits when only a single value is allowed The Vulkan spec states: samples must be a valid VkSampleCountFlagBits value (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkAttachmentDescription-samples-parameter)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkAttachmentDescription-loadOp-parameter(ERROR / SPEC): msgNum: 1485535910 - Validation Error: [ VUID-VkAttachmentDescription-loadOp-parameter ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x588b7aa6 | vkCreateRenderPass: value of pCreateInfo->pAttachments[0].loadOp (32672) does not fall within the begin..end range of the core VkAttachmentLoadOp enumeration tokens and is not an extension added token. The Vulkan spec states: loadOp must be a valid VkAttachmentLoadOp value (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkAttachmentDescription-loadOp-parameter)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkAttachmentDescription-storeOp-parameter(ERROR / SPEC): msgNum: 1377863797 - Validation Error: [ VUID-VkAttachmentDescription-storeOp-parameter ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x52208875 | vkCreateRenderPass: value of pCreateInfo->pAttachments[0].storeOp (-1764532924) does not fall within the begin..end range of the core VkAttachmentStoreOp enumeration tokens and is not an extension added token. The Vulkan spec states: storeOp must be a valid VkAttachmentStoreOp value (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkAttachmentDescription-storeOp-parameter)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkAttachmentDescription-stencilLoadOp-parameter(ERROR / SPEC): msgNum: -2093052500 - Validation Error: [ VUID-VkAttachmentDescription-stencilLoadOp-parameter ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x833e8dac | vkCreateRenderPass: value of pCreateInfo->pAttachments[0].stencilLoadOp (21962) does not fall within the begin..end range of the core VkAttachmentLoadOp enumeration tokens and is not an extension added token. The Vulkan spec states: stencilLoadOp must be a valid VkAttachmentLoadOp value (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkAttachmentDescription-stencilLoadOp-parameter)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkAttachmentDescription-stencilStoreOp-parameter(ERROR / SPEC): msgNum: 1990012827 - Validation Error: [ VUID-VkAttachmentDescription-stencilStoreOp-parameter ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x769d2f9b | vkCreateRenderPass: value of pCreateInfo->pAttachments[0].stencilStoreOp (-1623195647) does not fall within the begin..end range of the core VkAttachmentStoreOp enumeration tokens and is not an extension added token. The Vulkan spec states: stencilStoreOp must be a valid VkAttachmentStoreOp value (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkAttachmentDescription-stencilStoreOp-parameter)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkAttachmentDescription-initialLayout-parameter(ERROR / SPEC): msgNum: -540025556 - Validation Error: [ VUID-VkAttachmentDescription-initialLayout-parameter ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0xdfcfdd2c | vkCreateRenderPass: value of pCreateInfo->pAttachments[0].initialLayout (32672) does not fall within the begin..end range of the core VkImageLayout enumeration tokens and is not an extension added token. The Vulkan spec states: initialLayout must be a valid VkImageLayout value (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkAttachmentDescription-initialLayout-parameter)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkAttachmentDescription-finalLayout-parameter(ERROR / SPEC): msgNum: -797790976 - Validation Error: [ VUID-VkAttachmentDescription-finalLayout-parameter ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0xd072ad00 | vkCreateRenderPass: value of pCreateInfo->pAttachments[0].finalLayout (-1764532878) does not fall within the begin..end range of the core VkImageLayout enumeration tokens and is not an extension added token. The Vulkan spec states: finalLayout must be a valid VkImageLayout value (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkAttachmentDescription-finalLayout-parameter)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkAttachmentReference-layout-parameter(ERROR / SPEC): msgNum: 1971405941 - Validation Error: [ VUID-VkAttachmentReference-layout-parameter ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x75814475 | vkCreateRenderPass: value of pCreateInfo->pSubpasses[0].pDepthStencilAttachment->layout (21962) does not fall within the begin..end range of the core VkImageLayout enumeration tokens and is not an extension added token. The Vulkan spec states: layout must be a valid VkImageLayout value (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkAttachmentReference-layout-parameter)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkRenderPassCreateInfo-attachment-00834(ERROR / SPEC): msgNum: -56330046 - Validation Error: [ VUID-VkRenderPassCreateInfo-attachment-00834 ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0xfca478c2 | vkCreateRenderPass(): pSubpasses[0].pDepthStencilAttachment attachment -1762464512 must be less than the total number of attachments 1. The Vulkan spec states: If the attachment member of any element of pInputAttachments, pColorAttachments, pResolveAttachments or pDepthStencilAttachment, or any element of pPreserveAttachments in any element of pSubpasses is not VK_ATTACHMENT_UNUSED, then it must be less than attachmentCount (https://www.khronos.org/registry/vulkan/specs/1.3-extensions/html/vkspec.html#VUID-VkRenderPassCreateInfo-attachment-00834)
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL
+VUID-VkSubpassDescription-None-04437(ERROR / SPEC): msgNum: 1133260545 - Validation Error: [ VUID-VkSubpassDescription-None-04437 ] Object 0: handle = 0x55ca9704afd0, type = VK_OBJECT_TYPE_DEVICE; | MessageID = 0x438c2f01 | vkCreateRenderPass(): pSubpasses[0].pDepthStencilAttachment layout is Unhandled VkImageLayout but depth/stencil attachments must be VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL, VK_IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_STENCIL_READ_ONLY_OPTIMAL, VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR, VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL, VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL, VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL_KHR orVK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL_KHR.
+    Objects: 1
+        [0] 0x55ca9704afd0, type: 3, name: NULL

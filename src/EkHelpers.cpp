@@ -3,6 +3,10 @@
 #include <GLFW/glfw3.h>
 #include <iomanip>
 
+VkDevice GlobDevice;
+VmaAllocator Allocator;
+VkDebugUtilsMessengerEXT DebugMessenger;
+
 void ThrowError(const char* Error)
 {
     throw std::runtime_error(Error);
@@ -58,25 +62,32 @@ bool EkVulkan::CheckInstanceExtensionSupport(const char* ExtensionName, const ch
     return false;
 }
 
-// Device Extensions are deprecated
-bool EkVulkan::CheckDeviceExtensionSupport(const char* ExtensionName, const char* ExtensionLayer)
+bool EkVulkan::CheckDeviceExtensionSupport(const char* ExtensionName)
 {
-    uint32_t ExtensionCount = 0;
-    vkEnumerateDeviceExtensionProperties(PhysDev, ExtensionLayer, &ExtensionCount, NULL);
+    uint32_t ExtCount = 0;
 
-    auto* AvailableDeviceExtensions = new std::vector<VkExtensionProperties>(ExtensionCount);
-    vkEnumerateDeviceExtensionProperties(PhysDev, ExtensionLayer, &ExtensionCount, AvailableDeviceExtensions->data());
-
-    for(int i = 0; i < AvailableDeviceExtensions->size(); i++)
+    if(vkEnumerateDeviceExtensionProperties(PhysDev, nullptr, &ExtCount, nullptr) != VK_SUCCESS)
     {
-        if(ExtensionName == AvailableDeviceExtensions->at(i).extensionName)
+        Warn("can't enumerate Device extensions");
+        return false;
+    }
+
+    std::vector<VkExtensionProperties> DeviceExtensions(ExtCount);
+    
+    if(vkEnumerateDeviceExtensionProperties(PhysDev, nullptr, &ExtCount, nullptr) != VK_SUCCESS)
+    {
+        Warn("Can't enumerate device extensions");
+        return false;
+    }
+
+    for(uint32_t i = 0; i < ExtCount; i++)
+    {
+        if(strcmp(DeviceExtensions[i].extensionName, ExtensionName))
         {
             return true;
         }
     }
-    
-    std::cout << ExtensionName << " is not available" << std::endl;
-    delete AvailableDeviceExtensions;
+
     return false;
 }
 
@@ -99,17 +110,7 @@ bool EkVulkan::CheckLayerSupport(const char* LayerName)
     return false;
 }
 
-void EkVulkan::RequestLayer(const char* LayerName)
-{
-    if(CheckLayerSupport(LayerName))
-    {
-        Layers.push_back(LayerName);
-        std::cout << "the layer " << LayerName << " is supported and is being loaded" << std::endl;
-        return;
-    }
-    std::cout << "the layer " << LayerName << " is not supported and is will not be loaded" << std::endl;
-    return;
-}
+// Print information
 
 void EkVulkan::PrintAvailableLayers()
 {
@@ -129,12 +130,20 @@ void EkVulkan::PrintAvailableLayers()
 void EkVulkan::PrintAvailableDeviceExtensions()
 {
     uint32_t ExtCount = 0;
-    vkEnumerateDeviceExtensionProperties(PhysDev, nullptr, &ExtCount, nullptr);
+    if(vkEnumerateDeviceExtensionProperties(PhysDev, nullptr, &ExtCount, nullptr) != VK_SUCCESS)
+    {
+        ThrowError("Failed to enumerate device extensions");
+    }
 
-    std::vector<VkExtensionProperties> ExtProps;
-    vkEnumerateDeviceExtensionProperties(PhysDev, nullptr, &ExtCount, ExtProps.data());
+    std::vector<VkExtensionProperties> ExtProps(ExtCount);
+    if(vkEnumerateDeviceExtensionProperties(PhysDev, nullptr, &ExtCount, ExtProps.data()))
+    {
+        ThrowError("Failed to enumerate device extensions");
+    }
 
     std::cout << "\n ***** Available Extensions include: ******\n";
+
+    std::cout << "\n" << ExtCount;
 
     for(const auto& ExtProp : ExtProps)
     {
@@ -164,6 +173,20 @@ void EkVulkan::PrintAvailableExtensions()
     std::cout << "\n ******************************************\n";
 }
 
+// Request handlers
+
+void EkVulkan::RequestLayer(const char* LayerName)
+{
+    if(CheckLayerSupport(LayerName))
+    {
+        Layers.push_back(LayerName);
+        std::cout << "the layer " << LayerName << " is supported and is being loaded" << std::endl;
+        return;
+    }
+    std::cout << "the layer " << LayerName << " is not supported and is will not be loaded" << std::endl;
+    return;
+}
+
 void EkVulkan::RequestInstanceExtension(const char* ExtensionName)
 {
     if(CheckInstanceExtensionSupport(ExtensionName))
@@ -174,6 +197,18 @@ void EkVulkan::RequestInstanceExtension(const char* ExtensionName)
     }
     std::cout << "Extension " << ExtensionName << " isn't supported and will not be loaded\n";
 }
+
+void EkVulkan::RequestDeviceExtension(const char* ExtensionName)
+{
+    if(CheckDeviceExtensionSupport(ExtensionName))
+    {
+        DeviceExtensions.push_back(ExtensionName);
+        std::cout << "Device extension " << ExtensionName << " is available";
+    }
+    std::cout << "Device extension " << ExtensionName << " is not available";
+}
+
+// Device Helpers
 
 void EkVulkan::ListQueueFamilies()
 {
@@ -283,13 +318,6 @@ void EkVulkan::FindQueueFamilies()
     }
 }
 
-VkExtent2D EkVulkan::GetWindowExtent()
-{
-    int Height, Width;
-    glfwGetFramebufferSize(Window.Window, &Width, &Height);
-    VkExtent2D ReturnExtent = { static_cast<uint32_t>(Height), static_cast<uint32_t>(Width) };
-    return ReturnExtent;
-}
 
 
 
@@ -311,9 +339,9 @@ bool EkVulkan::CheckDevice(VkPhysicalDevice* PhysicalDevice)
 void EkVulkan::InitVMA()
 {
     VmaAllocatorCreateInfo AllocatorInfo = {};
-    AllocatorInfo.physicalDevice = PhysDev;
-    AllocatorInfo.device = Device;
     AllocatorInfo.instance = Instance;
+    AllocatorInfo.physicalDevice = PhysDev;
+    AllocatorInfo.device = GlobDevice;
     vmaCreateAllocator(&AllocatorInfo, &Allocator);
 }
 
@@ -336,8 +364,6 @@ void EkVulkan::CreateInstance()
     InstCI.enabledExtensionCount = Extensions.size();
     InstCI.ppEnabledExtensionNames = Extensions.data();
 
-
-
     VkResult Error = vkCreateInstance(&InstCI, nullptr, &Instance);
     if(Error != VK_SUCCESS)
     {
@@ -347,6 +373,21 @@ void EkVulkan::CreateInstance()
 
     VkInstance& LambdaInstance = Instance;
     DeletionQueue( [&LambdaInstance](){ vkDestroyInstance(LambdaInstance, nullptr); } );
+
+    // VkDebugUtilsMessengerCreateInfoEXT DebugCI{};
+    // DebugCI.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
+    // DebugCI.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+    // DebugCI.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT;
+    // DebugCI.pfnUserCallback = DebugCallback;
+
+    // auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(Instance,"vkCreateDebugUtilsMessengerEXT");
+
+    // if(func == nullptr)
+    // {
+    //     ThrowError("Failed to create debug utilities");
+    // }
+
+    // func(Instance, &DebugCI, nullptr, &DebugMessenger);
 
     #ifdef GLFWAPP
         Window.CreateSurface(&Instance);
@@ -450,14 +491,13 @@ void EkVulkan::PickPhysDev()
         if(CheckDevice(&Devices[i])) 
         {
             PhysDev = Devices[i];
-
-            #ifdef GLFWAPP
-                Window.PhysDevPtr = &Devices[i];
-            #endif
-            
             break;
         }
     }
+
+    #ifdef GLFWAPP
+        Window.PhysDevPtr = &PhysDev;
+    #endif
 }
 
 void EkVulkan::CreateDevice(std::vector<std::string>* DesiredQueues)
@@ -602,11 +642,16 @@ void EkVulkan::CreateDevice(std::vector<std::string>* DesiredQueues)
 
     VkDeviceCreateInfo DevInfo{};
     DevInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+    
     DevInfo.queueCreateInfoCount = QueueInfos.size();
     DevInfo.pQueueCreateInfos = QueueInfos.data();
+
     DevInfo.pEnabledFeatures = &DeviceFeatures;
 
-    if(vkCreateDevice(PhysDev, &DevInfo, nullptr, &Device) != VK_SUCCESS)
+    DevInfo.enabledExtensionCount = DeviceExtensions.size();
+    DevInfo.ppEnabledExtensionNames = DeviceExtensions.data();
+
+    if(vkCreateDevice(PhysDev, &DevInfo, nullptr, &GlobDevice) != VK_SUCCESS)
     {
         ThrowError("Failed to create Device");
     }
@@ -625,47 +670,47 @@ void EkVulkan::CreateDevice(std::vector<std::string>* DesiredQueues)
 
     for(int i = 0; i < GraphicsCount; i++)
     {
-        vkGetDeviceQueue(Device, FamilyIndices.GraphicsFamily, i, &(GraphicsQueues[i].VulkanQueue));
+        vkGetDeviceQueue(GlobDevice, FamilyIndices.GraphicsFamily, i, &(GraphicsQueues[i].VulkanQueue));
     }
 
     for(int i = 0; i < ComputeCount; i++)
     {
-        vkGetDeviceQueue(Device, FamilyIndices.ComputeFamily, i, &ComputeQueues[i].VulkanQueue);
+        vkGetDeviceQueue(GlobDevice, FamilyIndices.ComputeFamily, i, &ComputeQueues[i].VulkanQueue);
     }
 
     for(int i = 0; i < TransferCount; i++)
     {
-        vkGetDeviceQueue(Device, FamilyIndices.TransferFamily, i, &TransferQueues[i].VulkanQueue);
+        vkGetDeviceQueue(GlobDevice, FamilyIndices.TransferFamily, i, &TransferQueues[i].VulkanQueue);
     }
     
     for(int i = 0; i < SparseBindCount; i++)
     {
-        vkGetDeviceQueue(Device, FamilyIndices.SparseBindingFamily, i, &SparseBindingQueues[i].VulkanQueue);
+        vkGetDeviceQueue(GlobDevice, FamilyIndices.SparseBindingFamily, i, &SparseBindingQueues[i].VulkanQueue);
     }
 
     for(int i = 0; i < ProtectedCount; i++)
     {
-        vkGetDeviceQueue(Device, FamilyIndices.ProtectedFamily, i, &ProtectedQueues[i].VulkanQueue);
+        vkGetDeviceQueue(GlobDevice, FamilyIndices.ProtectedFamily, i, &ProtectedQueues[i].VulkanQueue);
     }
 
     for(int i = 0; i < OpticFlowCount; i++)
     {
-        vkGetDeviceQueue(Device, FamilyIndices.OpticFlowFamily, i, &ProtectedQueues[i].VulkanQueue);
+        vkGetDeviceQueue(GlobDevice, FamilyIndices.OpticFlowFamily, i, &ProtectedQueues[i].VulkanQueue);
     }
     
     #ifdef VK_ENABLE_BETA_EXTENSIONS
         for(int i = 0; i < DecodeCount; i++)
         {
-            vkGetDeviceQueue(Device, FamilyIndices.DecodeFamily, i, &DecodeQueues[i].VulkanQueue);
+            vkGetDeviceQueue(GlobDevice, FamilyIndices.DecodeFamily, i, &DecodeQueues[i].VulkanQueue);
         }
 
         for(int i = 0; i < EncodeCount; i++)
         {
-            vkGetDeviceQueue(Device, FamilyIndices.EncodeCount, i, &EncodeQueues[i].VulkanQueue);
+            vkGetDeviceQueue(GlobDevice, FamilyIndices.EncodeCount, i, &EncodeQueues[i].VulkanQueue);
         }
     #endif
 
-    DeletionQueue([this](){ vkDestroyDevice(Device, nullptr); });
+    DeletionQueue([this](){ vkDestroyDevice(GlobDevice, nullptr); });
 }
 
 // Queue Type is a string indicating what type of queue you are using, Options are graphics, compute, transfer, "sparse bind", protected, "optic flow", decode, and encode
@@ -673,50 +718,50 @@ EkCmdPool* EkVulkan::CreateCommandPool(std::string QueueType)
 {
     if(QueueType == "graphics")
     {
-        EkCmdPool* Pool = new EkCmdPool(&Device, FamilyIndices.GraphicsFamily, &DeletionQueue);
+        EkCmdPool* Pool = new EkCmdPool(FamilyIndices.GraphicsFamily, &DeletionQueue);
         DeletionQueue([Pool](){ delete Pool; });
         return Pool;
     }
     else if(QueueType == "compute")
     {
-        EkCmdPool* Pool = new EkCmdPool(&Device, FamilyIndices.ComputeFamily, &DeletionQueue);
+        EkCmdPool* Pool = new EkCmdPool(FamilyIndices.ComputeFamily, &DeletionQueue);
         DeletionQueue([Pool](){ delete Pool; });
         return Pool;
     }
     else if(QueueType == "transfer")
     {
-        EkCmdPool* Pool = new EkCmdPool(&Device, FamilyIndices.TransferFamily, &DeletionQueue);
+        EkCmdPool* Pool = new EkCmdPool(FamilyIndices.TransferFamily, &DeletionQueue);
         DeletionQueue([Pool](){ delete Pool; });
         return Pool;
     }
     else if(QueueType == "sparse bind")
     {
-        EkCmdPool* Pool = new EkCmdPool(&Device, FamilyIndices.SparseBindingFamily, &DeletionQueue);
+        EkCmdPool* Pool = new EkCmdPool(FamilyIndices.SparseBindingFamily, &DeletionQueue);
         DeletionQueue([Pool](){ delete Pool; });
         return Pool;
     }
     else if(QueueType == "protected")
     {
-        EkCmdPool* Pool = new EkCmdPool(&Device, FamilyIndices.ProtectedFamily, &DeletionQueue);
+        EkCmdPool* Pool = new EkCmdPool(FamilyIndices.ProtectedFamily, &DeletionQueue);
         DeletionQueue([Pool](){ delete Pool; });
         return Pool;
     }
     else if(QueueType == "optic flow")
     {
-        EkCmdPool* Pool = new EkCmdPool(&Device, FamilyIndices.OpticFlowFamily, &DeletionQueue);
+        EkCmdPool* Pool = new EkCmdPool(FamilyIndices.OpticFlowFamily, &DeletionQueue);
         DeletionQueue([Pool](){ delete Pool; });
         return Pool;
     }
     #ifdef VK_ENABLE_BETA_EXTENSIONS
         else(QueueType == "decode")
         {
-            EkCmdPool* Pool = new EkCmdPool(&Device, FamilyIndices.DecodeFamily, &DeletionQueue);
+            EkCmdPool* Pool = new EkCmdPool(FamilyIndices.DecodeFamily, &DeletionQueue);
             DeletionQueue([Pool](){ delete Pool; });
             return Pool;
         }
         else(QueueType == "encode")
         {
-            EkCmdPool* Pool = new EkCmdPool(&Device, FamilyIndices.EncodeFamily, &DeletionQueue);
+            EkCmdPool* Pool = new EkCmdPool(FamilyIndices.EncodeFamily, &DeletionQueue);
             DeletionQueue([Pool](){ delete Pool; });
             return &Pool;
         }
@@ -727,7 +772,6 @@ EkCmdPool* EkVulkan::CreateCommandPool(std::string QueueType)
 #ifdef GLFWAPP
 EkWindow* EkVulkan::CreateWindow(int Width, int Height, const char* AppName)
 {
-    Window.PhysDevPtr = &PhysDev;
     Window.CreateWindow(Width, Height, "Vulkan wrapper tester");
     return &Window;
 }
@@ -736,12 +780,5 @@ EkWindow* EkVulkan::CreateWindow(int Width, int Height, const char* AppName)
 void EkVulkan::CreateSwapChain(VkPresentModeKHR TargetPresent, uint BufferCount)
 {
     Window.BufferCount = BufferCount;
-    Window.CreateSwapchain(&Device, FamilyIndices.GraphicsFamily, TargetPresent);
+    Window.CreateSwapchain(FamilyIndices.GraphicsFamily, TargetPresent);
 }
-
-#ifdef GLFWAPP
-void EkVulkan::CreateFrameBuffers()
-{
-}
-#endif
-

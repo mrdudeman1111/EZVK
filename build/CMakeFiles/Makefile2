@@ -100,12 +100,12 @@ Codec/clean: Codec/CMakeFiles/VulkanEncoder.dir/clean
 CMakeFiles/VkWrapper.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/VkWrapper.dir/build.make CMakeFiles/VkWrapper.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=3,4,5,6,7,8 "Built target VkWrapper"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10 "Built target VkWrapper"
 .PHONY : CMakeFiles/VkWrapper.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/VkWrapper.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethan/Repos/VulkanWrapper/build/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethan/Repos/VulkanWrapper/build/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/VkWrapper.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethan/Repos/VulkanWrapper/build/CMakeFiles 0
 .PHONY : CMakeFiles/VkWrapper.dir/rule
@@ -131,7 +131,7 @@ CMakeFiles/VkTester.dir/all: CMakeFiles/VkWrapper.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/VkTester.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethan/Repos/VulkanWrapper/build/CMakeFiles 8
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethan/Repos/VulkanWrapper/build/CMakeFiles 10
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/VkTester.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethan/Repos/VulkanWrapper/build/CMakeFiles 0
 .PHONY : CMakeFiles/VkTester.dir/rule
@@ -152,7 +152,7 @@ CMakeFiles/VkTester.dir/clean:
 Codec/CMakeFiles/VulkanEncoder.dir/all:
 	$(MAKE) $(MAKESILENT) -f Codec/CMakeFiles/VulkanEncoder.dir/build.make Codec/CMakeFiles/VulkanEncoder.dir/depend
 	$(MAKE) $(MAKESILENT) -f Codec/CMakeFiles/VulkanEncoder.dir/build.make Codec/CMakeFiles/VulkanEncoder.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=9,10 "Built target VulkanEncoder"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=11,12 "Built target VulkanEncoder"
 .PHONY : Codec/CMakeFiles/VulkanEncoder.dir/all
 
 # Build rule for subdir invocation for target.

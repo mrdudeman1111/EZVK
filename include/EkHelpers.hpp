@@ -4,6 +4,15 @@
 #include <EkPipeline.hpp>
 #include <EkWindow.hpp>
 
+static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData) 
+{
+    if(messageSeverity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
+    {
+        std::cout << "validation layer: " << pCallbackData->pMessage << std::endl;
+    }
+    return VK_FALSE;
+}
+
 namespace Mesh
 {
     // glm::mat4 ConvertMat4(aiMatrix4x4 AssimpMatrix);
@@ -38,9 +47,8 @@ class EkVulkan
     // Basic Structures
         VkPhysicalDevice PhysDev;
         VkInstance Instance;
-        
-        // Device
-            VkDevice Device;
+
+        // Device Structures
             std::vector<EkQueue> GraphicsQueues;
             std::vector<EkQueue> ComputeQueues;
             std::vector<EkQueue> TransferQueues;
@@ -54,12 +62,11 @@ class EkVulkan
 
         QueueFamilyIndices FamilyIndices;
 
-        VmaAllocator Allocator;
-
     // My Custom Structures
     #ifdef GLFWAPP
         EkWindow Window;
     #endif
+
     public:
         DeleteQueue DeletionQueue;
 
@@ -72,6 +79,7 @@ class EkVulkan
 
         std::vector<const char*> Layers;
         std::vector<const char*> Extensions;
+        std::vector<const char*> DeviceExtensions;
 
     // Layouts
         VkDescriptorSetLayout CameraLayout;
@@ -91,37 +99,30 @@ class EkVulkan
 
         void CreateBuffer(VkDeviceSize Size, VkBufferUsageFlags Usage, VkMemoryPropertyFlags Properties, AllocatedBuffer* AllocatedBuffer, VmaMemoryUsage MemUse);
 
-        VkExtent2D GetWindowExtent();
-
-        // Deprecated
-        bool CheckDeviceExtensionSupport(const char* ExtensionName, const char* ExtensionLayer = NULL);
-
-        bool CheckDevice(VkPhysicalDevice* PhysicalDevice);
-
         // Instance Ext/Layers
             bool CheckInstanceExtensionSupport(const char* ExtensionName, const char* ExtensionLayer = NULL);
+            bool CheckDeviceExtensionSupport(const char* ExtensionName);
             bool CheckLayerSupport(const char* LayerName);
-            void RequestLayer(const char* LayerName);
+
             void PrintAvailableLayers();
             void PrintAvailableDeviceExtensions();
             void PrintAvailableExtensions();
+
             void RequestInstanceExtension(const char* ExtensionName);
+            void RequestDeviceExtension(const char* ExtensionName);
+            void RequestLayer(const char* LayerName);
 
+        // Device CreationHelpers
+            void FindQueueFamilies();
 
-        void FindQueueFamilies();
+            void ListQueueFamilies();
 
-        void ListQueueFamilies();
+            bool CheckDevice(VkPhysicalDevice* PhysicalDevice);
 
     // Initiation
 
-        static void DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData);
-
-        
         void InitVMA();
 
-    #ifdef GLFWAPP
-        EkWindow* CreateWindow(int Width, int Height, const char* AppName);
-    #endif
 
         void CreateInstance();
 
@@ -131,7 +132,7 @@ class EkVulkan
 
         void CreateSwapChain(VkPresentModeKHR TargetPresent, uint BufferCount);
 
-        #ifdef GLFWAPP
-            void CreateFrameBuffers();
-        #endif
+    #ifdef GLFWAPP
+        EkWindow* CreateWindow(int Width, int Height, const char* AppName);
+    #endif
 };

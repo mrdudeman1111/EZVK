@@ -8,86 +8,24 @@
 
 #include <vk_mem_alloc.h>
 
+
 void ThrowError(const char* Error);
 
 void Warn(const char* Error);
 
+extern VkDevice GlobDevice;
+extern VmaAllocator Allocator;
+extern VkDebugUtilsMessengerEXT DebugMessenger;
+
+
 // Explanation: DepthBuffer RenderTargets are depth stencils, only one of them can be attached to a renderpass
 enum RtType
 {
-    RtDepth = 0b0001,
-    RtColor = 0b0010,
-    RtResolve = 0b0100,
-    RtPreserve = 0b1000
-};
-
-struct AllocatedImage
-{
-    public:
-    VkImage Image;
-    VkImageView ImageView;
-
-    VkFormat Format;
-
-    VkImageLayout Layout;
-
-    VmaAllocation Allocation;
-    VmaAllocator* AllocatorPtr;
-
-
-    void AllocateImageView(VkDevice* Device, VkImageViewType ViewType)
-    {
-        VkImageViewCreateInfo CreateInfo{};
-        CreateInfo.sType = VK_STRUCTURE_TYPE_IMAGE_VIEW_CREATE_INFO;
-        CreateInfo.image = Image;
-        CreateInfo.viewType = ViewType;
-        CreateInfo.format = Format;
-        CreateInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY;
-        CreateInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
-        CreateInfo.components.b = VK_COMPONENT_SWIZZLE_IDENTITY;
-        CreateInfo.components.a = VK_COMPONENT_SWIZZLE_IDENTITY;
-        CreateInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-        CreateInfo.subresourceRange.baseMipLevel = 0;
-        CreateInfo.subresourceRange.levelCount = 1;
-        CreateInfo.subresourceRange.baseArrayLayer = 0;
-        CreateInfo.subresourceRange.layerCount = 1;
-
-        if(vkCreateImageView(*Device, &CreateInfo, nullptr, &ImageView) != VK_SUCCESS)
-        {
-            ThrowError("Failed to Create Image View");
-        }
-    }
-
-    bool AllocateImage(VkImageType ImageType, VkExtent3D Extent, VkFormat ImageFormat, VmaMemoryUsage MemUse, uint32_t MipLevels, VkImageCreateFlags ImageUsage, VkImageLayout ImgLayout)
-    {
-        Format = ImageFormat;
-        Layout = ImgLayout;
-
-        VkImageCreateInfo ImageInfo{};
-        ImageInfo.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-        ImageInfo.pNext = nullptr;
-        ImageInfo.imageType = ImageType;
-        ImageInfo.format = ImageFormat;
-        ImageInfo.extent = Extent;
-        ImageInfo.mipLevels = MipLevels;
-        ImageInfo.arrayLayers = 1;
-        ImageInfo.samples = VK_SAMPLE_COUNT_1_BIT;
-        ImageInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
-        ImageInfo.usage = ImageUsage;
-        ImageInfo.initialLayout = ImgLayout;
-
-        VmaAllocationCreateInfo AllocInfo{};
-        AllocInfo.usage = MemUse;
-
-        if(vmaCreateImage(*AllocatorPtr, &ImageInfo, &AllocInfo, &Image, &Allocation, nullptr) != VK_SUCCESS)
-        {
-            Warn("Failed to Create an image");
-            return false;
-        }
-
-        return true;
-    }
-
+    RtDepth = 0b00001,
+    RtColor = 0b00010,
+    RtResolve = 0b00100,
+    RtPreserve = 0b01000,
+    RtInput = 0b10000
 };
 
 struct AttDesc : VkAttachmentDescription
@@ -97,42 +35,69 @@ struct AttDesc : VkAttachmentDescription
     VkImageLayout Layout;
 };
 
-struct RenderTarget : AllocatedImage
+struct AllocatedImage
 {
     public:
+    VkImage Image;
+    VkImageView ImageView;
+    
+    VkFormat Format;
+
+    VkImageLayout Layout = VK_IMAGE_LAYOUT_UNDEFINED;
+
+    VmaAllocation Allocation;
+
 
     AttDesc AttachmentDesc;
-    RtType Type;
+    uint8_t Type;
 
-    AttDesc Build(RtType RenderTargetType, VkExtent3D ImageExtent, VkFormat ImageFormat, VkImageCreateFlags ImageUse, VkImageLayout InitLayout, VkImageLayout FinalLayout, VkAttachmentLoadOp LoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE, VkAttachmentStoreOp StoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE, VkAttachmentLoadOp StencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE, VkAttachmentStoreOp StencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE)
-    {
-        Type = RenderTargetType;
-        Layout = InitLayout;
-        AllocateImage(VK_IMAGE_TYPE_2D, ImageExtent, ImageFormat, VMA_MEMORY_USAGE_GPU_ONLY, 0, ImageUse, InitLayout);
-        AttachmentDesc.format = Format;
-        AttachmentDesc.samples = VK_SAMPLE_COUNT_1_BIT;
-        AttachmentDesc.loadOp = LoadOp;
-        AttachmentDesc.storeOp = StoreOp;
-        AttachmentDesc.stencilLoadOp = StencilLoadOp;
-        AttachmentDesc.stencilStoreOp = StencilStoreOp;
-        AttachmentDesc.initialLayout = InitLayout;
-        AttachmentDesc.finalLayout = FinalLayout;
-
-        AttachmentDesc.Layout = Layout;
-    }
-
-    void BuildFrameBuffer(VkDevice* DevicePtr, VkExtent3D ImageExtent, VkFormat ImageFormat, VkImageViewType ViewType = VK_IMAGE_VIEW_TYPE_2D)
-    {
-        Build(RtType::RtColor, ImageExtent, ImageFormat, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE);
-        Type = RtType::RtColor;
-        AllocateImageView(DevicePtr, ViewType);
-    }
-
-    void BuildDepthBuffer(VkDevice* DevicePtr, VkExtent3D ImageExtent, VkFormat ImageFormat, VkImageViewType ViewType = VK_IMAGE_VIEW_TYPE_2D)
-    {
-        Build(RtType::RtDepth, ImageExtent, ImageFormat, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_ATTACHMENT_LOAD_OP_LOAD, VK_ATTACHMENT_STORE_OP_STORE);
-        Type = RtType::RtDepth;
-        AllocateImageView(DevicePtr, ViewType);
-    }
-    
+    // This function will fill the AttachmentDesc member with information provided by the call, Sample count is always 1
 };
+
+struct RenderTarget
+{
+    public:
+    AllocatedImage Image;
+};
+
+// This is a wrapper structure for vkimages that are inteded to be used as RenderTargets/FrameBuffers. It is assumed that this is made with a VkImage
+struct FrameBuffer
+{
+
+    public:
+    // This is just another image in gpu only memory ( unless otherwise specified in AllocateImage() ) that holds depth information. It's a depth stencil, meaning it's used for facial occlusion in renderpasses
+    AllocatedImage ImageBuffer;
+    AllocatedImage DepthBuffer;
+    VkFramebuffer FB;
+
+    AttDesc GetColorAttachments();
+
+    AttDesc GetDepthAttachments();
+    
+    FrameBuffer(AllocatedImage PassedColorBuffer, AllocatedImage PassedDepthBuffer)
+    {
+        ImageBuffer = PassedColorBuffer;
+        DepthBuffer = PassedDepthBuffer;
+    }
+
+    FrameBuffer()
+    {
+
+    }
+
+};
+
+namespace Image
+{
+    void AllocateImageView(VkImageViewType ViewType, VkImageAspectFlagBits Aspects, AllocatedImage* PassedImage);
+
+    bool AllocateImage(VkImageType ImageType, VkExtent3D Extent, VkFormat ImageFormat, VkImageLayout Layout, VmaMemoryUsage MemUse, uint32_t MipLevels, VkImageUsageFlags ImageUsage, AllocatedImage* PassedImage);
+
+    void BuildRenderTarget(VkImageLayout InitLayout, VkImageLayout FinalLayout, AllocatedImage* Image, VkAttachmentLoadOp LoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE, VkAttachmentStoreOp StoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE, VkAttachmentLoadOp StencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE, VkAttachmentStoreOp StencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE);
+
+    // This function will Allocate a color and depth buffer in gpu memory, Then it will build render targets(Create an attachment description for use with a subpass). after that it creates an image view for both buffers
+    void BuildFrameBufferImages(VkExtent3D ImageExtent, VkFormat ImageFormat, FrameBuffer* Framebuffer, VkImageViewType ViewType = VK_IMAGE_VIEW_TYPE_3D);
+
+    // This will fill a VkFrameBufferCreateInfo struct and then create The FrameBuffer (FB) with it
+    void BuildFrameBuffer(VkRenderPass* RenderPass, VkExtent3D ImageExtent, FrameBuffer* Framebuffer);
+}

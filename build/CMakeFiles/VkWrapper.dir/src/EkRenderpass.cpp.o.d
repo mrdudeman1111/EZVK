@@ -1,7 +1,7 @@
-CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o: \
- /home/ethan/Repos/VulkanWrapper/src/EkHelpers.cpp \
+CMakeFiles/VkWrapper.dir/src/EkRenderpass.cpp.o: \
+ /home/ethan/Repos/VulkanWrapper/src/EkRenderpass.cpp \
  /usr/include/stdc-predef.h \
- /home/ethan/Repos/VulkanWrapper/include/EkHelpers.hpp \
+ /home/ethan/Repos/VulkanWrapper/include/EkRenderpass.hpp \
  /home/ethan/Repos/VulkanWrapper/include/EkTypes.hpp \
  /usr/include/vulkan/vulkan.h /usr/include/vulkan/vk_platform.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.0/include/stddef.h \
@@ -377,24 +377,6 @@ CMakeFiles/VkWrapper.dir/src/EkHelpers.cpp.o: \
  /usr/include/c++/12.2.0/bits/stl_algo.h \
  /usr/include/c++/12.2.0/bits/algorithmfwd.h \
  /usr/include/c++/12.2.0/bits/uniform_int_dist.h \
- /home/ethan/Repos/VulkanWrapper/include/EkPipeline.hpp \
- /home/ethan/Repos/VulkanWrapper/include/EkRenderpass.hpp \
  /usr/include/c++/12.2.0/set /usr/include/c++/12.2.0/bits/stl_tree.h \
  /usr/include/c++/12.2.0/bits/stl_set.h \
- /usr/include/c++/12.2.0/bits/stl_multiset.h \
- /home/ethan/Repos/VulkanWrapper/include/EkWindow.hpp \
- /usr/include/GLFW/glfw3.h /usr/include/GL/gl.h /usr/include/GL/glext.h \
- /usr/include/KHR/khrplatform.h \
- /home/ethan/Repos/VulkanWrapper/include/VkBootstrap.h \
- /usr/include/c++/12.2.0/cstring /usr/include/string.h \
- /usr/include/strings.h \
- /home/ethan/Repos/VulkanWrapper/include/VkBootstrapDispatch.h \
- /usr/include/c++/12.2.0/iomanip /usr/include/c++/12.2.0/locale \
- /usr/include/c++/12.2.0/bits/locale_facets_nonio.h \
- /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/time_members.h \
- /usr/include/c++/12.2.0/x86_64-pc-linux-gnu/bits/messages_members.h \
- /usr/include/libintl.h \
- /usr/include/c++/12.2.0/bits/locale_facets_nonio.tcc \
- /usr/include/c++/12.2.0/bits/locale_conv.h \
- /usr/include/c++/12.2.0/bits/quoted_string.h \
- /usr/include/c++/12.2.0/sstream /usr/include/c++/12.2.0/bits/sstream.tcc
+ /usr/include/c++/12.2.0/bits/stl_multiset.h

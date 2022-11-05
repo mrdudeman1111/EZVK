@@ -1,5 +1,7 @@
 #include <EkPipeline.hpp>
 
+extern VkDevice GlobDevice;
+
 void Warn(const char* Error)
 {
     std::cerr << Error << std::endl;
@@ -200,7 +202,7 @@ void EkPipeline::CreateGraphicsPipeline()
         PipelineCreateInfo.pMultisampleState = &MultiSampling;
         PipelineCreateInfo.pColorBlendState = &ColorBlendingState;
         PipelineCreateInfo.layout = PipelineLayout;
-        PipelineCreateInfo.renderPass = RenderPass.RenderPass;
+        PipelineCreateInfo.renderPass = RenderPass->RenderPass;
         PipelineCreateInfo.subpass = 0;
         PipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
         PipelineCreateInfo.pDepthStencilState = &DepthStencil;
@@ -218,94 +220,6 @@ void EkPipeline::CreateGraphicsPipeline()
 
         vkDestroyShaderModule(*DevicePtr, FragShaderModule, nullptr);
         vkDestroyShaderModule(*DevicePtr, VertShaderModule, nullptr);
-}
-
-void EkSubPass::Build(VkPipelineBindPoint BindPoint, std::vector<AttDesc>* Inputs, uint32_t InputSize)
-{
-    // Load Attachments
-        std::vector<VkAttachmentReference> Colors, Resolves;
-        std::uint32_t ColorI = 0;
-        std::uint32_t ResolveI = 0;
-        std::vector<uint32_t> Preserves;
-
-        for(uint32_t i = 0; i < Attachments.size(); i++)
-    {
-        switch(Attachments[i].Type)
-        {
-            case RtColor:
-                VkAttachmentReference ColorRef;
-                ColorRef.attachment = ColorI;
-                ColorI++;
-                ColorRef.layout = Attachments[i].Layout;
-                Colors.push_back(ColorRef);
-            case RtDepth:
-                Warn("Can not pass depth stencil in a subpass' attachments, it must be assigned to the DepthStencil member");
-            case RtResolve:
-                VkAttachmentReference ResolveRef;
-                ResolveRef.attachment = ResolveI;
-                ResolveI++;
-                ResolveRef.layout = Attachments[i].Layout;
-                Resolves.push_back(ResolveRef);
-            case RtPreserve:
-                Preserves.push_back(i);
-            default:
-                Warn("Uknown attachment is connected to a subpass");
-                break;
-        }
-    }
-
-    // Load Input Attachments
-        std::vector<VkAttachmentReference> InputRefs(Inputs->size());
-        for(uint32_t i = 0; i < Inputs->size(); i++)
-        {
-            InputRefs[i].layout = Inputs->at(i).Layout;
-            InputRefs[i].attachment = i;
-        }
-
-    // Load depth stencil
-        VkAttachmentReference DepthRef;
-        DepthRef.attachment = 0;
-        DepthRef.layout = DepthStencil.Layout;
-
-    pipelineBindPoint = BindPoint;
-    inputAttachmentCount = InputSize;
-    pInputAttachments = InputRefs.data();
-    colorAttachmentCount = Colors.size();
-    pColorAttachments = Colors.data();
-    pDepthStencilAttachment = &DepthRef;
-    preserveAttachmentCount = Preserves.size();
-    pPreserveAttachments = Preserves.data();
-    pResolveAttachments = Resolves.data();
-}
-
-void EkRenderPass::CreateRenderPass()
-{
-    std::vector<VkAttachmentDescription> AttachmentDescs(RenderTargets.size());
-    for(uint i = 0; i < RenderTargets.size(); i++)
-    {
-        AttachmentDescs.push_back(RenderTargets[i].AttachmentDesc);
-    }
-    
-    for(uint i = 0; i < Subpasses.size(); i++)
-    {
-        for(uint x = 0; x < Subpasses.size(); x++)
-        {
-            AttachmentDescs.push_back(Subpasses[i].Attachments[x]);
-        }
-    }
-
-    VkRenderPassCreateInfo RPInfo{};
-    RPInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-    RPInfo.pNext = nullptr;
-    RPInfo.attachmentCount = AttachmentDescs.size();
-    RPInfo.pAttachments = AttachmentDescs.data();
-    RPInfo.subpassCount = Subpasses.size();
-    RPInfo.pSubpasses = Subpasses.data();
-
-    if(vkCreateRenderPass(*DevicePtr, &RPInfo, nullptr, &RenderPass) != VK_SUCCESS)
-    {
-        ThrowError("Failed to create render pass");
-    }
 }
 
 VkWriteDescriptorSet EkPipeline::WriteToDescriptor(VkDescriptorType type, VkDescriptorSet dstSet, VkDescriptorBufferInfo* bufferInfo , uint32_t binding)

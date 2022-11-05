@@ -1,25 +1,28 @@
-#ifdef GLFWAPP
+// #ifdef GLFWAPP
 
 #pragma once
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
+#include <EkImages.hpp>
+#include <EkTypes.hpp>
+#include <EkPipeline.hpp>
 
 struct EkWindow
 {
-    public:
-    GLFWwindow* Window = NULL;
-    VkPhysicalDevice* PhysDevPtr;
-    const char** GlfwExts;
-    uint32_t glfwExtCount = 0;
-    VkSurfaceKHR Surface;
-    VkExtent2D ImageExtents;
-    DeleteQueue CleanupQueue;
-    uint32_t BufferCount = 2;
+public:
     VkSwapchainKHR Swapchain;
+    GLFWwindow *Window = NULL;
+    VkPhysicalDevice *PhysDevPtr;
+    VkSurfaceKHR Surface;
+    VkFormat ImageFormat;
     
-    std::vector<AllocatedImage> ImageBuffers;
-    std::vector<VkFramebuffer> FrameBuffers;
+    const char **GlfwExts;
+    uint32_t glfwExtCount = 0;
+    VkExtent3D ImageExtents;
+    DeleteQueue CleanupQueue;
+    uint32_t BufferCount = 2;  // This is filled with user given data at swapchain creation
+    std::vector<FrameBuffer> FrameBuffers;
 
     ~EkWindow()
     {
@@ -29,19 +32,17 @@ struct EkWindow
     VkSurfaceFormatKHR QueryFormats(VkFormat FormatTarget)
     {
         uint32_t FormatCount = 0;
-        vkGetPhysicalDeviceSurfaceFormatsKHR(*PhysDevPtr, Surface, &FormatCount, nullptr);
+        vkGetPhysicalDeviceSurfaceFormatsKHR(*PhysDevPtr, Surface, &FormatCount, NULL);
 
         std::vector<VkSurfaceFormatKHR> Formats(FormatCount);
         vkGetPhysicalDeviceSurfaceFormatsKHR(*PhysDevPtr, Surface, &FormatCount, Formats.data());
 
-
-        for(const VkSurfaceFormatKHR& Format : Formats)
+        for(const VkSurfaceFormatKHR &Format : Formats)
         {
-            if(Format.format == FormatTarget)
+            if (Format.format == FormatTarget)
             {
                 return Format;
             }
-            std::cout << Format.format << std::endl;
         }
         return Formats[0];
     }
@@ -54,9 +55,9 @@ struct EkWindow
         std::vector<VkPresentModeKHR> PresentModes(SurfaceModeCount);
         vkGetPhysicalDeviceSurfacePresentModesKHR(*PhysDevPtr, Surface, &SurfaceModeCount, PresentModes.data());
 
-        for(const VkPresentModeKHR& Mode : PresentModes)
+        for (const VkPresentModeKHR &Mode : PresentModes)
         {
-            if(Mode == ModeTarget)
+            if (Mode == ModeTarget)
             {
                 return Mode;
             }
@@ -64,11 +65,12 @@ struct EkWindow
         return PresentModes[0];
     }
 
-    EkWindow* CreateWindow(int Width, int Height, std::string AppName)
+    EkWindow *CreateWindow(int Width, int Height, std::string AppName)
     {
+        ImageExtents = VkExtent3D{static_cast<uint32_t>(Width), static_cast<uint32_t>(Height), 1};
         glfwInit();
 
-        if(glfwVulkanSupported() != GLFW_TRUE)
+        if (glfwVulkanSupported() != GLFW_TRUE)
         {
             ThrowError("GLFW: Vulkan Not Supported");
         }
@@ -79,25 +81,28 @@ struct EkWindow
 
         GlfwExts = glfwGetRequiredInstanceExtensions(&glfwExtCount);
 
-        CleanupQueue([this](){ glfwDestroyWindow(Window); glfwTerminate(); std::cout << "Deleted and terminated glfwWindow\n"; });
+        CleanupQueue([this]()
+                     { glfwDestroyWindow(Window); glfwTerminate(); std::cout << "Deleted and terminated glfwWindow\n"; });
         return this;
     }
 
-    void CreateSurface(VkInstance* Instance)
+    void CreateSurface(VkInstance *Instance)
     {
         VkResult Result = glfwCreateWindowSurface(*Instance, Window, nullptr, &Surface);
-        if(Result != VK_SUCCESS)
+        if (Result != VK_SUCCESS)
         {
             std::cout << "Error: " << Result << std::endl;
             ThrowError("GLFW: Can't create window surface");
         }
 
-        CleanupQueue([this, Instance](){ vkDestroySurfaceKHR(*Instance, Surface, nullptr); std::cout << "Deleted surface"; });
+        CleanupQueue([this, Instance]()
+                     { vkDestroySurfaceKHR(*Instance, Surface, nullptr); std::cout << "Deleted surface"; });
     }
 
-    void CreateSwapchain(VkDevice* Device, uint32_t GraphicsFamilyIndex, VkPresentModeKHR PresentationMode)
+    void CreateSwapchain(uint32_t GraphicsFamilyIndex, VkPresentModeKHR PresentationMode)
     {
         VkSurfaceFormatKHR SurfaceFormat = QueryFormats(VK_FORMAT_R32G32B32_SFLOAT);
+        ImageFormat = SurfaceFormat.format;
 
         VkSurfaceCapabilitiesKHR SurfaceCapabilites;
         vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*PhysDevPtr, Surface, &SurfaceCapabilites);
@@ -105,69 +110,73 @@ struct EkWindow
         VkSwapchainCreateInfoKHR SwapchainInfo{};
         SwapchainInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
         SwapchainInfo.surface = Surface;
+        SwapchainInfo.clipped = VK_TRUE;
+        SwapchainInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+        SwapchainInfo.preTransform = SurfaceCapabilites.currentTransform;
         SwapchainInfo.presentMode = PresentationMode;
-        SwapchainInfo.queueFamilyIndexCount = 1;
-        SwapchainInfo.pQueueFamilyIndices = &GraphicsFamilyIndex;
-        SwapchainInfo.minImageCount = BufferCount;
 
+        SwapchainInfo.minImageCount = SurfaceCapabilites.minImageCount;
         SwapchainInfo.imageFormat = SurfaceFormat.format;
         SwapchainInfo.imageColorSpace = SurfaceFormat.colorSpace;
-        SwapchainInfo.imageExtent = ImageExtents;
-        SwapchainInfo.preTransform = SurfaceCapabilites.currentTransform;
-        SwapchainInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
-        SwapchainInfo.clipped = VK_TRUE;
+        SwapchainInfo.imageExtent = VkExtent2D{ ImageExtents.width, ImageExtents.height };
+        SwapchainInfo.imageArrayLayers = 1;
+        SwapchainInfo.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+        SwapchainInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-        if(vkCreateSwapchainKHR(*Device, &SwapchainInfo, nullptr, &Swapchain) != VK_SUCCESS)
+        if(vkCreateSwapchainKHR(GlobDevice, &SwapchainInfo, nullptr, &Swapchain) != VK_SUCCESS)
         {
             ThrowError("failed to create a swapchain.");
         }
 
-        vkGetSwapchainImagesKHR(*Device, Swapchain, &BufferCount, nullptr);
-        SwapchainImages.resize(BufferCount);
-        vkGetSwapchainImagesKHR(*Device, Swapchain, &BufferCount, SwapchainImages.data());
-
-        CleanupQueue([Device, this](){ vkDeviceWaitIdle(*Device); vkDestroySwapchainKHR(*Device, Swapchain, nullptr); std::cout << "Deleted Swapchain\n"; });
-
-        ImageFormat = SurfaceFormat.format;
-    }
-
-    void CreateFrameBuffers(VkDevice* DevicePtr, VkRenderPass* RenderPass)
-    {
-        ImageBuffers.resize(BufferCount);
-        FrameBuffers.resize(BufferCount);
-
-        std::vector<VkImageView> Attachments;
+        std::vector<VkImage> SwapImagesRaw(BufferCount);
+        vkGetSwapchainImagesKHR(GlobDevice, Swapchain, &BufferCount, SwapImagesRaw.data());
+        FrameBuffers.resize(SwapImagesRaw.size());
         
-        for(const auto Attachment : ImageBuffers)
+        std::cout << "Successfully made " << SwapImagesRaw.size() << " Framebuffers\n";
+
+        for(uint32_t i = 0; i < SwapImagesRaw.size(); i++)
         {
-            Attachments.push_back(Attachment.ImageView);
+            // Create ImageBuffer
+                AllocatedImage ImageBuffer{};
+                ImageBuffer.Image = SwapImagesRaw[i];
+                ImageBuffer.Format = SurfaceFormat.format;
+
+            // Create DepthBuffer
+                AllocatedImage DepthBuffer{};
+                if(Image::AllocateImage(VK_IMAGE_TYPE_2D, ImageExtents, VK_FORMAT_D32_SFLOAT, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VMA_MEMORY_USAGE_GPU_ONLY, 1, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT, &DepthBuffer) == false)
+                {
+                    ThrowError("Failed to create depth buffer for swapchain");
+                }
+
+            // Create FrameBuffer
+                FrameBuffer FB(ImageBuffer, DepthBuffer);
+                Image::BuildFrameBufferImages(ImageExtents, ImageFormat, &FB, VK_IMAGE_VIEW_TYPE_2D);
+                FrameBuffers.push_back(FB);
+                // Working, Imageview and type still full
         }
 
-        for(uint32_t i = 0; i < BufferCount; i++)
-        {
-            VkFramebufferCreateInfo FrameBufferInfo{};
-            FrameBufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
-            FrameBufferInfo.renderPass = *RenderPass;
-            FrameBufferInfo.attachmentCount = Attachments.size();
-            FrameBufferInfo.pAttachments = Attachments.data();
-            FrameBufferInfo.width = ImageExtents.width;
-            FrameBufferInfo.height = ImageExtents.height;
-            FrameBufferInfo.layers = 1;
+        FrameBuffers.shrink_to_fit();
 
-            if(vkCreateFramebuffer(*DevicePtr, &FrameBufferInfo, nullptr, &FrameBuffers[i]) != VK_SUCCESS)
-            {
-                ThrowError("Failed to create a framebuffer");
-            }
-            VkFramebuffer* FBHandle = &FrameBuffers[i];
-            CleanupQueue([DevicePtr, FBHandle](){ vkDestroyFramebuffer(*DevicePtr, *FBHandle, nullptr); std::cout << "Destroyed a framebuffer\n"; });
-        }
+        CleanupQueue([this]()
+                     { vkDeviceWaitIdle(GlobDevice); vkDestroySwapchainKHR(GlobDevice, Swapchain, nullptr); std::cout << "Deleted Swapchain\n"; });
     }
 
+    VkExtent2D GetWindowExtent()
+    {
+        int Height, Width;
+        glfwGetFramebufferSize(Window, &Width, &Height);
+        VkExtent2D ReturnExtent = { static_cast<uint32_t>(Height), static_cast<uint32_t>(Width) };
+        return ReturnExtent;
+    }
 
-    private:
-    std::vector<VkImage> SwapchainImages;
-    VkFormat ImageFormat;
+    Ek::Subpass GetFrameBufferPass(uint32_t IndexOffset)
+    {
+        Ek::Subpass WindowPass{};
+        WindowPass.Build(&FrameBuffers[0].ImageBuffer, &FrameBuffers[0].DepthBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, IndexOffset);
+        // ImageView and type still valid
+        return WindowPass;
+    }
 
 };
 
-#endif
+// #endif
