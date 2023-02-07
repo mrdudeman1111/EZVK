@@ -1,0 +1,2 @@
+/usr/bin/ar qc libEkWrappers.a CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.o CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o
+/usr/bin/ranlib libEkWrappers.a

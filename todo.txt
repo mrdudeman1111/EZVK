@@ -1,0 +1,34 @@
+todo: Rework from EkWindow on
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Idea: handle the sub/renderpass attachments, we should have a special structure called EkRenderpass and it should have methods for making subpasses and renderpasses.
+ And keep all the attachments neat
+
+Idea: make custom structure to check compatability between pipelines and renderpasses by checking required inputs
+
+Idea: make An attachment class for every single type of image
+
+Idea: create an attachment struct to handle attachment classes ordering
+
+todo: Renderpass inline and individual subpass command buffers should be optional
+
+todo: We made the ImageCount of the swapchain Images is static ATM

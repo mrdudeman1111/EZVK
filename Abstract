@@ -1,0 +1,19 @@
+EkVulkan - 
+    Handles Instance extensions, layers, and Creation.
+    Also Picks PhysDev, and Handles Device Extensions and Layers as well as creation
+    Handles Destruction of components.
+
+    Contains Window.
+    Creates CommandPool Interfaces.
+
+    Manages Queues and Queue Families.
+
+    also handles creation of Window.
+
+EkCmdPool -
+    Wraps commandpool and EkCmdBuffer Creation
+
+EkCmdBuffer -
+    Wraps Vulkan Commands in an easy to use c++ class
+
+EkSubpass

@@ -1,22 +1,25 @@
-cmake_minimum_required(VERSION 3.23.0)
-project("Vulkan Wrapper")
+cmake_minimum_required(VERSION 3.25.0)
+project("EkWrapper")
 
-file(GLOB SRC
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
-    # ${CMAKE_CURRENT_SOURCE_DIR}/src/*.h)
+file(GLOB SOURCE
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Base/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Camera/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Images/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Meshes/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Rendering/*.cpp)
+
+file(GLOB TSTSRC
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
 find_package(Vulkan REQUIRED)
-find_package(glfw3 REQUIRED)
 find_package(glm REQUIRED)
+find_package(glfw3 REQUIRED)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/include /usr/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/ ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_library(VkWrapper ${SRC})
-add_executable(VkTester ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
-add_subdirectory(Codec)
+add_compile_definitions()
 
-add_compile_definitions(GLFWAPP)
+add_library(EkWrappers ${SOURCE})
+add_executable(test ${TSTSRC})
 
-target_link_libraries(VkWrapper Vulkan::Vulkan glfw VulkanMemoryAllocator glm)
-target_link_libraries(VkTester VkWrapper Vulkan::Vulkan glfw VulkanMemoryAllocator glm)
-
+target_link_libraries(test PUBLIC EkWrappers)
