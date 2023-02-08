@@ -3,6 +3,14 @@
 #include <GLFW/glfw3.h>
 #include <iomanip>
 
+VkInstance Instance;
+VkDevice GlobDevice;
+VkPhysicalDevice PhysicalDevice;
+VmaAllocator Allocator;
+VkDebugUtilsMessengerEXT DebugMessenger;
+
+DeleteQueue DeletionQueue;
+
 void ThrowError(const char* Error)
 {
     throw std::runtime_error(Error);
@@ -28,7 +36,7 @@ namespace Mesh
 void EkVulkan::CreateInstance()
 {
     #ifdef GLFWAPP
-        Window = new EkWindow();
+        Window = new Ek::Window();
         for(uint32_t i = 0; i < Window->glfwExtCount; i++)
         {
             RequestInstanceExtension(Window->glfwExts[i]);
@@ -69,12 +77,6 @@ void EkVulkan::CreateInstance()
     // }
 
     // func(Instance, &DebugCI, nullptr, &DebugMessenger);
-
-    #ifdef GLFWAPP
-        Window->CreateSurface();
-        EkWindow* WindowPtr = Window;
-        DeletionQueue([&, WindowPtr](){ vkDestroySurfaceKHR(Instance, WindowPtr->Surface, nullptr); glfwDestroyWindow(WindowPtr->Window); glfwTerminate(); });
-    #endif
 
 
 
@@ -412,9 +414,11 @@ void EkVulkan::PickPhysDev()
         if(CheckDevice(&Devices[i])) 
         {
             PhysicalDevice = Devices[i];
-            break;
+            return;
         }
     }
+
+    throw std::runtime_error("Failed to find supported PhysDev");
 }
 
 void EkVulkan::CreateDevice(std::vector<std::string>* DesiredQueues)
@@ -687,10 +691,10 @@ EkCmdPool* EkVulkan::CreateCommandPool(std::string QueueType)
 }
 
 #ifdef GLFWAPP
-EkWindow* EkVulkan::CreateWindow(int Width, int Height, const char* AppName)
-{
-    Window->CreateWindow(Width, Height, "Vulkan wrapper tester");
-    Window->CreateSurface();
-    return Window;
-}
+    Ek::Window* EkVulkan::CreateWindow(int Width, int Height, const char* AppName)
+    {
+        Window->CreateWindow(Width, Height, "Vulkan wrapper tester");
+        Window->CreateSurface();
+        return Window;
+    }
 #endif

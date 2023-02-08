@@ -12,12 +12,6 @@ static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityF
     return VK_FALSE;
 }
 
-VkInstance Instance;
-VkDevice GlobDevice;
-VkPhysicalDevice PhysicalDevice;
-VmaAllocator Allocator;
-VkDebugUtilsMessengerEXT DebugMessenger;
-
 namespace Mesh
 {
     // glm::mat4 ConvertMat4(aiMatrix4x4 AssimpMatrix);
@@ -73,7 +67,7 @@ class EkVulkan
         void ListQueueFamilies();
 
     #ifdef GLFWAPP
-        struct EkWindow
+        Ek::Window* Window;
     #endif
 
     //Queues
@@ -88,8 +82,6 @@ class EkVulkan
                 std::vector<EkQueue> DecodeQueues;
                 std::vector<EkQueue> EncodeQueues;
             #endif
-    public:
-        DeleteQueue DeletionQueue;
 
     private:
 
@@ -109,7 +101,6 @@ class EkVulkan
 
     EkVulkan()
     {
-
     }
 
     // Create Helpers
@@ -124,6 +115,6 @@ class EkVulkan
         void InitVMA();
 
     #ifdef GLFWAPP
-        EkWindow* CreateWindow(int Width, int Height, const char* AppName);
+        Ek::Window* CreateWindow(int Width, int Height, const char* AppName);
     #endif
 };

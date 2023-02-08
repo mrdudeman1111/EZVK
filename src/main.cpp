@@ -1,5 +1,3 @@
-#define GLFWAPP
-
 #include <Base/EkHelpers.hpp>
 #include <fstream>
 #include <cstring>
@@ -37,10 +35,14 @@ int main()
     VkInterFace.CreateDevice(&Queues);
 
     #ifdef GLFWAPP
-        EkWindow* Window = VkInterFace.CreateWindow(1280, 720, "Ek Sample");
+        Ek::Window* Window = VkInterFace.CreateWindow(1280, 720, "Ek Sample");
 
-        Window->QueryFormats();
+        VkFormat WindowFormat = Window->QueryFormats();
     #endif
+
+    std::cout << "Run success\n";
+
+    return 0;
 }
 
 

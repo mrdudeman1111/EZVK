@@ -16,7 +16,7 @@ namespace Ek
     class Window
     {
         public:
-            GLFWwindow* Window;
+            GLFWwindow* glfwWindow;
             VkSurfaceKHR Surface;
             std::vector<FrameBuffer> FrameBuffers;
             uint32_t glfwExtCount = 0;
@@ -32,7 +32,5 @@ namespace Ek
 
     };
 }
-
-#define EkWindow
 
 #endif
