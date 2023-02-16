@@ -27,22 +27,16 @@
 
 int main()
 {
-    EkVulkan VkInterFace;
-    VkInterFace.RequestLayer("VK_LAYER_KHRONOS_validation");
-    VkInterFace.CreateInstance();
-    VkInterFace.PickPhysDev();
-    std::vector<std::string> Queues = {"Graphics"};
-    VkInterFace.CreateDevice(&Queues);
+    EkVulkan Vk;
+    Vk.RequestInstanceExtension("VK_KHR_external_memory_capabilites");
+    Vk.CreateInstance();
+    Vk.PickPhysDev();
+    Vk.RequestDeviceExtension("VK_KHR_external_memory");
+    Vk.RequestDeviceExtension("VK_KHR_external_memory_fd");
 
-    #ifdef GLFWAPP
-        Ek::Window* Window = VkInterFace.CreateWindow(1280, 720, "Ek Sample");
+    std::vector<const char*> Queues = {"Graphics"};
+    Vk.CreateDevice(&Queues);
 
-        VkFormat WindowFormat = Window->QueryFormats();
-    #endif
-
-    std::cout << "Run success\n";
-
-    return 0;
 }
 
 

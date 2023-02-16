@@ -695,6 +695,7 @@ EkCmdPool* EkVulkan::CreateCommandPool(std::string QueueType)
     {
         Window->CreateWindow(Width, Height, "Vulkan wrapper tester");
         Window->CreateSurface();
+        Window->PresentFamily = FamilyIndices.GraphicsFamily;
         return Window;
     }
 #endif

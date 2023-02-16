@@ -17,18 +17,25 @@ namespace Ek
     {
         public:
             GLFWwindow* glfwWindow;
+            VkSwapchainKHR Swapchain;
             VkSurfaceKHR Surface;
             std::vector<FrameBuffer> FrameBuffers;
             uint32_t glfwExtCount = 0;
             std::vector<const char*> glfwExts;
 
+            VkSurfaceFormatKHR SurfaceFormat;
+            int WindowHeight, WindowWidth;
+            uint32_t PresentFamily;
+
         Window();
 
-        VkFormat QueryFormats();
+        void QueryFormats();
 
         void CreateSurface();
 
         void CreateWindow(int Width, int Height, const char* WindowName);
+
+        void CreateSwapchain(uint32_t DesiredFBCount);
 
     };
 }

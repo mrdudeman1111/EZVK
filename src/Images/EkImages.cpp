@@ -56,18 +56,20 @@ void Warn(const char* Error)
         return true;
     }
 
-    void Image::BuildRenderTarget(VkImageLayout InitLayout, VkImageLayout FinalLayout, AllocatedImage* Image, VkAttachmentLoadOp LoadOp, VkAttachmentStoreOp StoreOp, VkAttachmentLoadOp StencilLoadOp, VkAttachmentStoreOp StencilStoreOp)
+    AttDesc Image::BuildRenderTarget(VkImageLayout InitLayout, VkImageLayout FinalLayout, AllocatedImage* Image, VkAttachmentLoadOp LoadOp, VkAttachmentStoreOp StoreOp, VkAttachmentLoadOp StencilLoadOp, VkAttachmentStoreOp StencilStoreOp)
     {
-        Image->AttachmentDesc.Att.format = Image->Format;
-        Image->AttachmentDesc.Att.samples = VK_SAMPLE_COUNT_1_BIT;
-        Image->AttachmentDesc.Att.loadOp = LoadOp;
-        Image->AttachmentDesc.Att.storeOp = StoreOp;
-        Image->AttachmentDesc.Att.stencilLoadOp = StencilLoadOp;
-        Image->AttachmentDesc.Att.stencilStoreOp = StencilStoreOp;
-        Image->AttachmentDesc.Att.initialLayout = InitLayout;
-        Image->AttachmentDesc.Att.finalLayout = FinalLayout;
+        AttDesc Attachment;
+        Attachment.Att.format = Image->Format;
+        Attachment.Att.samples = VK_SAMPLE_COUNT_1_BIT;
+        Attachment.Att.loadOp = LoadOp;
+        Attachment.Att.storeOp = StoreOp;
+        Attachment.Att.stencilLoadOp = StencilLoadOp;
+        Attachment.Att.stencilStoreOp = StencilStoreOp;
+        Attachment.Att.initialLayout = InitLayout;
+        Attachment.Att.finalLayout = FinalLayout;
 
-        Image->AttachmentDesc.Layout = Image->Layout;
+        Attachment.Layout = Image->Layout;
+        return Attachment;
     }
 
 // Frame Buffer
@@ -77,12 +79,10 @@ void Warn(const char* Error)
         Image::AllocateImageView(VK_IMAGE_VIEW_TYPE_2D, VK_IMAGE_ASPECT_COLOR_BIT, &(Framebuffer->ImageBuffer));
         Image::BuildRenderTarget(VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR, &Framebuffer->ImageBuffer, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE);
         Framebuffer->ImageBuffer.Type = RtType::RtColor;
-        Framebuffer->ImageBuffer.AttachmentDesc.Type = RtType::RtColor;
 
         Image::AllocateImageView(ViewType, VK_IMAGE_ASPECT_DEPTH_BIT, &Framebuffer->DepthBuffer);
         Image::BuildRenderTarget(VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL, &Framebuffer->DepthBuffer, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE);
         Framebuffer->DepthBuffer.Type = RtType::RtDepth;
-        Framebuffer->DepthBuffer.AttachmentDesc.Type = RtType::RtDepth;
     }
 
     void Image::BuildFrameBuffer(VkRenderPass* RenderPass, VkExtent3D ImageExtent, FrameBuffer* Framebuffer)
@@ -99,12 +99,29 @@ void Warn(const char* Error)
         FBInfo.layers = 1;
     }
 
-    AttDesc FrameBuffer::GetColorAttachments()
+    AttDesc Image::BuildAttDesc(AllocatedImage* Image, VkAttachmentLoadOp LoadOp, VkAttachmentStoreOp StoreOp, VkImageLayout* EndLayout, VkAttachmentLoadOp StencilLoad, VkAttachmentStoreOp StencilStore)
     {
-        return ImageBuffer.AttachmentDesc;
-    }
+        AttDesc Attachment;
+        Attachment.Att.samples = VK_SAMPLE_COUNT_1_BIT;
 
-    AttDesc FrameBuffer::GetDepthAttachments()
-    {
-        return DepthBuffer.AttachmentDesc;
+        Attachment.Att.format = Image->Format;
+        Attachment.Att.samples = VK_SAMPLE_COUNT_1_BIT;
+        Attachment.Att.loadOp = LoadOp;
+        Attachment.Att.storeOp = StoreOp;
+        Attachment.Att.stencilLoadOp = StencilLoad;
+        Attachment.Att.stencilStoreOp = StencilStore;
+        Attachment.Att.initialLayout = Image->Layout;
+
+        if(EndLayout != nullptr)
+        {
+            Attachment.Att.finalLayout = *EndLayout;
+        }
+        else
+        {
+            Attachment.Att.finalLayout = Image->Layout;
+        }
+
+        Attachment.Layout = Image->Layout;
+
+        return Attachment;
     }
