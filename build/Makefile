@@ -142,29 +142,53 @@ test/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
 .PHONY : test/fast
 
-src/Base/EkHelpers.o: src/Base/EkHelpers.cpp.o
-.PHONY : src/Base/EkHelpers.o
+src/Base/Device.o: src/Base/Device.cpp.o
+.PHONY : src/Base/Device.o
 
 # target to build an object file
-src/Base/EkHelpers.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.o
-.PHONY : src/Base/EkHelpers.cpp.o
+src/Base/Device.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o
+.PHONY : src/Base/Device.cpp.o
 
-src/Base/EkHelpers.i: src/Base/EkHelpers.cpp.i
-.PHONY : src/Base/EkHelpers.i
+src/Base/Device.i: src/Base/Device.cpp.i
+.PHONY : src/Base/Device.i
 
 # target to preprocess a source file
-src/Base/EkHelpers.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.i
-.PHONY : src/Base/EkHelpers.cpp.i
+src/Base/Device.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.i
+.PHONY : src/Base/Device.cpp.i
 
-src/Base/EkHelpers.s: src/Base/EkHelpers.cpp.s
-.PHONY : src/Base/EkHelpers.s
+src/Base/Device.s: src/Base/Device.cpp.s
+.PHONY : src/Base/Device.s
 
 # target to generate assembly for a file
-src/Base/EkHelpers.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.s
-.PHONY : src/Base/EkHelpers.cpp.s
+src/Base/Device.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.s
+.PHONY : src/Base/Device.cpp.s
+
+src/Base/EkVulkan.o: src/Base/EkVulkan.cpp.o
+.PHONY : src/Base/EkVulkan.o
+
+# target to build an object file
+src/Base/EkVulkan.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o
+.PHONY : src/Base/EkVulkan.cpp.o
+
+src/Base/EkVulkan.i: src/Base/EkVulkan.cpp.i
+.PHONY : src/Base/EkVulkan.i
+
+# target to preprocess a source file
+src/Base/EkVulkan.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.i
+.PHONY : src/Base/EkVulkan.cpp.i
+
+src/Base/EkVulkan.s: src/Base/EkVulkan.cpp.s
+.PHONY : src/Base/EkVulkan.s
+
+# target to generate assembly for a file
+src/Base/EkVulkan.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.s
+.PHONY : src/Base/EkVulkan.cpp.s
 
 src/Base/EkWindow.o: src/Base/EkWindow.cpp.o
 .PHONY : src/Base/EkWindow.o
@@ -189,6 +213,54 @@ src/Base/EkWindow.s: src/Base/EkWindow.cpp.s
 src/Base/EkWindow.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.s
 .PHONY : src/Base/EkWindow.cpp.s
+
+src/Base/Instance.o: src/Base/Instance.cpp.o
+.PHONY : src/Base/Instance.o
+
+# target to build an object file
+src/Base/Instance.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o
+.PHONY : src/Base/Instance.cpp.o
+
+src/Base/Instance.i: src/Base/Instance.cpp.i
+.PHONY : src/Base/Instance.i
+
+# target to preprocess a source file
+src/Base/Instance.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.i
+.PHONY : src/Base/Instance.cpp.i
+
+src/Base/Instance.s: src/Base/Instance.cpp.s
+.PHONY : src/Base/Instance.s
+
+# target to generate assembly for a file
+src/Base/Instance.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.s
+.PHONY : src/Base/Instance.cpp.s
+
+src/Base/PhysicalDevice.o: src/Base/PhysicalDevice.cpp.o
+.PHONY : src/Base/PhysicalDevice.o
+
+# target to build an object file
+src/Base/PhysicalDevice.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o
+.PHONY : src/Base/PhysicalDevice.cpp.o
+
+src/Base/PhysicalDevice.i: src/Base/PhysicalDevice.cpp.i
+.PHONY : src/Base/PhysicalDevice.i
+
+# target to preprocess a source file
+src/Base/PhysicalDevice.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.i
+.PHONY : src/Base/PhysicalDevice.cpp.i
+
+src/Base/PhysicalDevice.s: src/Base/PhysicalDevice.cpp.s
+.PHONY : src/Base/PhysicalDevice.s
+
+# target to generate assembly for a file
+src/Base/PhysicalDevice.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.s
+.PHONY : src/Base/PhysicalDevice.cpp.s
 
 src/Camera/Camera.o: src/Camera/Camera.cpp.o
 .PHONY : src/Camera/Camera.o
@@ -344,12 +416,21 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... EkWrappers"
 	@echo "... test"
-	@echo "... src/Base/EkHelpers.o"
-	@echo "... src/Base/EkHelpers.i"
-	@echo "... src/Base/EkHelpers.s"
+	@echo "... src/Base/Device.o"
+	@echo "... src/Base/Device.i"
+	@echo "... src/Base/Device.s"
+	@echo "... src/Base/EkVulkan.o"
+	@echo "... src/Base/EkVulkan.i"
+	@echo "... src/Base/EkVulkan.s"
 	@echo "... src/Base/EkWindow.o"
 	@echo "... src/Base/EkWindow.i"
 	@echo "... src/Base/EkWindow.s"
+	@echo "... src/Base/Instance.o"
+	@echo "... src/Base/Instance.i"
+	@echo "... src/Base/Instance.s"
+	@echo "... src/Base/PhysicalDevice.o"
+	@echo "... src/Base/PhysicalDevice.i"
+	@echo "... src/Base/PhysicalDevice.s"
 	@echo "... src/Camera/Camera.o"
 	@echo "... src/Camera/Camera.i"
 	@echo "... src/Camera/Camera.s"

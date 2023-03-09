@@ -1,7 +1,6 @@
 #pragma once
 
 #include <Base/EkTypes.hpp>
-#include <Rendering/EkRenderpass.hpp>
 
 namespace Shaders
 {
@@ -19,26 +18,40 @@ namespace Shaders
 
 namespace Ek
 {
+    class PipelineResources
+    {
+        public:
+        VkDescriptorPool DescriptorPool;
+        std::vector<VkDescriptorSet> Descriptors;
+
+        void CreateDescriptorPool(Pipeline* Pipe);
+    }
+
     class Pipeline
     {
         public:
-        std::vector<Shaders::EkShader*> Shaders;
-        DeleteQueue CleanupQueue;
-        VkPipeline Pipeline;
+        Pipeline();
+        ~Pipeline()
+        {
+            CleanupQueue.Run();
+        }
 
-        Ek::Renderpass* Renderpass;
+        std::vector<Shaders::EkShader*> Shaders;
 
         VertexType VT;
 
-        std::vector<VkDescriptorSetLayout> DescriptorLayouts;
-
         // When messing with descriptors you do have to mess with the pipelinelayout in CreateGraphicsPipeline
-        void CreateGraphicsPipeline(float Height, float Width);
+        void CreateGraphicsPipeline(VkDevice* Handle, float Height, float Width, VkRenderPass* Renderpass, uint32_t SubpassToUse);
 
-        VkWriteDescriptorSet WriteToDescriptor(VkDescriptorType type, VkDescriptorSet dstSet, VkDescriptorBufferInfo* bufferInfo , uint32_t binding);
+        std::vector<VkDescriptorSetLayout>* GetDescriptorLayouts();
 
         private:
+        VkRenderPass* Renderpass;
+        VkPipeline VkPipe;
         VkPipelineLayout PipelineLayout;
+        std::vector<VkDescriptorSetLayout> DescriptorLayouts;
+
+        DeleteQueue CleanupQueue;
         VkViewport ViewPort;
     };
 }

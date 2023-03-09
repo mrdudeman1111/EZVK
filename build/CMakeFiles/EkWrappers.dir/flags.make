@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/g++
 CXX_DEFINES = -DGLFWAPP
 
-CXX_INCLUDES = -I/home/ethan/Repos/VulkanWrapper/src -I/home/ethan/Repos/VulkanWrapper/include
+CXX_INCLUDES = -I/home/ethan/Repos/VulkanWrapper/src -I/home/ethan/Repos/VulkanWrapper/include -I/usr/local/include/sail
 
 CXX_FLAGS = -g
 

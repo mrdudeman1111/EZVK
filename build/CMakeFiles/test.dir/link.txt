@@ -1,1 +1,1 @@
-/usr/bin/g++ -g CMakeFiles/test.dir/src/main.cpp.o -o test  libEkWrappers.a -lvulkan /usr/lib/libglfw.so.3.3 
+/usr/bin/g++ -g CMakeFiles/test.dir/src/main.cpp.o -o test  libEkWrappers.a -lvulkan /usr/lib/libglfw.so.3.3 -lsail-c++ 

@@ -1,6 +1,6 @@
-#include <Base/EkHelpers.hpp>
 #include <fstream>
 #include <cstring>
+#include <Base/Device.h>
 
 /*
     Ideas:
@@ -24,19 +24,42 @@
         VkRenderPass
 */
 
+Ek::Instance EkInstance;
+Ek::PhysicalDevice PDev;
+Ek::Device Device;
+Ek::Queues Queues;
 
 int main()
 {
-    EkVulkan Vk;
-    Vk.RequestInstanceExtension("VK_KHR_external_memory_capabilites");
-    Vk.CreateInstance();
-    Vk.PickPhysDev();
-    Vk.RequestDeviceExtension("VK_KHR_external_memory");
-    Vk.RequestDeviceExtension("VK_KHR_external_memory_fd");
+    EkInstance.RequestInstanceExtension("VK_KHR_external_memory_capabilites");
+    EkInstance.CreateInstance();
 
-    std::vector<const char*> Queues = {"Graphics"};
-    Vk.CreateDevice(&Queues);
+    PDev.PickPhysDev(&EkInstance);
+    Device = PDev.GetDevice();
 
+    Device.RequestExtension("VK_KHR_external_memory");
+    Device.RequestExtension("VK_KHR_external_memory_fd");
+
+    QueueList DesiredQueues{};
+    DesiredQueues.emplace(Graphics, 1);
+    Device.Create(&EkInstance, &PDev, DesiredQueues, &Queues);
+
+    Ek::CmdPool* CmdPool = Device.CreateCommandPool(QueueType::Graphics);
+    CmdPool->AllocateCmdBuffer(0, CommandBufferUsage::RenderPass);
+
+    Ek::Window* Window = Device.CreateWindow(&Queues.GraphicsQueues[0]);
+
+    Window->CreateWindow(1280, 720, "Tester");
+    Window->CreateSurface();
+
+
+
+    Ek::Renderpass Renderpass = Device.CreateRenderpass();
+
+    Window->CreateSwapchain(3);
+
+    std::cout << "successful run complete\n";
+    return 0;
 }
 
 

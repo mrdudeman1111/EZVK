@@ -1,43 +1,24 @@
 #ifdef GLFWAPP
 
 #include <Base/EkWindow.hpp>
-
-extern VkInstance Instance;
-extern VkDevice Device;
-extern VkPhysicalDevice PhysicalDevice;
-extern DeleteQueue DeletionQueue;
+#include <Base/Device.h>
 
 namespace Ek
 {
-    Window::Window()
-    {
-        glfwInit();
-
-        const char **Extensions = glfwGetRequiredInstanceExtensions(&glfwExtCount);
-
-        for (uint32_t i = 0; i < glfwExtCount; i++)
-        {
-            glfwExts.push_back(Extensions[i]);
-        }
-
-        DeletionQueue([]
-                      { glfwTerminate(); });
-    }
-
     void Window::QueryFormats()
     {
         uint32_t FormatCount = 0;
-        vkGetPhysicalDeviceSurfaceFormatsKHR(PhysicalDevice, Surface, &FormatCount, nullptr);
+        vkGetPhysicalDeviceSurfaceFormatsKHR(*pPhysicalDevice, Surface, &FormatCount, nullptr);
 
         std::vector<VkSurfaceFormatKHR> AvFormats(FormatCount);
-        vkGetPhysicalDeviceSurfaceFormatsKHR(PhysicalDevice, Surface, &FormatCount, AvFormats.data());
+        vkGetPhysicalDeviceSurfaceFormatsKHR(*pPhysicalDevice, Surface, &FormatCount, AvFormats.data());
 
         SurfaceFormat = AvFormats[0];
     }
 
     void Window::CreateSurface()
     {
-        VkResult Res = glfwCreateWindowSurface(Instance, glfwWindow, nullptr, &Surface);
+        VkResult Res = glfwCreateWindowSurface(*pInst, glfwWindow, nullptr, &Surface);
 
         if (Res != VK_SUCCESS)
         {
@@ -45,9 +26,9 @@ namespace Ek
             throw std::runtime_error("Failed to Create surface");
         }
 
-        VkInstance *InstanceHandle = &Instance;
+        VkInstance *InstanceHandle = pInst;
         VkSurfaceKHR *SurfaceHandle = &Surface;
-        DeletionQueue([InstanceHandle, SurfaceHandle]
+        DeletionQueue->operator()([InstanceHandle, SurfaceHandle]
                       { vkDestroySurfaceKHR(*InstanceHandle, *SurfaceHandle, nullptr); });
     }
 
@@ -57,19 +38,20 @@ namespace Ek
 
         glfwWindow = glfwCreateWindow(Width, Height, WindowName, nullptr, nullptr);
 
-        WindowWidth = Width;
-        WindowHeight = Height;
+        WindowExtent.depth = 1.f;
+        WindowExtent.height = Height;
+        WindowExtent.width = Width;
 
         GLFWwindow *WindowHandle = glfwWindow;
-
-        DeletionQueue([WindowHandle]
-                      { glfwDestroyWindow(WindowHandle); });
+        DeletionQueue->operator()([WindowHandle]{ glfwDestroyWindow(WindowHandle); });
     }
 
     void Window::CreateSwapchain(uint32_t DesiredFBCount)
     {
         VkSurfaceCapabilitiesKHR SurfaceCap;
-        vkGetPhysicalDeviceSurfaceCapabilitiesKHR(PhysicalDevice, Surface, &SurfaceCap);
+        vkGetPhysicalDeviceSurfaceCapabilitiesKHR(*pPhysicalDevice, Surface, &SurfaceCap);
+
+        QueryFormats();
 
         VkSwapchainCreateInfoKHR SwapCI{};
         SwapCI.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
@@ -77,8 +59,8 @@ namespace Ek
         SwapCI.surface = Surface;
         SwapCI.imageColorSpace = SurfaceFormat.colorSpace;
         SwapCI.imageFormat = SurfaceFormat.format;
-        SwapCI.imageExtent.height = WindowHeight;
-        SwapCI.imageExtent.width = WindowWidth;
+        SwapCI.imageExtent.height = WindowExtent.height;
+        SwapCI.imageExtent.width = WindowExtent.width;
         SwapCI.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
         SwapCI.queueFamilyIndexCount = 1;
         SwapCI.pQueueFamilyIndices = &PresentFamily;
@@ -96,7 +78,7 @@ namespace Ek
 
         SwapCI.imageArrayLayers = 1;
 
-        if(vkCreateSwapchainKHR(Device, &SwapCI, nullptr, &Swapchain) != VK_SUCCESS)
+        if(vkCreateSwapchainKHR(pDev->VkDev, &SwapCI, nullptr, &Swapchain) != VK_SUCCESS)
         {
             throw std::runtime_error("Failed to create swapchain.\nAborting...");
         }
@@ -105,29 +87,66 @@ namespace Ek
         {
             FrameBuffers.resize(DesiredFBCount);
             VkImage SwapImages[DesiredFBCount];
-            vkGetSwapchainImagesKHR(Device, Swapchain, &DesiredFBCount, SwapImages);
+            vkGetSwapchainImagesKHR(pDev->VkDev, Swapchain, &DesiredFBCount, SwapImages);
 
             for(uint32_t i = 0; i < DesiredFBCount; i++)
             {
-                FrameBuffers[i].ImageBuffer.Image = SwapImages[i];
+                AllocatedImage Depth = pDev->CreateTexture(VK_IMAGE_TYPE_3D, WindowExtent, VK_FORMAT_D16_UNORM, VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL, VMA_MEMORY_USAGE_GPU_ONLY, 1, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT);
+
+                AllocatedImage Color(&pDev->VkDev);
+                Color.Image = SwapImages[i];
+                Color.Type = RtType::RtColor;
+                Color.Layout = VK_IMAGE_LAYOUT_UNDEFINED;
+
+                FrameBuffers[i] = new FrameBuffer(&pDev->VkDev);
+                FrameBuffers[i]->InitImages(&Color, &Depth, VK_IMAGE_VIEW_TYPE_3D);
             }
         }
         else
         {
             FrameBuffers.resize(SurfaceCap.minImageCount);
             VkImage SwapImages[SurfaceCap.minImageCount];
-            vkGetSwapchainImagesKHR(Device, Swapchain, &SurfaceCap.minImageCount, SwapImages);
+            vkGetSwapchainImagesKHR(pDev->VkDev, Swapchain, &SurfaceCap.minImageCount, SwapImages);
 
             for(uint32_t i = 0; i < SurfaceCap.minImageCount; i++)
             {
-                FrameBuffers[i].ImageBuffer.Image = SwapImages[i];
+                AllocatedImage Depth = pDev->CreateTexture(VK_IMAGE_TYPE_3D, WindowExtent, VK_FORMAT_D16_UNORM, VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL, VMA_MEMORY_USAGE_GPU_ONLY, 1, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT);
+
+                AllocatedImage Color(&pDev->VkDev);
+                Color.Image = SwapImages[i];
+                Color.Type = RtType::RtColor;
+                Color.Layout = VK_IMAGE_LAYOUT_UNDEFINED;
+
+                FrameBuffers[i] = new FrameBuffer(&pDev->VkDev);
+                FrameBuffers[i]->InitImages(&Color, &Depth, VK_IMAGE_VIEW_TYPE_3D);
             }
         }
+    }
 
-        for(FrameBuffer& FB : FrameBuffers)
+    FrameBuffer* Window::GetNextFrame(VkSemaphore* WaitSemaphore, VkFence* Fence)
+    {
+        if(vkAcquireNextImageKHR(pDev->VkDev, Swapchain, UINT64_MAX, *WaitSemaphore, *Fence, &CurrentFrameIndex) != VK_SUCCESS)
         {
-            Image::BuildFrameBuffer;
+            ThrowError("Failed to acquire next Swapchain image, Returning with Invalid FrameBuffer\n");
         }
+        return FrameBuffers[CurrentFrameIndex];
+    }
+
+    void Window::cmdPresentFrame(uint32_t WaitSemaphoreCount, VkSemaphore* WaitSemaphores)
+    {
+        VkPresentInfoKHR PresentInf{};
+        PresentInf.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+        PresentInf.pImageIndices = &CurrentFrameIndex;
+
+        PresentInf.swapchainCount = 1;
+        PresentInf.pSwapchains = &Swapchain;
+
+        PresentInf.waitSemaphoreCount = WaitSemaphoreCount;
+        PresentInf.pWaitSemaphores = WaitSemaphores;
+
+        vkQueuePresentKHR(*pPresentQueue, &PresentInf);
+
+        CurrentFrameIndex = (CurrentFrameIndex++) % 3;
     }
 }
 

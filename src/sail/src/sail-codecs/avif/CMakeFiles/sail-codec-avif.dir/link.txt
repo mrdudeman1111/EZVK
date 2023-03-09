@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC  -Wall -Wextra -O3 -DNDEBUG  -Wl,--no-undefined -shared  -o sail-codec-avif.so "CMakeFiles/sail-codec-avif.dir/helpers.c.o" "CMakeFiles/sail-codec-avif.dir/io.c.o" "CMakeFiles/sail-codec-avif.dir/avif.c.o"  -Wl,-rpath,/home/ethan/Repos/VulkanWrapper/sail/build/src/libsail-common: ../../libsail-common/libsail-common.so.0.9.2 /usr/lib/libavif.so 

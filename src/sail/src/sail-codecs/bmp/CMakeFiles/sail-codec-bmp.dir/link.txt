@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC  -Wall -Wextra -O3 -DNDEBUG  -Wl,--no-undefined -shared  -o sail-codec-bmp.so "CMakeFiles/sail-codec-bmp.dir/bmp.c.o" "../common/bmp/CMakeFiles/bmp-common.dir/helpers.c.o" "../common/bmp/CMakeFiles/bmp-common.dir/bmp.c.o"  -Wl,-rpath,/home/ethan/Repos/VulkanWrapper/sail/build/src/libsail-common: ../../libsail-common/libsail-common.so.0.9.2 

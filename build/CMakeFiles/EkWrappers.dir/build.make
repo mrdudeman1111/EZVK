@@ -69,24 +69,38 @@ include CMakeFiles/EkWrappers.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/EkWrappers.dir/flags.make
 
-CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.o: CMakeFiles/EkWrappers.dir/flags.make
-CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Base/EkHelpers.cpp
-CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.o: CMakeFiles/EkWrappers.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.o -MF CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.o.d -o CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Base/EkHelpers.cpp
+CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o: CMakeFiles/EkWrappers.dir/flags.make
+CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Base/Device.cpp
+CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o: CMakeFiles/EkWrappers.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o -MF CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o.d -o CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Base/Device.cpp
 
-CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/Base/EkHelpers.cpp > CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.i
+CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/Base/Device.cpp > CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.i
 
-CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/Base/EkHelpers.cpp -o CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.s
+CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/Base/Device.cpp -o CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.s
+
+CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o: CMakeFiles/EkWrappers.dir/flags.make
+CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Base/EkVulkan.cpp
+CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o: CMakeFiles/EkWrappers.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o -MF CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o.d -o CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Base/EkVulkan.cpp
+
+CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/Base/EkVulkan.cpp > CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.i
+
+CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/Base/EkVulkan.cpp -o CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.s
 
 CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o: CMakeFiles/EkWrappers.dir/flags.make
 CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Base/EkWindow.cpp
 CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o: CMakeFiles/EkWrappers.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o -MF CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o.d -o CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Base/EkWindow.cpp
 
 CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.i: cmake_force
@@ -97,10 +111,38 @@ CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.s"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/Base/EkWindow.cpp -o CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.s
 
+CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o: CMakeFiles/EkWrappers.dir/flags.make
+CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Base/Instance.cpp
+CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o: CMakeFiles/EkWrappers.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o -MF CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o.d -o CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Base/Instance.cpp
+
+CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/Base/Instance.cpp > CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.i
+
+CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/Base/Instance.cpp -o CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.s
+
+CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o: CMakeFiles/EkWrappers.dir/flags.make
+CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Base/PhysicalDevice.cpp
+CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o: CMakeFiles/EkWrappers.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o -MF CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o.d -o CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Base/PhysicalDevice.cpp
+
+CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/ethan/Repos/VulkanWrapper/src/Base/PhysicalDevice.cpp > CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.i
+
+CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/ethan/Repos/VulkanWrapper/src/Base/PhysicalDevice.cpp -o CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.s
+
 CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o: CMakeFiles/EkWrappers.dir/flags.make
 CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Camera/Camera.cpp
 CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o: CMakeFiles/EkWrappers.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o -MF CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o.d -o CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Camera/Camera.cpp
 
 CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.i: cmake_force
@@ -114,7 +156,7 @@ CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.s: cmake_force
 CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o: CMakeFiles/EkWrappers.dir/flags.make
 CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Images/EkImages.cpp
 CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o: CMakeFiles/EkWrappers.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o -MF CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o.d -o CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Images/EkImages.cpp
 
 CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.i: cmake_force
@@ -128,7 +170,7 @@ CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.s: cmake_force
 CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o: CMakeFiles/EkWrappers.dir/flags.make
 CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Meshes/EkMesh.cpp
 CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o: CMakeFiles/EkWrappers.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o -MF CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o.d -o CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Meshes/EkMesh.cpp
 
 CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.i: cmake_force
@@ -142,7 +184,7 @@ CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.s: cmake_force
 CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o: CMakeFiles/EkWrappers.dir/flags.make
 CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Rendering/EkPipeline.cpp
 CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o: CMakeFiles/EkWrappers.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o -MF CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o.d -o CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Rendering/EkPipeline.cpp
 
 CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.i: cmake_force
@@ -156,7 +198,7 @@ CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.s: cmake_force
 CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o: CMakeFiles/EkWrappers.dir/flags.make
 CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o: /home/ethan/Repos/VulkanWrapper/src/Rendering/EkRenderpass.cpp
 CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o: CMakeFiles/EkWrappers.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o -MF CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o.d -o CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o -c /home/ethan/Repos/VulkanWrapper/src/Rendering/EkRenderpass.cpp
 
 CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.i: cmake_force
@@ -169,8 +211,11 @@ CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.s: cmake_force
 
 # Object files for target EkWrappers
 EkWrappers_OBJECTS = \
-"CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.o" \
+"CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o" \
+"CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o" \
 "CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o" \
+"CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o" \
+"CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o" \
 "CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o" \
 "CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o" \
 "CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o" \
@@ -180,8 +225,11 @@ EkWrappers_OBJECTS = \
 # External object files for target EkWrappers
 EkWrappers_EXTERNAL_OBJECTS =
 
-libEkWrappers.a: CMakeFiles/EkWrappers.dir/src/Base/EkHelpers.cpp.o
+libEkWrappers.a: CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o
+libEkWrappers.a: CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o
 libEkWrappers.a: CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o
+libEkWrappers.a: CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o
+libEkWrappers.a: CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o
 libEkWrappers.a: CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o
 libEkWrappers.a: CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o
 libEkWrappers.a: CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o
@@ -189,7 +237,7 @@ libEkWrappers.a: CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o
 libEkWrappers.a: CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o
 libEkWrappers.a: CMakeFiles/EkWrappers.dir/build.make
 libEkWrappers.a: CMakeFiles/EkWrappers.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX static library libEkWrappers.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ethan/Repos/VulkanWrapper/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX static library libEkWrappers.a"
 	$(CMAKE_COMMAND) -P CMakeFiles/EkWrappers.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/EkWrappers.dir/link.txt --verbose=$(VERBOSE)
 

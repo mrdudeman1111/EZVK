@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=/usr/local
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/sail
+
+Name: libsail
+Description: SAIL client library
+Version: 0.8.0
+Requires: libsail-common
+Libs: -L${libdir} -lsail
+Cflags: -I${includedir}

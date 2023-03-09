@@ -221,6 +221,33 @@ EkWrapper_IS_TOP_LEVEL:STATIC=ON
 EkWrapper_SOURCE_DIR:STATIC=/home/ethan/Repos/VulkanWrapper
 
 //Path to a program.
+PKGCONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
+
+//Arguments to supply to pkg-config
+PKG_CONFIG_ARGN:STRING=
+
+//pkg-config executable
+PKG_CONFIG_EXECUTABLE:FILEPATH=/usr/bin/pkg-config
+
+//Path to a file.
+SDL_IMAGE_INCLUDE_DIR:PATH=/usr/include/SDL
+
+//Path to a library.
+SDL_IMAGE_LIBRARY:FILEPATH=/usr/lib/libSDL_image.so
+
+//The directory containing a CMake configuration file for SailC++.
+SailC++_DIR:PATH=/usr/local/lib/cmake/sailc++
+
+//The directory containing a CMake configuration file for SailCommon.
+SailCommon_DIR:PATH=/usr/local/lib/cmake/sailcommon
+
+//The directory containing a CMake configuration file for SailManip.
+SailManip_DIR:PATH=/usr/local/lib/cmake/sailmanip
+
+//The directory containing a CMake configuration file for Sail.
+Sail_DIR:PATH=/usr/local/lib/cmake/sail
+
+//Path to a program.
 Vulkan_GLSLANG_VALIDATOR_EXECUTABLE:FILEPATH=/bin/glslangValidator
 
 //Path to a program.
@@ -237,6 +264,9 @@ glfw3_DIR:PATH=/usr/lib/cmake/glfw3
 
 //The directory containing a CMake configuration file for glm.
 glm_DIR:PATH=/usr/lib/cmake/glm
+
+//The directory containing a CMake configuration file for sail.
+sail_DIR:PATH=sail_DIR-NOTFOUND
 
 
 ########################
@@ -386,8 +416,22 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding PkgConfig
+FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v1.8.0()]
+//Details about finding SDL_image
+FIND_PACKAGE_MESSAGE_DETAILS_SDL_image:INTERNAL=[/usr/lib/libSDL_image.so][/usr/include/SDL][v1.2.12()]
 //Details about finding Vulkan
 FIND_PACKAGE_MESSAGE_DETAILS_Vulkan:INTERNAL=[/lib/libvulkan.so][/usr/include][cfound components: glslc glslangValidator ][v1.3.240()]
+//ADVANCED property for variable: PKGCONFIG_EXECUTABLE
+PKGCONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: PKG_CONFIG_ARGN
+PKG_CONFIG_ARGN-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: PKG_CONFIG_EXECUTABLE
+PKG_CONFIG_EXECUTABLE-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SDL_IMAGE_INCLUDE_DIR
+SDL_IMAGE_INCLUDE_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: SDL_IMAGE_LIBRARY
+SDL_IMAGE_LIBRARY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Vulkan_GLSLANG_VALIDATOR_EXECUTABLE
 Vulkan_GLSLANG_VALIDATOR_EXECUTABLE-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Vulkan_GLSLC_EXECUTABLE

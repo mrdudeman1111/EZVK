@@ -1,0 +1,1 @@
+/usr/bin/cc -fPIC  -Wall -Wextra -O3 -DNDEBUG  -Wl,--no-undefined -shared  -o sail-codec-pcx.so "CMakeFiles/sail-codec-pcx.dir/helpers.c.o" "CMakeFiles/sail-codec-pcx.dir/pcx.c.o"  -Wl,-rpath,/home/ethan/Repos/VulkanWrapper/sail/build/src/libsail-common: ../../libsail-common/libsail-common.so.0.9.2 

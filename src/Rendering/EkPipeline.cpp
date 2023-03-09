@@ -1,43 +1,5 @@
 #include <Rendering/EkPipeline.hpp>
 
-std::vector<char> ReadFile(std::string& FileName)
-{
-    std::ifstream file(FileName, std::ios::ate | std::ios::binary);
-
-    if (!file.is_open ()) 
-    {
-        throw std::runtime_error ("failed to open file!");
-    }
-
-    size_t file_size = (size_t)file.tellg ();
-    std::vector<char> buffer (file_size);
-
-    file.seekg (0);
-    file.read (buffer.data (), static_cast<std::streamsize> (file_size));
-
-    file.close ();
-
-    return buffer;
-}
-
-VkShaderModule Shaders::CreateShaderModule(std::string& FileName)
-{
-    std::vector<char> Code = ReadFile(FileName);
-    VkShaderModuleCreateInfo Info = {};
-    Info.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
-    Info.codeSize = Code.size();
-    Info.pCode = reinterpret_cast<const uint32_t*> (Code.data());
-
-    VkShaderModule ShaderModule;
-    auto Res = vkCreateShaderModule(GlobDevice, &Info, nullptr, &ShaderModule);
-    if(Res != VK_SUCCESS)
-    {
-        std::cout << "Error: " << Res << std::endl;
-        throw std::runtime_error("Failed to create a shadermodule");
-    }
-    return ShaderModule;
-}
-
 /*
     1: Create Stages for shaders via VkPipelineShaderStageCreateInfo and wrap them into a vector
     
@@ -63,20 +25,21 @@ VkShaderModule Shaders::CreateShaderModule(std::string& FileName)
 */
 
 // When messing with descriptors you do have to mess with the pipelinelayout in CreateGraphicsPipeline
-void Ek::Pipeline::CreateGraphicsPipeline(float Height, float Width)
+void Ek::Pipeline::CreateGraphicsPipeline(VkDevice* Device, float Height, float Width, VkRenderPass* Renderpass, uint32_t SubpassToUse)
 {
     // 1
-    std::vector<VkPipelineShaderStageCreateInfo> ShaderStages;
-    for(const auto Shader : Shaders)
-    {
-        VkPipelineShaderStageCreateInfo ShaderInfo{};
-        ShaderInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-        ShaderInfo.stage = Shader->Stage;
-        ShaderInfo.module = Shader->ShaderModule;
-        ShaderInfo.pName = Shader->ShaderEntryPointName;
-        ShaderStages.push_back(ShaderInfo);
-    }
-    ShaderStages.shrink_to_fit();
+        std::vector<VkPipelineShaderStageCreateInfo> ShaderStages;
+        for(const auto Shader : Shaders)
+        {
+            VkPipelineShaderStageCreateInfo ShaderInfo{};
+            ShaderInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+            ShaderInfo.stage = Shader->Stage;
+            ShaderInfo.module = Shader->ShaderModule;
+            ShaderInfo.pName = Shader->ShaderEntryPointName;
+            ShaderStages.push_back(ShaderInfo);
+        }
+
+        ShaderStages.shrink_to_fit();
 
     // 2
         std::vector<VkVertexInputBindingDescription> BindingDescription;
@@ -110,12 +73,13 @@ void Ek::Pipeline::CreateGraphicsPipeline(float Height, float Width)
         PipelineLayoutInfo.setLayoutCount = DescriptorLayouts.size();
         PipelineLayoutInfo.pSetLayouts = DescriptorLayouts.data();
 
-        if(vkCreatePipelineLayout(GlobDevice, &PipelineLayoutInfo, nullptr, &PipelineLayout) != VK_SUCCESS) 
+        if(vkCreatePipelineLayout(*Device, &PipelineLayoutInfo, nullptr, &PipelineLayout) != VK_SUCCESS) 
         {
             throw std::runtime_error("failed to create pipeline layout!");
         }
 
-        CleanupQueue([this](){ vkDestroyPipelineLayout(GlobDevice, PipelineLayout, nullptr); });
+        VkDevice* DevHandle = Device;
+        CleanupQueue([this, DevHandle](){ vkDestroyPipelineLayout(*DevHandle, PipelineLayout, nullptr); });
 
     // 5
         VkPipelineInputAssemblyStateCreateInfo InputAssembly{};
@@ -181,9 +145,9 @@ void Ek::Pipeline::CreateGraphicsPipeline(float Height, float Width)
         DepthStencil.sType = VK_STRUCTURE_TYPE_PIPELINE_DEPTH_STENCIL_STATE_CREATE_INFO;
         DepthStencil.pNext = nullptr;
 
-        DepthStencil.depthTestEnable = true ? VK_TRUE : VK_FALSE;
-        DepthStencil.depthWriteEnable = true ? VK_TRUE : VK_FALSE;
-        DepthStencil.depthCompareOp = true ? VK_COMPARE_OP_LESS_OR_EQUAL : VK_COMPARE_OP_ALWAYS;
+        DepthStencil.depthTestEnable = VK_TRUE;
+        DepthStencil.depthWriteEnable = VK_TRUE;
+        DepthStencil.depthCompareOp = VK_COMPARE_OP_LESS_OR_EQUAL;
         DepthStencil.depthBoundsTestEnable = VK_FALSE;
         DepthStencil.minDepthBounds = 0.0f; // Optional
         DepthStencil.maxDepthBounds = 1.0f; // Optional
@@ -192,7 +156,7 @@ void Ek::Pipeline::CreateGraphicsPipeline(float Height, float Width)
     // 10
         VkGraphicsPipelineCreateInfo PipelineCreateInfo{};
         PipelineCreateInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
-        PipelineCreateInfo.stageCount = 2;
+        PipelineCreateInfo.stageCount = ShaderStages.size();
         PipelineCreateInfo.pStages = ShaderStages.data();
         PipelineCreateInfo.pVertexInputState = &VertInputInfo;
         PipelineCreateInfo.pInputAssemblyState = &InputAssembly;
@@ -201,13 +165,13 @@ void Ek::Pipeline::CreateGraphicsPipeline(float Height, float Width)
         PipelineCreateInfo.pMultisampleState = &MultiSampling;
         PipelineCreateInfo.pColorBlendState = &ColorBlendingState;
         PipelineCreateInfo.layout = PipelineLayout;
-        PipelineCreateInfo.renderPass = Renderpass->RenderPass;
-        PipelineCreateInfo.subpass = 0;
+        PipelineCreateInfo.renderPass = *Renderpass;
+        PipelineCreateInfo.subpass = SubpassToUse;
         PipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
         PipelineCreateInfo.pDepthStencilState = &DepthStencil;
 
         //Make sure it's not a problem with the shaders. and that they've been compiled
-        auto Error = vkCreateGraphicsPipelines(GlobDevice, VK_NULL_HANDLE, 1, &PipelineCreateInfo, nullptr, &Pipeline);
+        auto Error = vkCreateGraphicsPipelines(*Device, VK_NULL_HANDLE, 1, &PipelineCreateInfo, nullptr, &VkPipe);
         if(Error != VK_SUCCESS)
         {
             std::cout << "Failed to create graphics pipeline! Error: " << Error << std::endl;
@@ -215,20 +179,25 @@ void Ek::Pipeline::CreateGraphicsPipeline(float Height, float Width)
         }
 
     // 11
-        CleanupQueue([this](){ vkDestroyPipeline(GlobDevice, Pipeline, nullptr); });
+        CleanupQueue([this, DevHandle](){ vkDestroyPipeline(*DevHandle, VkPipe, nullptr); });
 }
 
-VkWriteDescriptorSet Ek::Pipeline::WriteToDescriptor(VkDescriptorType type, VkDescriptorSet dstSet, VkDescriptorBufferInfo* bufferInfo , uint32_t binding)
+void Ek::PipelineResources::CreateDescriptorPool(Pipeline* Pipe, VkDescriptorType Type)
 {
-    VkWriteDescriptorSet write = {};
-    write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    write.pNext = nullptr;
+    VkDescriptorPoolSize PoolSize{};
+    PoolSize.type = Type;
+    PoolSize.descriptorCount = Pipe->GetDescriptorLayouts()->size();
 
-    write.dstBinding = binding;
-    write.dstSet = dstSet;
-    write.descriptorCount = 1;
-    write.descriptorType = type;
-    write.pBufferInfo = bufferInfo;
+    VkDescriptorPoolCreateInfo PoolCreateInfo{};
+    PoolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    PoolCreateInfo.poolSizeCount = 1;
+    PoolCreateInfo.pPoolSizes = &PoolSize;
+    PoolCreateInfo.maxSets = Pipe->GetDescriptorLayouts()->size();
 
-    return write;
+    if(vkCreateDescriptorPool(*))
+}
+
+std::vector<VkDescriptorSetLayout>* Ek::Pipeline::GetDescriptorLayouts()
+{
+    return &DescriptorLayouts;
 }

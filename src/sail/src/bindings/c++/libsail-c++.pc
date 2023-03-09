@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=/usr/local
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/sail
+
+Name: libsail-c++
+Description: SAIL C++ client library
+Version: 0.7.1
+Requires: libsail libsail-manip
+Libs: -L${libdir} -lsail-c++
+Cflags: -I${includedir}

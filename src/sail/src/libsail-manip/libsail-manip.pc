@@ -1,0 +1,11 @@
+prefix=/usr/local
+exec_prefix=/usr/local
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include/sail
+
+Name: libsail-manip
+Description: SAIL image manipulation library
+Version: 0.3.0
+Requires: libsail-common
+Libs: -L${libdir} -lsail-manip
+Cflags: -I${includedir}

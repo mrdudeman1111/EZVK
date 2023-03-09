@@ -1,0 +1,35 @@
+    Needed:
+Instance
+
+PhysicalDevice
+
+device
+
+Queues
+
+Command
+
+Surface
+
+FrameBuffer and image management
+
+Semaphore
+
+subpass
+
+renderpass
+
+Pipeline
+
+DescriptorPool and DescriptorSets will Be wrapped into pipelineDescriptors class
+
+    Ideas:
+Shader Simplification Via Object with automated Creation
+
+
+
+Instance and device layer and extensions should be done VIA request-check system
+Window and Surface acquisition should be automated with window structure
+
+you Should be able to easily create sha
+

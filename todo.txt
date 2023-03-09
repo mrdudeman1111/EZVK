@@ -20,6 +20,8 @@ todo: Rework from EkWindow on
 
 
 
+
+
 Idea: handle the sub/renderpass attachments, we should have a special structure called EkRenderpass and it should have methods for making subpasses and renderpasses.
  And keep all the attachments neat
 

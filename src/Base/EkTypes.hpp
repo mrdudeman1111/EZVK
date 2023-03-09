@@ -24,6 +24,20 @@
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
+// Forward declared Helper functions
+    std::vector<char> ReadFile(std::string& FileName);
+
+    void ThrowError(const char* ErrorMsg);
+
+    static VKAPI_ATTR VkBool32 VKAPI_CALL DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT *pCallbackData, void *pUserData)
+    {
+        if(messageSeverity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
+        {
+            std::cout << "validation layer: " << pCallbackData->pMessage << std::endl;
+        }
+        return VK_FALSE;
+    }
+
 // Types
     enum VertexType{VTX_Basic, VTX_Rigged};
 
@@ -36,7 +50,6 @@
 
     typedef uint32_t ivec3[3];
 
-
 // Allocated Types:
     struct AllocatedBuffer
     {
@@ -44,7 +57,6 @@
         VmaAllocation Allocation;
     };
 
-// Wrappers
     struct DeleteQueue
     {
         std::stack<std::function<void()>> DeletionQueue;
@@ -66,19 +78,21 @@
         }
     };
 
-    // Create Queue Buffer, and then create record buffer, so the user has the choice to just record their own command buffer, or just create a queue of calls
-    // And then record all the queued calls with the bake function
+    extern DeleteQueue DelQueue;
 
 namespace Ek
 {
-    struct CommandBase
+
+// Create Queue Buffer, and then create record buffer, so the user has the choice to just record their own command buffer, or just create a queue of calls
+// And then record all the queued calls with the bake function
+    class CommandBase
     {
         public:
         std::string Name;
         VkCommandBuffer CmdBuffer;
     };
 
-    struct CommandQueue : public CommandBase
+    class CommandQueue : public CommandBase
     {
         public:
         std::queue<std::function<void()>> Queue;
@@ -90,7 +104,7 @@ namespace Ek
             BeginInfo.flags = Usage;
         }
 
-        void Allocate(VkCommandPool* Pool, uint32_t Priority)
+        void Allocate(VkDevice* Dev, VkCommandPool* Pool, uint32_t Priority)
         {
             VkCommandBufferAllocateInfo AllocInfo{};
             AllocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
@@ -111,7 +125,7 @@ namespace Ek
 
             AllocInfo.commandBufferCount = 1;
 
-            if(vkAllocateCommandBuffers(GlobDevice, &AllocInfo, &CmdBuffer) != VK_SUCCESS)
+            if(vkAllocateCommandBuffers(*Dev, &AllocInfo, &CmdBuffer) != VK_SUCCESS)
             {
                 ThrowError("Unexpectedly couldn't Allocate Memmory for a command buffer, perhaps the pool ran out of space");
             }
@@ -138,8 +152,9 @@ namespace Ek
 
     };
 
-    struct CommandBuffer : public CommandBase
+    class CommandBuffer : public CommandBase
     {
+        public:
         VkCommandBufferBeginInfo BeginInfo;
 
         CommandBuffer(CommandBufferUsage Usage)
@@ -148,33 +163,6 @@ namespace Ek
             BeginInfo.pNext = NULL;
             BeginInfo.flags = Usage;
             BeginInfo.pInheritanceInfo = nullptr;
-        }
-
-        void Allocate(VkCommandPool* Pool, uint32_t Priority)
-        {
-            VkCommandBufferAllocateInfo AllocInfo{};
-            AllocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-            AllocInfo.commandPool = *Pool;
-
-            switch(Priority)
-            {
-                case 0:
-                    AllocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
-                    break;
-                case 1:
-                    AllocInfo.level = VK_COMMAND_BUFFER_LEVEL_SECONDARY;
-                    break;
-                default:
-                    AllocInfo.level = VK_COMMAND_BUFFER_LEVEL_SECONDARY;
-                    break;
-            }
-
-            AllocInfo.commandBufferCount = 1;
-
-            if(vkAllocateCommandBuffers(GlobDevice, &AllocInfo, &CmdBuffer) != VK_SUCCESS)
-            {
-                ThrowError("Unexpectedly couldn't Allocate Memmory for a command buffer, perhaps the pool ran out of space");
-            }
         }
 
         void Begin()
@@ -186,43 +174,50 @@ namespace Ek
         {
             vkEndCommandBuffer(CmdBuffer);
         }
+
     };
 
 }
 
-    struct EkCmdPool
+namespace Ek
+{
+    struct CmdPool
     {
         public:
         VkCommandPool CommandPool;
         DeleteQueue CleanupQueue;
-        VkDevice* DevicePtr;
+        VkDevice* pDev;
 
-        EkCmdPool()
+        CmdPool()
         {}
 
-        EkCmdPool(uint32_t GraphicsQueueFamilyIndex, DeleteQueue* DeletionQueue)
+        CmdPool(VkDevice* Dev, uint32_t GraphicsQueueFamilyIndex, DeleteQueue* DeletionQueue)
         {
-            Create(GraphicsQueueFamilyIndex, DeletionQueue);
+            Create(Dev, GraphicsQueueFamilyIndex, DeletionQueue);
         }
 
-        ~EkCmdPool()
+        ~CmdPool()
         {
             CleanupQueue.Run();
         }
 
-        void Create(uint32_t GraphicsQueueFamilyIndex, DeleteQueue* DeletionQueue)
+        void Create(VkDevice* Dev, uint32_t GraphicsQueueFamilyIndex, DeleteQueue* DeletionQueue)
         {
+            pDev = Dev;
+
             VkCommandPoolCreateInfo PoolInfo{};
             PoolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
             PoolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
             PoolInfo.queueFamilyIndex = GraphicsQueueFamilyIndex;
 
-            if(vkCreateCommandPool(GlobDevice, &PoolInfo, nullptr, &CommandPool) != VK_SUCCESS)
+            if(vkCreateCommandPool(*Dev, &PoolInfo, nullptr, &CommandPool) != VK_SUCCESS)
             {
                 ThrowError("Failed to create EkCmdPool");
             }
 
-            CleanupQueue([this](){ vkDestroyCommandPool(GlobDevice, CommandPool, nullptr); std::cout << "Destroyed A command pool\n"; });
+            VkDevice* DevHandle = Dev;
+            VkCommandPool* CmdPool = &CommandPool;
+            CleanupQueue([DevHandle, CmdPool](){ vkDestroyCommandPool(*DevHandle, *CmdPool, nullptr); std::cout << "Destroyed A command pool\n"; });
         }
 
         // Priority can be 0 or 1, anything else throws error. 0 being primary, and therefore prioritized, and 1 being secondary, and therefore less important, (it's a little less slower than primary, it also gets less resources allocated to it)
@@ -233,8 +228,8 @@ namespace Ek
                 case 0: 
                 {
                     Ek::CommandQueue NewCmdBuffer(Usage);
-                    NewCmdBuffer.Allocate(&CommandPool, 0);
-                    CleanupQueue([this, &NewCmdBuffer](){ vkFreeCommandBuffers(GlobDevice, CommandPool, 1, &NewCmdBuffer.CmdBuffer); std::cout << "Deleted CommandBuffer.\n"; });
+                    NewCmdBuffer.Allocate(pDev, &CommandPool, 0);
+                    CleanupQueue([this, &NewCmdBuffer](){ vkFreeCommandBuffers(*pDev, CommandPool, 1, &NewCmdBuffer.CmdBuffer); std::cout << "Deleted CommandBuffer.\n"; });
                     return NewCmdBuffer;
                     break;
                 }
@@ -242,8 +237,8 @@ namespace Ek
                 case 1:
                 {
                     Ek::CommandQueue NewCmdBuffer(Usage);
-                    NewCmdBuffer.Allocate(&CommandPool, 1);
-                    CleanupQueue([this, &NewCmdBuffer](){ vkFreeCommandBuffers(GlobDevice, CommandPool, 1, &NewCmdBuffer.CmdBuffer); std::cout << "Deleted CommandBuffer.\n"; });
+                    NewCmdBuffer.Allocate(pDev, &CommandPool, 1);
+                    CleanupQueue([this, &NewCmdBuffer](){ vkFreeCommandBuffers(*pDev, CommandPool, 1, &NewCmdBuffer.CmdBuffer); std::cout << "Deleted CommandBuffer.\n"; });
                     return NewCmdBuffer;
                     break;
                 }
@@ -262,8 +257,8 @@ namespace Ek
                 case 0: 
                 {
                     Ek::CommandBuffer NewCmdBuffer(Usage);
-                    NewCmdBuffer.Allocate(&CommandPool, 0);
-                    CleanupQueue([this, &NewCmdBuffer](){ vkFreeCommandBuffers(GlobDevice, CommandPool, 1, &NewCmdBuffer.CmdBuffer); std::cout << "Deleted CommandBuffer.\n"; });
+                    Allocate(&NewCmdBuffer, 1);
+                    CleanupQueue([this, &NewCmdBuffer](){ vkFreeCommandBuffers(*pDev, CommandPool, 1, &NewCmdBuffer.CmdBuffer); std::cout << "Deleted CommandBuffer.\n"; });
                     return NewCmdBuffer;
                     break;
                 }
@@ -271,8 +266,8 @@ namespace Ek
                 case 1:
                 {
                     Ek::CommandBuffer NewCmdBuffer(Usage);
-                    NewCmdBuffer.Allocate(&CommandPool, 1);
-                    CleanupQueue([this, &NewCmdBuffer](){ vkFreeCommandBuffers(GlobDevice, CommandPool, 1, &NewCmdBuffer.CmdBuffer); std::cout << "Deleted CommandBuffer.\n"; });
+                    Allocate(&NewCmdBuffer, 1);
+                    CleanupQueue([this, &NewCmdBuffer](){ vkFreeCommandBuffers(*pDev, CommandPool, 1, &NewCmdBuffer.CmdBuffer); std::cout << "Deleted CommandBuffer.\n"; });
                     return NewCmdBuffer;
                     break;
                 }
@@ -285,6 +280,7 @@ namespace Ek
         }
 
         void SubmitCmdBuffer(Ek::CommandQueue* CommandBuffer, VkQueue SubmitionQueue, VkPipelineStageFlags* WaitStages = nullptr, VkFence* Fence = nullptr, VkSemaphore* WaitSemaphores = nullptr, VkSemaphore* SignalSemaphores = nullptr)
+
         {
             VkSubmitInfo SubmitInfo{};
             SubmitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
@@ -340,7 +336,35 @@ namespace Ek
             vkQueueSubmit(SubmitionQueue, 1, &SubmitInfo, *Fence);
         }
 
-        };
+        void Allocate(Ek::CommandBase* Cmd, uint32_t Priority)
+        {
+            VkCommandBufferAllocateInfo AllocInfo{};
+            AllocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+            AllocInfo.commandPool = CommandPool;
+
+            switch(Priority)
+            {
+                case 0:
+                    AllocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+                    break;
+                case 1:
+                    AllocInfo.level = VK_COMMAND_BUFFER_LEVEL_SECONDARY;
+                    break;
+                default:
+                    AllocInfo.level = VK_COMMAND_BUFFER_LEVEL_SECONDARY;
+                    break;
+            }
+
+            AllocInfo.commandBufferCount = 1;
+
+            if(vkAllocateCommandBuffers(*pDev, &AllocInfo, &Cmd->CmdBuffer) != VK_SUCCESS)
+            {
+                ThrowError("Unexpectedly couldn't Allocate Memory for a command buffer, perhaps the pool ran out of space");
+            }
+        }
+    };
+
+}
 
 // Vertices:
     struct BasicVertex
