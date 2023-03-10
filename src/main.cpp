@@ -52,9 +52,8 @@ int main()
     Window->CreateWindow(1280, 720, "Tester");
     Window->CreateSurface();
 
-
-
     Ek::Renderpass Renderpass = Device.CreateRenderpass();
+    Renderpass.BuildSubpass()
 
     Window->CreateSwapchain(3);
 

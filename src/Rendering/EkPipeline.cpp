@@ -25,7 +25,7 @@
 */
 
 // When messing with descriptors you do have to mess with the pipelinelayout in CreateGraphicsPipeline
-void Ek::Pipeline::CreateGraphicsPipeline(VkDevice* Device, float Height, float Width, VkRenderPass* Renderpass, uint32_t SubpassToUse)
+void Ek::Pipeline::CreateGraphicsPipeline(VkDevice* pDev, float Height, float Width, VkRenderPass* Renderpass, uint32_t SubpassToUse, PipeLayout* pLayout)
 {
     // 1
         std::vector<VkPipelineShaderStageCreateInfo> ShaderStages;
@@ -70,16 +70,18 @@ void Ek::Pipeline::CreateGraphicsPipeline(VkDevice* Device, float Height, float 
     // 4
         VkPipelineLayoutCreateInfo PipelineLayoutInfo{};
         PipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-        PipelineLayoutInfo.setLayoutCount = DescriptorLayouts.size();
-        PipelineLayoutInfo.pSetLayouts = DescriptorLayouts.data();
+        PipelineLayoutInfo.setLayoutCount = pLayout->Descriptors.size();
+        PipelineLayoutInfo.pSetLayouts = pLayout->Descriptors.data();
+        PipelineLayoutInfo.pushConstantRangeCount = pLayout->Descriptors.size();
+        PipelineLayoutInfo.pPushConstantRanges = pLayout->PushConstants.data();
 
-        if(vkCreatePipelineLayout(*Device, &PipelineLayoutInfo, nullptr, &PipelineLayout) != VK_SUCCESS) 
+        if(vkCreatePipelineLayout(*pDev, &PipelineLayoutInfo, nullptr, &VkPipeLayout) != VK_SUCCESS) 
         {
             throw std::runtime_error("failed to create pipeline layout!");
         }
 
-        VkDevice* DevHandle = Device;
-        CleanupQueue([this, DevHandle](){ vkDestroyPipelineLayout(*DevHandle, PipelineLayout, nullptr); });
+        VkDevice* DevHandle = pDev;
+        CleanupQueue([this, DevHandle](){ vkDestroyPipelineLayout(*DevHandle, VkPipeLayout, nullptr); });
 
     // 5
         VkPipelineInputAssemblyStateCreateInfo InputAssembly{};
@@ -164,14 +166,14 @@ void Ek::Pipeline::CreateGraphicsPipeline(VkDevice* Device, float Height, float 
         PipelineCreateInfo.pRasterizationState = &Rasterizer;
         PipelineCreateInfo.pMultisampleState = &MultiSampling;
         PipelineCreateInfo.pColorBlendState = &ColorBlendingState;
-        PipelineCreateInfo.layout = PipelineLayout;
+        PipelineCreateInfo.layout = VkPipeLayout;
         PipelineCreateInfo.renderPass = *Renderpass;
         PipelineCreateInfo.subpass = SubpassToUse;
         PipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
         PipelineCreateInfo.pDepthStencilState = &DepthStencil;
 
         //Make sure it's not a problem with the shaders. and that they've been compiled
-        auto Error = vkCreateGraphicsPipelines(*Device, VK_NULL_HANDLE, 1, &PipelineCreateInfo, nullptr, &VkPipe);
+        auto Error = vkCreateGraphicsPipelines(*pDev, VK_NULL_HANDLE, 1, &PipelineCreateInfo, nullptr, &VkPipe);
         if(Error != VK_SUCCESS)
         {
             std::cout << "Failed to create graphics pipeline! Error: " << Error << std::endl;
@@ -182,7 +184,7 @@ void Ek::Pipeline::CreateGraphicsPipeline(VkDevice* Device, float Height, float 
         CleanupQueue([this, DevHandle](){ vkDestroyPipeline(*DevHandle, VkPipe, nullptr); });
 }
 
-void Ek::PipelineResources::CreateDescriptorPool(Pipeline* Pipe, VkDescriptorType Type)
+void Ek::ShaderInput::CreateDescriptorPool(VkDevice* Dev, Pipeline* Pipe, VkDescriptorType Type)
 {
     VkDescriptorPoolSize PoolSize{};
     PoolSize.type = Type;
@@ -194,7 +196,10 @@ void Ek::PipelineResources::CreateDescriptorPool(Pipeline* Pipe, VkDescriptorTyp
     PoolCreateInfo.pPoolSizes = &PoolSize;
     PoolCreateInfo.maxSets = Pipe->GetDescriptorLayouts()->size();
 
-    if(vkCreateDescriptorPool(*))
+    if(vkCreateDescriptorPool(*Dev, &PoolCreateInfo, nullptr, &DescriptorPool) != VK_SUCCESS)
+    {
+        ThrowError("Failed to create descriptor pool for a ShaderInput object");
+    }
 }
 
 std::vector<VkDescriptorSetLayout>* Ek::Pipeline::GetDescriptorLayouts()

@@ -1,9 +1,7 @@
 #include <Rendering/EkRenderpass.hpp>
 
-void Ek::Subpass::Build(std::vector<RenderpassResource>* InputSets, VkPipelineBindPoint BindPoint, uint32_t* AttIterator, std::vector<VkSubpassDependency>* Depends)
+void Ek::Subpass::Build(std::vector<RenderpassResource>* InputSets, uint32_t* AttIterator, std::vector<VkSubpassDependency>* Depends)
 {
-    pipelineBindPoint = BindPoint;
-
     // Use AttIterator as Index. AttIterator is the index of the last attachment we processed, meaning if we continue from there
     uint32_t i;
     for(i = *AttIterator; i < InputSets->size()-*AttIterator; i++)
@@ -86,10 +84,10 @@ void Ek::Renderpass::BuildSubpass(std::vector<AllocatedImage*> Attachments, VkPi
     Subpasses.push_back(Subpass);
 }
 
-Ek::Pipeline Ek::Renderpass::CreatePipeline(uint32_t* SubpassToUse)
+Ek::Pipeline Ek::Renderpass::CreatePipeline(PipeLayout* pLayout, uint32_t* SubpassToUse)
 {
     Ek::Pipeline Pipe;
-    Pipe.CreateGraphicsPipeline(Device, Height, Width, &RenderPass, *SubpassToUse);
+    Pipe.CreateGraphicsPipeline(Device, Height, Width, &RenderPass, *SubpassToUse, pLayout);
     return Pipe;
 }
 

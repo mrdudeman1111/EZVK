@@ -78,7 +78,7 @@ namespace Ek
 
         void BuildSubpass(std::vector<AllocatedImage*> Attachments, VkPipelineBindPoint BindPoint, std::vector<VkSubpassDependency> Dependencies = {});
 
-        Ek::Pipeline CreatePipeline(uint32_t* SubpassToUse);
+        Ek::Pipeline CreatePipeline(PipeLayout* pLayout, uint32_t* SubpassToUse);
 
         void Begin(Ek::CommandBase* CommandBuffer, VkFramebuffer* FrameBuffer, VkRect2D* RenderArea, std::vector<VkClearValue>* ClearValues);
 

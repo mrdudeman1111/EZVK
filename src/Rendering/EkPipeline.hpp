@@ -18,15 +18,6 @@ namespace Shaders
 
 namespace Ek
 {
-    class PipelineResources
-    {
-        public:
-        VkDescriptorPool DescriptorPool;
-        std::vector<VkDescriptorSet> Descriptors;
-
-        void CreateDescriptorPool(Pipeline* Pipe);
-    }
-
     class Pipeline
     {
         public:
@@ -40,18 +31,37 @@ namespace Ek
 
         VertexType VT;
 
+        PipeLayout PipelineLayout;
+
         // When messing with descriptors you do have to mess with the pipelinelayout in CreateGraphicsPipeline
-        void CreateGraphicsPipeline(VkDevice* Handle, float Height, float Width, VkRenderPass* Renderpass, uint32_t SubpassToUse);
+        void CreateGraphicsPipeline(VkDevice* pDev, float Height, float Width, VkRenderPass* Renderpass, uint32_t SubpassToUse, PipeLayout* pLayout);
 
         std::vector<VkDescriptorSetLayout>* GetDescriptorLayouts();
 
         private:
         VkRenderPass* Renderpass;
         VkPipeline VkPipe;
-        VkPipelineLayout PipelineLayout;
-        std::vector<VkDescriptorSetLayout> DescriptorLayouts;
+        VkPipelineLayout VkPipeLayout;
+
 
         DeleteQueue CleanupQueue;
         VkViewport ViewPort;
     };
+
+    class ShaderInput
+    {
+        public:
+        VkDescriptorPool DescriptorPool;
+        std::vector<VkDescriptorSet> Descriptors;
+
+        void CreateDescriptorPool(VkDevice* Dev, Pipeline* Pipe, VkDescriptorType Type);
+    };
+
+    class PipeLayout
+    {
+        public:
+        std::vector<VkDescriptorSetLayout> Descriptors;
+        std::vector<VkPushConstantRange> PushConstants;
+    };
+
 }
