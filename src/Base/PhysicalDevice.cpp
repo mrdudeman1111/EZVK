@@ -10,6 +10,8 @@ namespace Ek
         VkPhysicalDeviceFeatures DeviceFeatures;
         vkGetPhysicalDeviceFeatures(*PhysicalDevice, &DeviceFeatures);
 
+        std::cout << DeviceProperties.deviceName << std::endl;
+
         if(DeviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
         {
             return true;
@@ -17,7 +19,7 @@ namespace Ek
         return false;
     }
 
-    Device PhysicalDevice::GetDevice()
+    Device PhysicalDevice::GetLogicalDevice()
     {
         return *new Device(&VkPhysDev);
     }
@@ -30,13 +32,13 @@ namespace Ek
         std::vector<VkPhysicalDevice> Devices(DeviceCount);
         vkEnumeratePhysicalDevices(Instance->VkInst, &DeviceCount, Devices.data());
 
-        std::cout << "You have " << Devices.size() << " Physical Devices\n";
-
         if(DeviceCount == 0)
         {
             ThrowError("Failed to find Physical Device with vulkan support");
         }
-        
+
+        std::cout << "Found " << Devices.size() << " Physical Devices:\n";
+
         for(uint32_t i = 0; i < Devices.size(); i++) 
         {
             if(CheckDevice(&Devices[i])) 

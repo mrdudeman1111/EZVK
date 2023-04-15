@@ -1,6 +1,7 @@
 #include <Base/Instance.h>
 #include <GLFW/glfw3.h>
 #include <cstring>
+#include <vulkan/vulkan_core.h>
 
 void ThrowError(const char* ErrorMsg)
 {
@@ -10,7 +11,7 @@ void ThrowError(const char* ErrorMsg)
 namespace Ek
 {
     #ifdef GLFWAPP
-        void Instance::CreateInstance()
+        void Instance::CreateInstance(uint32_t VkVersion, const char* AppName)
         {
             glfwInit();
 
@@ -27,12 +28,21 @@ namespace Ek
             Layers.shrink_to_fit();
             Extensions.shrink_to_fit();
 
+            VkApplicationInfo AppInfo;
+            AppInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+            AppInfo.apiVersion = VkVersion;
+            AppInfo.pEngineName = "EVK";
+            AppInfo.engineVersion = 1;
+            AppInfo.applicationVersion = 1;
+            AppInfo.pApplicationName = AppName;
+
             VkInstanceCreateInfo InstCI{};
             InstCI.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
             InstCI.enabledLayerCount = Layers.size();
             InstCI.ppEnabledLayerNames = Layers.data();
             InstCI.enabledExtensionCount = Extensions.size();
             InstCI.ppEnabledExtensionNames = Extensions.data();
+            InstCI.pApplicationInfo = &AppInfo;
 
             VkResult Error = vkCreateInstance(&InstCI, nullptr, &VkInst);
             if(Error != VK_SUCCESS)
@@ -45,10 +55,18 @@ namespace Ek
             DelQueue( [&LambdaInstance](){ vkDestroyInstance(LambdaInstance, nullptr); } );
         }
     #else
-        void Instance::CreateInstance()
+        void Instance::CreateInstance(uint32_t VkVersion, const char* AppName)
         {
             Layers.shrink_to_fit();
             Extensions.shrink_to_fit();
+
+            VkApplicationInfo AppInfo;
+            AppInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+            AppInfo.apiVersion = VkVersion;
+            AppInfo.pEngineName = "EVK";
+            AppInfo.engineVersion = 1;
+            AppInfo.applicationVersion = 1;
+            AppInfo.pApplicationName = AppName;
 
             VkInstanceCreateInfo InstCI{};
             InstCI.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
@@ -56,15 +74,16 @@ namespace Ek
             InstCI.ppEnabledLayerNames = Layers.data();
             InstCI.enabledExtensionCount = Extensions.size();
             InstCI.ppEnabledExtensionNames = Extensions.data();
+            InstCI.pApplicationInfo = &AppInfo;
 
-            VkResult Error = vkCreateInstance(&InstCI, nullptr, &Instance);
+            VkResult Error = vkCreateInstance(&InstCI, nullptr, &VkInst);
             if(Error != VK_SUCCESS)
             {
                 std::cout << Error << std::endl;
                 ThrowError("Failed to create Instance");
             }
 
-            VkInstance& LambdaInstance = Instance;
+            VkInstance& LambdaInstance = VkInst;
             DelQueue( [&LambdaInstance](){ vkDestroyInstance(LambdaInstance, nullptr); } );
         }
     #endif
@@ -88,7 +107,6 @@ namespace Ek
     }
 
     bool Instance::CheckLayerSupport(const char* LayerName)
-
     {
         uint32_t LayerCount = 0;
         vkEnumerateInstanceLayerProperties(&LayerCount, nullptr);
@@ -115,7 +133,10 @@ namespace Ek
             std::cout << "the layer " << LayerName << " is supported and is being loaded" << std::endl;
             return;
         }
-        std::cout << "the layer " << LayerName << " is not supported and is will not be loaded" << std::endl;
+        else
+        {
+            std::cout << "the layer " << LayerName << " is not supported and is will not be loaded" << std::endl;
+        }
         return;
     }
 

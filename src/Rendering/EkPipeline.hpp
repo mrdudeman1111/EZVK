@@ -2,44 +2,71 @@
 
 #include <Base/EkTypes.hpp>
 
-namespace Shaders
-{
-    struct EkShader
-    {
-        VkShaderModule ShaderModule;
-        
-        // Shader Name is the name of the entrypoint function in the shader (the example shader entrypoint functions are main so This name will be name)
-        const char* ShaderEntryPointName;
-        VkShaderStageFlagBits Stage;
-    };
-    
-    VkShaderModule CreateShaderModule(std::string& FileName);
-}
 
 namespace Ek
 {
+    // Add Push Constant support
+    struct Shader
+    {
+        public:
+        VkShaderModule ShaderModule;
+
+        void AddShaderInput(VkDevice* pDev, uint32_t Location, VkDescriptorType Type, uint32_t InputCount = 1);
+        void BuildShaderLayout();
+
+        std::vector<VkDescriptorSetLayout> DescriptorLayouts;
+        std::vector<VkDescriptorSet> DescriptorSets;
+
+        // Shader Name is the name of the entrypoint function in the shader (the example shader entrypoint functions are main so This name will be name)
+        const char* ShaderEntryPoint;
+        VkShaderStageFlagBits Stage;
+
+        private:
+        VkDevice* p_Dev;
+        std::vector<VkDescriptorPoolSize> PoolSizes;
+        VkDescriptorPool DescriptorPool;
+
+        std::vector<VkDescriptorSetLayoutBinding> DescriptorBindings;
+
+        uint32_t LayoutIterator = 0;
+    };
+
+    class PipeLayout
+    {
+        public:
+        std::vector<VkDescriptorSetLayout> Descriptors;
+        std::vector<VkPushConstantRange> PushConstants;
+    };
+
     class Pipeline
     {
         public:
         Pipeline();
+
+        Pipeline(VkDevice* Dev, VkRenderPass* Rp, uint32_t Height, uint32_t Width) : p_Renderpass{Rp}, Height{Height}, Width{Width}
+        {
+            p_Dev = Dev;
+        }
+
         ~Pipeline()
         {
             CleanupQueue.Run();
         }
 
-        std::vector<Shaders::EkShader*> Shaders;
+        std::vector<Shader*> Shaders;
+
+        uint32_t Height, Width;
 
         VertexType VT;
 
         PipeLayout PipelineLayout;
 
-        // When messing with descriptors you do have to mess with the pipelinelayout in CreateGraphicsPipeline
-        void CreateGraphicsPipeline(VkDevice* pDev, float Height, float Width, VkRenderPass* Renderpass, uint32_t SubpassToUse, PipeLayout* pLayout);
-
-        std::vector<VkDescriptorSetLayout>* GetDescriptorLayouts();
+        void Build(uint32_t SubpassToUse);
 
         private:
-        VkRenderPass* Renderpass;
+        VkDevice* p_Dev;
+
+        VkRenderPass* p_Renderpass;
         VkPipeline VkPipe;
         VkPipelineLayout VkPipeLayout;
 
@@ -55,13 +82,6 @@ namespace Ek
         std::vector<VkDescriptorSet> Descriptors;
 
         void CreateDescriptorPool(VkDevice* Dev, Pipeline* Pipe, VkDescriptorType Type);
-    };
-
-    class PipeLayout
-    {
-        public:
-        std::vector<VkDescriptorSetLayout> Descriptors;
-        std::vector<VkPushConstantRange> PushConstants;
     };
 
 }

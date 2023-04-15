@@ -25,18 +25,21 @@
 */
 
 // When messing with descriptors you do have to mess with the pipelinelayout in CreateGraphicsPipeline
-void Ek::Pipeline::CreateGraphicsPipeline(VkDevice* pDev, float Height, float Width, VkRenderPass* Renderpass, uint32_t SubpassToUse, PipeLayout* pLayout)
+void Ek::Pipeline::Build(uint32_t SubpassToUse)
 {
     // 1
         std::vector<VkPipelineShaderStageCreateInfo> ShaderStages;
+        std::vector<VkDescriptorSetLayout> ShaderLayouts;
         for(const auto Shader : Shaders)
         {
             VkPipelineShaderStageCreateInfo ShaderInfo{};
             ShaderInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
             ShaderInfo.stage = Shader->Stage;
             ShaderInfo.module = Shader->ShaderModule;
-            ShaderInfo.pName = Shader->ShaderEntryPointName;
+            ShaderInfo.pName = Shader->ShaderEntryPoint;
             ShaderStages.push_back(ShaderInfo);
+
+            ShaderLayouts.insert(ShaderLayouts.end(), Shader->DescriptorLayouts.begin(), Shader->DescriptorLayouts.end());
         }
 
         ShaderStages.shrink_to_fit();
@@ -70,17 +73,19 @@ void Ek::Pipeline::CreateGraphicsPipeline(VkDevice* pDev, float Height, float Wi
     // 4
         VkPipelineLayoutCreateInfo PipelineLayoutInfo{};
         PipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-        PipelineLayoutInfo.setLayoutCount = pLayout->Descriptors.size();
-        PipelineLayoutInfo.pSetLayouts = pLayout->Descriptors.data();
-        PipelineLayoutInfo.pushConstantRangeCount = pLayout->Descriptors.size();
-        PipelineLayoutInfo.pPushConstantRanges = pLayout->PushConstants.data();
+        PipelineLayoutInfo.setLayoutCount = ShaderLayouts.size();
+        PipelineLayoutInfo.pSetLayouts = ShaderLayouts.data();
+            
+            // Add Push Constants to EkShader.
+        // PipelineLayoutInfo.pushConstantRangeCount = .size();
+        // PipelineLayoutInfo.pPushConstantRanges = .data();
 
-        if(vkCreatePipelineLayout(*pDev, &PipelineLayoutInfo, nullptr, &VkPipeLayout) != VK_SUCCESS) 
+        if(vkCreatePipelineLayout(*p_Dev, &PipelineLayoutInfo, nullptr, &VkPipeLayout) != VK_SUCCESS) 
         {
             throw std::runtime_error("failed to create pipeline layout!");
         }
 
-        VkDevice* DevHandle = pDev;
+        VkDevice* DevHandle = p_Dev;
         CleanupQueue([this, DevHandle](){ vkDestroyPipelineLayout(*DevHandle, VkPipeLayout, nullptr); });
 
     // 5
@@ -167,13 +172,13 @@ void Ek::Pipeline::CreateGraphicsPipeline(VkDevice* pDev, float Height, float Wi
         PipelineCreateInfo.pMultisampleState = &MultiSampling;
         PipelineCreateInfo.pColorBlendState = &ColorBlendingState;
         PipelineCreateInfo.layout = VkPipeLayout;
-        PipelineCreateInfo.renderPass = *Renderpass;
+        PipelineCreateInfo.renderPass = *p_Renderpass;
         PipelineCreateInfo.subpass = SubpassToUse;
         PipelineCreateInfo.basePipelineHandle = VK_NULL_HANDLE;
         PipelineCreateInfo.pDepthStencilState = &DepthStencil;
 
         //Make sure it's not a problem with the shaders. and that they've been compiled
-        auto Error = vkCreateGraphicsPipelines(*pDev, VK_NULL_HANDLE, 1, &PipelineCreateInfo, nullptr, &VkPipe);
+        auto Error = vkCreateGraphicsPipelines(*p_Dev, VK_NULL_HANDLE, 1, &PipelineCreateInfo, nullptr, &VkPipe);
         if(Error != VK_SUCCESS)
         {
             std::cout << "Failed to create graphics pipeline! Error: " << Error << std::endl;
@@ -184,25 +189,62 @@ void Ek::Pipeline::CreateGraphicsPipeline(VkDevice* pDev, float Height, float Wi
         CleanupQueue([this, DevHandle](){ vkDestroyPipeline(*DevHandle, VkPipe, nullptr); });
 }
 
-void Ek::ShaderInput::CreateDescriptorPool(VkDevice* Dev, Pipeline* Pipe, VkDescriptorType Type)
+void Ek::Shader::AddShaderInput(VkDevice* pDev, uint32_t Location, VkDescriptorType Type, uint32_t InputCount)
 {
-    VkDescriptorPoolSize PoolSize{};
-    PoolSize.type = Type;
-    PoolSize.descriptorCount = Pipe->GetDescriptorLayouts()->size();
+    p_Dev = pDev;
+    VkDescriptorPoolSize InputSize;
+    InputSize.descriptorCount = InputCount;
+    InputSize.type = Type;
+    PoolSizes.push_back(InputSize);
 
-    VkDescriptorPoolCreateInfo PoolCreateInfo{};
-    PoolCreateInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-    PoolCreateInfo.poolSizeCount = 1;
-    PoolCreateInfo.pPoolSizes = &PoolSize;
-    PoolCreateInfo.maxSets = Pipe->GetDescriptorLayouts()->size();
+    VkDescriptorSetLayoutBinding LayoutBinding;
+    LayoutBinding.binding = Location;
+    LayoutBinding.descriptorType = Type;
+    LayoutBinding.stageFlags = Stage;
+    LayoutBinding.descriptorCount = InputCount;
 
-    if(vkCreateDescriptorPool(*Dev, &PoolCreateInfo, nullptr, &DescriptorPool) != VK_SUCCESS)
+    DescriptorBindings.push_back(LayoutBinding);
+
+    VkDescriptorSetLayoutCreateInfo LayoutInf;
+    LayoutInf.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
+    LayoutInf.bindingCount = 1;
+    LayoutInf.pBindings = &LayoutBinding;
+
+    if(vkCreateDescriptorSetLayout(*p_Dev, &LayoutInf, nullptr, &DescriptorLayouts[LayoutIterator]) != VK_SUCCESS)
     {
-        ThrowError("Failed to create descriptor pool for a ShaderInput object");
+        ThrowError("Failed to add Shader Input(s)\n");
     }
+
+    LayoutIterator++;
+    return;
 }
 
-std::vector<VkDescriptorSetLayout>* Ek::Pipeline::GetDescriptorLayouts()
+void Ek::Shader::BuildShaderLayout()
 {
-    return &DescriptorLayouts;
+    VkDescriptorPoolCreateInfo PoolInf;
+    PoolInf.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    PoolInf.poolSizeCount = PoolSizes.size();
+    PoolInf.pPoolSizes = PoolSizes.data();
+    PoolInf.maxSets = DescriptorBindings.size();
+
+    if(vkCreateDescriptorPool(*p_Dev, &PoolInf, nullptr, &DescriptorPool) != VK_SUCCESS)
+    {
+        ThrowError("Failed to create descriptor pool\n");
+    }
+
+    for(uint32_t i = 0; i < DescriptorBindings.size(); i++)
+    {
+        VkDescriptorSetAllocateInfo AllocInf;
+        AllocInf.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+        AllocInf.descriptorPool = DescriptorPool;
+        AllocInf.descriptorSetCount = DescriptorLayouts.size();
+        AllocInf.pSetLayouts = DescriptorLayouts.data();
+
+        if(vkAllocateDescriptorSets(*p_Dev, &AllocInf, &DescriptorSets[i]) != VK_SUCCESS)
+        {
+            ThrowError("Failed to allocate some Descriptors");
+        }
+    }
+
+    return;
 }

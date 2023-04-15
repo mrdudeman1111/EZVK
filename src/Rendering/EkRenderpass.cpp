@@ -65,7 +65,7 @@ void Ek::Subpass::Build(std::vector<RenderpassResource>* InputSets, uint32_t* At
     pDepthStencilAttachment = &InputSets->at(DepthAtt).Reference;
 }
 
-void Ek::Renderpass::BuildSubpass(std::vector<AllocatedImage*> Attachments, VkPipelineBindPoint BindPoint, std::vector<VkSubpassDependency> Dependencies)
+void Ek::Renderpass::BuildSubpass(std::vector<AllocatedImage*> Attachments, std::vector<VkSubpassDependency> Dependencies)
 {
     Ek::Subpass Subpass;
 
@@ -76,18 +76,18 @@ void Ek::Renderpass::BuildSubpass(std::vector<AllocatedImage*> Attachments, VkPi
         AttRef.attachment = AttachmentIterator;
         AttRef.layout = Attachments[i]->Layout;
 
+        InputSets.push_back({});
         InputSets[i].Reference = AttRef;
         InputSets[i].Resource = Attachments[i];
     }
 
-    Subpass.Build(&InputSets, BindPoint, &AttachmentIterator, &Dependencies);
+    Subpass.Build(&InputSets, &AttachmentIterator, &Dependencies);
     Subpasses.push_back(Subpass);
 }
 
-Ek::Pipeline Ek::Renderpass::CreatePipeline(PipeLayout* pLayout, uint32_t* SubpassToUse)
+Ek::Pipeline Ek::Renderpass::CreatePipeline(int Height, int Width)
 {
-    Ek::Pipeline Pipe;
-    Pipe.CreateGraphicsPipeline(Device, Height, Width, &RenderPass, *SubpassToUse, pLayout);
+    Ek::Pipeline Pipe(Device, &RenderPass, Height, Width);
     return Pipe;
 }
 
@@ -107,7 +107,7 @@ void Ek::Renderpass::Build()
         }
     }
 
-    if(Deps.empty())
+    if(!Deps.empty())
     {
         RenderPassCI.dependencyCount = Deps.size();
         RenderPassCI.pDependencies = Deps.data();

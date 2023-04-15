@@ -25,7 +25,7 @@
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
 // Forward declared Helper functions
-    std::vector<char> ReadFile(std::string& FileName);
+    std::vector<char> ReadFile(const char* FileName);
 
     void ThrowError(const char* ErrorMsg);
 

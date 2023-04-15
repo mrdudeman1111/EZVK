@@ -4,18 +4,19 @@
 #include <Base/PhysicalDevice.h>
 #include <Rendering/EkPipeline.hpp>
 
+#include <stb/stb_image.h>
+
 enum QueueType
 {
-    Graphics = 1,
-    Compute = 2,
-    Transfer = 4,
-    SparseBind = 8,
-    Protected = 16,
-    OpticFlow = 32
+    Graphics =   0x00000001,
+    Compute =    0x00000010,
+    Transfer =   0x00000100,
+    SparseBind = 0x00001000,
+    Protected =  0x00010000,
+    OpticFlow =  0x00100000,
     #ifdef VK_ENABLE_BETA_EXTENSIONS
-        ,
-        Decode = 64,
-        Encode = 128
+        Decode = 0x01000000,
+        Encode = 0x10000000
     #endif
 };
 
@@ -83,15 +84,6 @@ namespace Ek
         #endif
     };
 
-    struct EkShader
-    {
-        VkShaderModule ShaderModule;
-        
-        // Shader Name is the name of the entrypoint function in the shader (the example shader entrypoint functions are main so This name will be name)
-        const char* ShaderEntryPointName;
-        VkShaderStageFlagBits Stage;
-    };
-
     class Device
     {
     public:
@@ -104,12 +96,12 @@ namespace Ek
         void RequestExtension(const char* ExtensionName);
 
 
-        void Create(Instance* Inst, PhysicalDevice* PDevice, QueueList DesiredQueues, Ek::Queues* Queues);
+        void Create(Instance* Inst, QueueList* DesiredQueues, Ek::Queues* Queues);
 
-        AllocatedImage CreateTexture(VkImageType ImageType, VkExtent3D Extent, VkFormat ImageFormat, VkImageLayout Layout, VmaMemoryUsage MemUse, uint32_t MipLevels, VkImageUsageFlags ImageUsage);
-        AllocatedImage LoadTexture(const char* Path, VkExtent3D* Extent);
+        AllocatedImage CreateTexture(VkImageType ImageType, VkExtent3D Extent, VkFormat ImageFormat, VkImageLayout Layout, VmaMemoryUsage MemUse, uint32_t MipLevels, VkImageUsageFlags ImageUsage, void* pNext = nullptr);
+        AllocatedImage LoadTexture(const char* Path);
    
-        EkShader CreateShader(std::string& FileName);
+        Shader CreateShader(const char* FileName);
 
         Window* CreateWindow(Ek::Queue* PresentQueue);
 

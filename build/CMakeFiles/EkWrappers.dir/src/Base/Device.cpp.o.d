@@ -1,9 +1,7 @@
 CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o: \
- /home/ethan/Repos/VulkanWrapper/src/Base/Device.cpp \
- /usr/include/stdc-predef.h \
- /home/ethan/Repos/VulkanWrapper/src/Base/Device.h \
- /home/ethan/Repos/VulkanWrapper/src/Base/EkWindow.hpp \
- /usr/include/GLFW/glfw3.h \
+ /home/ethanw/Repos/VulkanWrapper/src/Base/Device.cpp \
+ /usr/include/stdc-predef.h /usr/include/vulkan/vulkan_core.h \
+ /usr/include/vulkan/vk_platform.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.1/include/stddef.h \
  /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.1/include/stdint.h \
  /usr/include/stdint.h /usr/include/bits/libc-header-start.h \
@@ -14,15 +12,16 @@ CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o: \
  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
  /usr/include/bits/time64.h /usr/include/bits/wchar.h \
  /usr/include/bits/stdint-intn.h /usr/include/bits/stdint-uintn.h \
- /usr/include/vulkan/vulkan.h /usr/include/vulkan/vk_platform.h \
- /usr/include/vulkan/vulkan_core.h \
  /usr/include/vk_video/vulkan_video_codec_h264std.h \
  /usr/include/vk_video/vulkan_video_codec_h264std_decode.h \
  /usr/include/vk_video/vulkan_video_codec_h265std.h \
  /usr/include/vk_video/vulkan_video_codec_h265std_decode.h \
- /usr/include/GL/gl.h /usr/include/GL/glext.h \
- /usr/include/KHR/khrplatform.h \
- /home/ethan/Repos/VulkanWrapper/src/Images/EkImages.hpp \
+ /home/ethanw/Repos/VulkanWrapper/src/Base/Device.h \
+ /home/ethanw/Repos/VulkanWrapper/src/Base/EkWindow.hpp \
+ /usr/include/GLFW/glfw3.h /usr/include/vulkan/vulkan.h \
+ /usr/include/vulkan/vulkan_core.h /usr/include/GL/gl.h \
+ /usr/include/GL/glext.h /usr/include/KHR/khrplatform.h \
+ /home/ethanw/Repos/VulkanWrapper/src/Images/EkImages.hpp \
  /usr/include/c++/12.2.1/vector \
  /usr/include/c++/12.2.1/bits/stl_algobase.h \
  /usr/include/c++/12.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
@@ -149,8 +148,8 @@ CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o: \
  /usr/include/c++/12.2.1/bits/basic_ios.tcc \
  /usr/include/c++/12.2.1/bits/ostream.tcc /usr/include/c++/12.2.1/istream \
  /usr/include/c++/12.2.1/bits/istream.tcc /usr/include/vk_mem_alloc.h \
- /home/ethan/Repos/VulkanWrapper/src/Rendering/EkRenderpass.hpp \
- /home/ethan/Repos/VulkanWrapper/src/Base/EkTypes.hpp \
+ /home/ethanw/Repos/VulkanWrapper/src/Rendering/EkRenderpass.hpp \
+ /home/ethanw/Repos/VulkanWrapper/src/Base/EkTypes.hpp \
  /usr/include/glm/vec4.hpp /usr/include/glm/ext/vector_bool4.hpp \
  /usr/include/glm/detail/type_vec4.hpp \
  /usr/include/glm/detail/qualifier.hpp /usr/include/glm/detail/setup.hpp \
@@ -386,73 +385,20 @@ CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o: \
  /usr/include/c++/12.2.1/bits/stl_algo.h \
  /usr/include/c++/12.2.1/bits/algorithmfwd.h \
  /usr/include/c++/12.2.1/bits/uniform_int_dist.h \
- /home/ethan/Repos/VulkanWrapper/src/Rendering/EkPipeline.hpp \
+ /home/ethanw/Repos/VulkanWrapper/src/Rendering/EkPipeline.hpp \
  /usr/include/c++/12.2.1/set /usr/include/c++/12.2.1/bits/stl_tree.h \
  /usr/include/c++/12.2.1/bits/stl_set.h \
  /usr/include/c++/12.2.1/bits/stl_multiset.h /usr/include/c++/12.2.1/map \
  /usr/include/c++/12.2.1/bits/stl_map.h \
  /usr/include/c++/12.2.1/bits/stl_multimap.h \
  /usr/include/c++/12.2.1/optional \
- /home/ethan/Repos/VulkanWrapper/src/Base/PhysicalDevice.h \
- /home/ethan/Repos/VulkanWrapper/src/Base/Instance.h \
- /usr/include/c++/12.2.1/cstring /usr/include/string.h \
- /usr/include/strings.h /usr/local/include/sail/sail-c++/sail-c++.h \
- /usr/local/include/sail/sail-common/sail-common.h \
- /usr/local/include/sail/sail-common/config.h \
- /usr/local/include/sail/sail-common/common.h \
- /usr/local/include/sail/sail-common/error.h \
- /usr/local/include/sail/sail-common/compiler_specifics.h \
- /usr/local/include/sail/sail-common/export.h \
- /usr/local/include/sail/sail-common/common_serialize.h \
- /usr/local/include/sail/sail-common/compression_level.h \
- /usr/local/include/sail/sail-common/hash_map.h \
- /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.1/include/stdbool.h \
- /usr/local/include/sail/sail-common/iccp.h \
- /usr/local/include/sail/sail-common/image.h \
- /usr/local/include/sail/sail-common/io_common.h \
- /usr/local/include/sail/sail-common/load_features.h \
- /usr/local/include/sail/sail-common/load_options.h \
- /usr/local/include/sail/sail-common/log.h \
- /usr/local/include/sail/sail-common/memory.h \
- /usr/local/include/sail/sail-common/meta_data.h \
- /usr/local/include/sail/sail-common/meta_data_node.h \
- /usr/local/include/sail/sail-common/palette.h \
- /usr/local/include/sail/sail-common/pixel.h \
- /usr/local/include/sail/sail-common/resolution.h \
- /usr/local/include/sail/sail-common/save_features.h \
- /usr/local/include/sail/sail-common/save_options.h \
- /usr/local/include/sail/sail-common/source_image.h \
- /usr/local/include/sail/sail-common/string_node.h \
- /usr/local/include/sail/sail-common/utils.h \
- /usr/local/include/sail/sail-common/variant.h \
- /usr/local/include/sail/sail-common/variant_node.h \
- /usr/local/include/sail/sail-c++/arbitrary_data-c++.h \
- /usr/local/include/sail/sail-c++/at_scope_exit-c++.h \
- /usr/local/include/sail/sail-c++/codec_info-c++.h \
- /usr/local/include/sail/sail-c++/compression_level-c++.h \
- /usr/local/include/sail/sail-c++/context-c++.h \
- /usr/local/include/sail/sail/context.h \
- /usr/local/include/sail/sail-c++/conversion_options-c++.h \
- /usr/local/include/sail/sail-manip/manip_common.h \
- /usr/local/include/sail/sail-c++/iccp-c++.h \
- /usr/local/include/sail/sail-c++/image-c++.h \
- /usr/local/include/sail/sail-c++/palette-c++.h \
- /usr/local/include/sail/sail-c++/source_image-c++.h \
- /usr/local/include/sail/sail-c++/special_properties-c++.h \
- /usr/local/include/sail/sail-c++/variant-c++.h \
- /usr/local/include/sail/sail-c++/resolution-c++.h \
- /usr/local/include/sail/sail-c++/image_input-c++.h \
- /usr/local/include/sail/sail-c++/image_output-c++.h \
- /usr/local/include/sail/sail-c++/io_base-c++.h \
- /usr/local/include/sail/sail-c++/abstract_io-c++.h \
- /usr/local/include/sail/sail-c++/io_file-c++.h \
- /usr/local/include/sail/sail-c++/io_memory-c++.h \
- /usr/local/include/sail/sail-c++/load_features-c++.h \
- /usr/local/include/sail/sail-c++/tuning-c++.h \
- /usr/local/include/sail/sail-c++/load_options-c++.h \
- /usr/local/include/sail/sail-c++/log-c++.h \
- /usr/local/include/sail/sail-c++/meta_data-c++.h \
- /usr/local/include/sail/sail-c++/ostream-c++.h \
- /usr/local/include/sail/sail-c++/save_features-c++.h \
- /usr/local/include/sail/sail-c++/save_options-c++.h \
- /usr/local/include/sail/sail-c++/utils-c++.h
+ /home/ethanw/Repos/VulkanWrapper/src/Base/PhysicalDevice.h \
+ /home/ethanw/Repos/VulkanWrapper/src/Base/Instance.h \
+ /usr/include/stb/stb_image.h /usr/include/c++/12.2.1/stdlib.h \
+ /usr/include/string.h /usr/include/strings.h \
+ /usr/include/c++/12.2.1/math.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.1/include/emmintrin.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.1/include/xmmintrin.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.1/include/mmintrin.h \
+ /usr/lib/gcc/x86_64-pc-linux-gnu/12.2.1/include/mm_malloc.h \
+ /usr/include/c++/12.2.1/cstring

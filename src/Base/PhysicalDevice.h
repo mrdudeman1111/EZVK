@@ -5,10 +5,10 @@ namespace Ek
     class PhysicalDevice
     {
         public:
-        VkPhysicalDevice VkPhysDev;
+            VkPhysicalDevice VkPhysDev;
         // Physical Device:
             void PickPhysDev(Instance* Instance);
-            struct Device GetDevice();
+            struct Device GetLogicalDevice();
 
         private:
             bool CheckDevice(VkPhysicalDevice* PhysicalDevice);

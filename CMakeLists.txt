@@ -20,14 +20,13 @@ find_package(Vulkan REQUIRED)
 find_package(glm REQUIRED)
 find_package(glfw3 REQUIRED)
 find_package(SDL_image REQUIRED)
-find_package(SailC++ REQUIRED)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/include /usr/local/include/sail)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_compile_definitions(GLFWAPP)
 
 add_library(EkWrappers ${SOURCE})
 add_executable(test ${TSTSRC})
 
-target_link_libraries(EkWrappers PUBLIC vulkan glfw glm sail-c++)
+target_link_libraries(EkWrappers PUBLIC vulkan glfw glm)
 target_link_libraries(test PUBLIC EkWrappers)

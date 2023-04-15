@@ -28,7 +28,7 @@ namespace Ek
 
         VkInstance *InstanceHandle = pInst;
         VkSurfaceKHR *SurfaceHandle = &Surface;
-        DeletionQueue->operator()([InstanceHandle, SurfaceHandle]
+        DelQueue([InstanceHandle, SurfaceHandle]
                       { vkDestroySurfaceKHR(*InstanceHandle, *SurfaceHandle, nullptr); });
     }
 
@@ -43,7 +43,7 @@ namespace Ek
         WindowExtent.width = Width;
 
         GLFWwindow *WindowHandle = glfwWindow;
-        DeletionQueue->operator()([WindowHandle]{ glfwDestroyWindow(WindowHandle); });
+        DelQueue([WindowHandle]{ glfwDestroyWindow(WindowHandle); });
     }
 
     void Window::CreateSwapchain(uint32_t DesiredFBCount)
@@ -55,16 +55,23 @@ namespace Ek
 
         VkSwapchainCreateInfoKHR SwapCI{};
         SwapCI.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
-        SwapCI.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
-        SwapCI.surface = Surface;
-        SwapCI.imageColorSpace = SurfaceFormat.colorSpace;
+
         SwapCI.imageFormat = SurfaceFormat.format;
+        SwapCI.imageColorSpace = SurfaceFormat.colorSpace;
         SwapCI.imageExtent.height = WindowExtent.height;
         SwapCI.imageExtent.width = WindowExtent.width;
+        SwapCI.imageArrayLayers = 1;
+        SwapCI.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
+
+        SwapCI.surface = Surface;
+
+        SwapCI.preTransform = SurfaceCap.currentTransform;
         SwapCI.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
-        SwapCI.queueFamilyIndexCount = 1;
-        SwapCI.pQueueFamilyIndices = &PresentFamily;
         SwapCI.presentMode = VK_PRESENT_MODE_MAILBOX_KHR;
+        SwapCI.clipped = VK_TRUE;
+
+        SwapCI.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
+        SwapCI.oldSwapchain = VK_NULL_HANDLE;
 
         if (DesiredFBCount >= SurfaceCap.minImageCount)
         {
@@ -80,7 +87,7 @@ namespace Ek
 
         if(vkCreateSwapchainKHR(pDev->VkDev, &SwapCI, nullptr, &Swapchain) != VK_SUCCESS)
         {
-            throw std::runtime_error("Failed to create swapchain.\nAborting...");
+            ThrowError("Failed to create swapchain");
         }
 
         if(DesiredFBCount >= SurfaceCap.minImageCount)

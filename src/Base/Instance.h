@@ -7,7 +7,7 @@ namespace Ek
         public:
         VkInstance VkInst;
 
-        void CreateInstance();
+        void CreateInstance(uint32_t VkVersion, const char* AppName);
 
         void RequestInstanceExtension(const char* ExtensionName);
         void RequestLayer(const char* LayerName);

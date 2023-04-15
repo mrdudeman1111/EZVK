@@ -23,6 +23,10 @@ Pipeline
 
 DescriptorPool and DescriptorSets will Be wrapped into pipelineDescriptors class
 
+    Reminders:
+
+Remember to add delete queue to shaders
+
     Ideas:
 Shader Simplification Via Object with automated Creation
 

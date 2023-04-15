@@ -33,7 +33,7 @@ namespace Ek
 
         std::vector<VkAttachmentReference> Colors, Inputs, Resolves;
         std::vector<uint32_t> ReserveIndices;
-        uint32_t DepthAtt;
+        uint32_t DepthAtt = -1;
 
         std::vector<VkSubpassDependency> Dependencies;
 
@@ -41,7 +41,7 @@ namespace Ek
         uint32_t IndexOffset;
         uint32_t NumberOfAtts = 0;
 
-        void Build(std::vector<RenderpassResource>* InputSets, VkPipelineBindPoint BindPoint, uint32_t* AttIterator, std::vector<VkSubpassDependency>* Depends = {});
+        void Build(std::vector<RenderpassResource>* InputSets, uint32_t* AttIterator, std::vector<VkSubpassDependency>* Depends = {});
     };
 
     struct Renderpass
@@ -52,7 +52,7 @@ namespace Ek
 
         private:
         DeleteQueue CleanupQueue;
-        uint32_t AttachmentIterator;
+        uint32_t AttachmentIterator = 0;;
         VkDevice* Device;
         int Height, Width;
 
@@ -76,9 +76,9 @@ namespace Ek
 
         void Build();
 
-        void BuildSubpass(std::vector<AllocatedImage*> Attachments, VkPipelineBindPoint BindPoint, std::vector<VkSubpassDependency> Dependencies = {});
+        void BuildSubpass(std::vector<AllocatedImage*> Attachments, std::vector<VkSubpassDependency> Dependencies = {});
 
-        Ek::Pipeline CreatePipeline(PipeLayout* pLayout, uint32_t* SubpassToUse);
+        Ek::Pipeline CreatePipeline(int Height, int Width);
 
         void Begin(Ek::CommandBase* CommandBuffer, VkFramebuffer* FrameBuffer, VkRect2D* RenderArea, std::vector<VkClearValue>* ClearValues);
 

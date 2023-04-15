@@ -50,8 +50,6 @@ namespace Ek
             uint32_t PresentFamily;
             uint32_t CurrentFrameIndex;
 
-        DeleteQueue* DeletionQueue;
-
         private:
 
         void QueryFormats();

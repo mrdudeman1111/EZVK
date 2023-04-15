@@ -1,6 +1,6 @@
 #include <fstream>
-#include <cstring>
 #include <Base/Device.h>
+#include <vulkan/vulkan_core.h>
 
 /*
     Ideas:
@@ -31,31 +31,107 @@ Ek::Queues Queues;
 
 int main()
 {
-    EkInstance.RequestInstanceExtension("VK_KHR_external_memory_capabilites");
-    EkInstance.CreateInstance();
+    EkInstance.RequestInstanceExtension("VK_KHR_external_memory_capabilities");
+    EkInstance.RequestLayer("VK_LAYER_KHRONOS_validation");
+    EkInstance.CreateInstance(VK_API_VERSION_1_3, "external texture Tester");
 
     PDev.PickPhysDev(&EkInstance);
-    Device = PDev.GetDevice();
+    Device = PDev.GetLogicalDevice();
 
     Device.RequestExtension("VK_KHR_external_memory");
     Device.RequestExtension("VK_KHR_external_memory_fd");
+    Device.Create(&EkInstance, nullptr, nullptr);
 
-    QueueList DesiredQueues{};
-    DesiredQueues.emplace(Graphics, 1);
-    Device.Create(&EkInstance, &PDev, DesiredQueues, &Queues);
+    VkExternalMemoryImageCreateInfoKHR ExtImgInf{};
+    ExtImgInf.sType = VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_IMAGE_CREATE_INFO_KHR;
+    ExtImgInf.handleTypes = VK_EXTERNAL_MEMORY_HANDLE_TYPE_OPAQUE_FD_BIT;
 
-    Ek::CmdPool* CmdPool = Device.CreateCommandPool(QueueType::Graphics);
-    CmdPool->AllocateCmdBuffer(0, CommandBufferUsage::RenderPass);
+    VkExtent3D Extent{};
+    Extent.width = 1920;
+    Extent.height = 1080;
+    Extent.depth = 1.f;
 
-    Ek::Window* Window = Device.CreateWindow(&Queues.GraphicsQueues[0]);
+    VkImageFormatProperties2 FrmProps{};
 
-    Window->CreateWindow(1280, 720, "Tester");
-    Window->CreateSurface();
+    VkPhysicalDeviceImageFormatInfo2 FrmInfo{};
+    FrmInfo.usage = VK_IMAGE_USAGE_SAMPLED_BIT;
+    FrmInfo.tiling = VK_IMAGE_TILING_OPTIMAL;
+    FrmInfo.format = VK_FORMAT_R8G8B8_UINT;
 
-    Ek::Renderpass Renderpass = Device.CreateRenderpass();
-    Renderpass.BuildSubpass()
+    vkGetPhysicalDeviceImageFormatProperties2(PDev.VkPhysDev, &FrmInfo, &FrmProps);
+    
+    VkImageCreateInfo ImgCI{};
+    ImgCI.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+    ImgCI.pNext = &ExtImgInf;
+    ImgCI.usage = VK_IMAGE_USAGE_SAMPLED_BIT;
+    ImgCI.extent = Extent;
+    ImgCI.tiling = VK_IMAGE_TILING_OPTIMAL;
+    ImgCI.pNext = &ExtImgInf;
+    ImgCI.format = VK_FORMAT_B8G8R8_UINT;
+    ImgCI.samples = VK_SAMPLE_COUNT_1_BIT;
+    ImgCI.imageType = VK_IMAGE_TYPE_3D;
+    ImgCI.mipLevels = 1;
+    ImgCI.arrayLayers = 1;
+    ImgCI.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+    ImgCI.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED;
 
-    Window->CreateSwapchain(3);
+    VkImage Image;
+    VkDeviceMemory ImageMemory;
+
+    if(vkCreateImage(Device.VkDev, &ImgCI, nullptr, &Image) != VK_SUCCESS)
+    {
+      throw std::runtime_error("Failed to create image");
+    }
+
+    VkMemoryRequirements ImageRequirements;
+    vkGetImageMemoryRequirements(Device.VkDev, Image, &ImageRequirements);
+
+    VkPhysicalDeviceMemoryProperties MemProps;
+    vkGetPhysicalDeviceMemoryProperties(PDev.VkPhysDev, &MemProps);
+
+    int MemIndex;
+
+    for(uint32_t i = 0; i < MemProps.memoryTypeCount; i++)
+    {
+      if(MemProps.memoryTypes[i].propertyFlags & ImageRequirements.memoryTypeBits)
+      {
+        MemIndex = i;
+        break;
+      }
+    }
+
+    VkMemoryAllocateInfo AllocInfo;
+    AllocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+    AllocInfo.allocationSize = ImageRequirements.size;
+    AllocInfo.memoryTypeIndex = MemIndex;
+
+    if(vkAllocateMemory(Device.VkDev, &AllocInfo, nullptr, &ImageMemory) != VK_SUCCESS)
+    {
+      throw std::runtime_error("Failed to create Allocate Memory");
+    }
+
+    vkBindImageMemory(Device.VkDev, Image, ImageMemory, 0);
+
+    VkMemoryGetFdInfoKHR GetInf{};
+    GetInf.sType = VK_STRUCTURE_TYPE_MEMORY_GET_FD_INFO_KHR;
+    GetInf.handleType = VK_EXTERNAL_MEMORY_HANDLE_TYPE_OPAQUE_FD_BIT;
+    GetInf.memory = ImageMemory;
+
+    int ImageFd;
+
+    PFN_vkGetMemoryFdKHR GetFd = (PFN_vkGetMemoryFdKHR)vkGetInstanceProcAddr(EkInstance.VkInst, "vkGetMemoryFdKHR");
+    GetFd(Device.VkDev, &GetInf, &ImageFd);
+
+    std::cout << "successfully raised Image Memory to file handle " << ImageFd << " on Posix\n";
+
+    //vkGetMemoryFdPropertiesKHR(VkDevice device, VkExternalMemoryHandleTypeFlagBits handleType, int fd, VkMemoryFdPropertiesKHR *pMemoryFdProperties)
+
+    // while(!glfwWindowShouldClose(Window->glfwWindow))
+    // {
+    //     glfwPollEvents();
+    //     FrameBuffer* FB = Window->GetNextFrame();
+
+    // }
 
     std::cout << "successful run complete\n";
     return 0;

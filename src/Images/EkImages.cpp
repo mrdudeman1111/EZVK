@@ -10,7 +10,7 @@ void Warn(const char* Error)
 }
 
 // Utility function. Definition found in BaseEkTypes.hpp
-std::vector<char> ReadFile(std::string& FileName)
+std::vector<char> ReadFile(const char* FileName)
 {
     std::ifstream File(FileName, std::ios::ate | std::ios::binary);
 

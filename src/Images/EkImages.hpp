@@ -85,13 +85,3 @@ class FrameBuffer
     VkDevice* Device;
 };
 
-namespace Image
-{
-    // void AllocateImageView(VkDevice* Device, VkImageViewType ViewType, VkImageAspectFlagBits Aspects, AllocatedImage* PassedImage);
-
-    // bool AllocateImage(VmaAllocator* Allocator, VkDevice* Device, VkImageType ImageType, VkExtent3D Extent, VkFormat ImageFormat, VkImageLayout Layout, VmaMemoryUsage MemUse, uint32_t MipLevels, VkImageUsageFlags ImageUsage, AllocatedImage* PassedImage);
-
-    // AttDesc BuildRenderTarget(VkImageLayout InitLayout, VkImageLayout FinalLayout, AllocatedImage* Image, VkAttachmentLoadOp LoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE, VkAttachmentStoreOp StoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE, VkAttachmentLoadOp StencilLoadOp = VK_ATTACHMENT_LOAD_OP_DONT_CARE, VkAttachmentStoreOp StencilStoreOp = VK_ATTACHMENT_STORE_OP_DONT_CARE);
-
-    // AttDesc BuildAttDesc(AllocatedImage* Image, VkAttachmentLoadOp LoadOp, VkAttachmentStoreOp StoreOp, VkImageLayout* EndLayout, VkAttachmentLoadOp StencilLoad = VK_ATTACHMENT_LOAD_OP_DONT_CARE, VkAttachmentStoreOp StencilStore = VK_ATTACHMENT_STORE_OP_DONT_CARE);
-}
