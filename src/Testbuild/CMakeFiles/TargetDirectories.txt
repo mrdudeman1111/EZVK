@@ -1,0 +1,3 @@
+/home/ethanw/Repos/VulkanWrapper/src/Testbuild/CMakeFiles/VrApp.dir
+/home/ethanw/Repos/VulkanWrapper/src/Testbuild/CMakeFiles/edit_cache.dir
+/home/ethanw/Repos/VulkanWrapper/src/Testbuild/CMakeFiles/rebuild_cache.dir

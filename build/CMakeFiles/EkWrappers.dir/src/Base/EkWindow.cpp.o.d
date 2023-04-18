@@ -395,4 +395,5 @@ CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o: \
  /home/ethanw/Repos/VulkanWrapper/src/Base/Device.h \
  /home/ethanw/Repos/VulkanWrapper/src/Base/PhysicalDevice.h \
  /home/ethanw/Repos/VulkanWrapper/src/Base/Instance.h \
- /usr/include/stb/stb_image.h /usr/include/c++/12.2.1/stdlib.h
+ /usr/include/vulkan/vulkan_core.h /usr/include/stb/stb_image.h \
+ /usr/include/c++/12.2.1/stdlib.h

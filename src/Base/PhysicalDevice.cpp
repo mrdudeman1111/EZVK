@@ -1,4 +1,5 @@
 #include <Base/Device.h>
+#include <vulkan/vulkan_core.h>
 
 namespace Ek
 {
@@ -44,10 +45,24 @@ namespace Ek
             if(CheckDevice(&Devices[i])) 
             {
                 VkPhysDev = Devices[i];
-                return;
+                break;
             }
         }
+    }
 
-        throw std::runtime_error("Failed to find supported PhysDev");
+    uint32_t PhysicalDevice::GetMemType(VkMemoryPropertyFlags Props)
+    {
+      VkPhysicalDeviceMemoryProperties memProperties;
+      vkGetPhysicalDeviceMemoryProperties(VkPhysDev, &memProperties);
+
+      for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++)
+      {
+        if(memProperties.memoryTypes[i].propertyFlags & Props)
+        {
+            return i;
+        }
+      }
+
+      return -1;
     }
 }

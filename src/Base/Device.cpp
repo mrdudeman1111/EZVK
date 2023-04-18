@@ -45,7 +45,7 @@ namespace Ek
     AllocatedImage Device::LoadTexture(const char* Path)
     {
         int Height, Width, Channels;
-        stbi_uc* Pixels = stbi_load("/home/ethan/Repos/VulkanWrapper/src/Textures/Image.jpg", &Width, &Height, &Channels, STBI_rgb_alpha);
+        stbi_uc* Pixels = stbi_load(Path, &Width, &Height, &Channels, STBI_rgb_alpha);
 
         VkExtent3D Extent;
         Extent.width = Width;
@@ -124,21 +124,16 @@ namespace Ek
         uint32_t QueueFamCount;
         vkGetPhysicalDeviceQueueFamilyProperties(*PDev, &QueueFamCount, nullptr);
 
-        std::cout << "Found " << QueueFamCount << " QueueFamilies" << std::endl;
-
         std::vector<VkQueueFamilyProperties> QueueFamilies(QueueFamCount);
         vkGetPhysicalDeviceQueueFamilyProperties(*PDev, &QueueFamCount, QueueFamilies.data());
 
         for(uint32_t i = 0; i < QueueFamilies.size(); i++)
         {
-            std::cout << "Parsing Queue type of : " << QueueFamilies[i].queueFlags << std::endl;
-
             if(QueueFamilies[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
             {
                 FamilyIndices.GraphicsFamily = i;
                 FamilyIndices.GraphicsCount = QueueFamilies[i].queueCount;
                 FamilyIndices.GraphicsFlags = QueueFamilies[i].queueFlags;
-                std::cout << "Found Graphics Family at " << i << std::endl;
             }
 
             else if(QueueFamilies[i].queueFlags & VK_QUEUE_COMPUTE_BIT)
@@ -146,7 +141,6 @@ namespace Ek
                 FamilyIndices.ComputeFamily = i;
                 FamilyIndices.ComputeCount = QueueFamilies[i].queueCount;
                 FamilyIndices.ComputeFlags = QueueFamilies[i].queueFlags;
-                std::cout << "Found Compute Family at " << i << std::endl;
             }
             
             else if(QueueFamilies[i].queueFlags & VK_QUEUE_TRANSFER_BIT)
@@ -154,7 +148,6 @@ namespace Ek
                 FamilyIndices.TransferFamily = i;
                 FamilyIndices.TransferCount = QueueFamilies[i].queueCount;
                 FamilyIndices.TransferFlags = QueueFamilies[i].queueFlags;
-                std::cout << "Found Transfer Family at " << i << std::endl;
             }
 
             else if(QueueFamilies[i].queueFlags & VK_QUEUE_PROTECTED_BIT)
@@ -162,7 +155,6 @@ namespace Ek
                 FamilyIndices.ProtectedFamily = i;
                 FamilyIndices.ProtectedCount = QueueFamilies[i].queueCount;
                 FamilyIndices.ProtectedFlags = QueueFamilies[i].queueFlags;
-                std::cout << "Found Protected Family at " << i << std::endl;
             }
             
             #ifdef VK_ENABLE_BETA_EXTENSIONS
@@ -171,7 +163,6 @@ namespace Ek
                     FamilyIndices.DecodeFamily = i;
                     FamilyIndices.DecodeCount = QueueFamilies[i].queueCount;
                     FamilyIndices.DecodeFlags = QueueFamilies[i].queueFlags;
-                    std::cout << "Found Decode Family at " << i << std::endl;
                 }
 
                 else if(QueueFamilies[i].queueFlags & VK_QUEUE_VIDEO_ENCODE_BIT_KHR)
@@ -179,13 +170,12 @@ namespace Ek
                     FamilyIndices.EncodeFamily = i;
                     FamilyIndices.EncodeCount = QueueFamilies[i].queueCount;
                     FamilyIndices.EncodeFlags = QueueFamilies[i].queueFlags;
-                    std::cout << "Found Encode Family at " << i << std::endl;
                 }
             #endif
 
             else
             {
-                std::cout << "Failed to parse a queue" << std::endl;
+                std::cout << "Failed to parse queue" << std::endl;
             }
         }
     }

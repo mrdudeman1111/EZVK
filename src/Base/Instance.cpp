@@ -28,7 +28,7 @@ namespace Ek
             Layers.shrink_to_fit();
             Extensions.shrink_to_fit();
 
-            VkApplicationInfo AppInfo;
+            VkApplicationInfo AppInfo{};
             AppInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
             AppInfo.apiVersion = VkVersion;
             AppInfo.pEngineName = "EVK";
@@ -60,7 +60,7 @@ namespace Ek
             Layers.shrink_to_fit();
             Extensions.shrink_to_fit();
 
-            VkApplicationInfo AppInfo;
+            VkApplicationInfo AppInfo{};
             AppInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
             AppInfo.apiVersion = VkVersion;
             AppInfo.pEngineName = "EVK";
@@ -130,7 +130,7 @@ namespace Ek
         if(CheckLayerSupport(LayerName))
         {
             Layers.push_back(LayerName);
-            std::cout << "the layer " << LayerName << " is supported and is being loaded" << std::endl;
+            std::cout << "the layer " << LayerName << " is supported and is loaded" << std::endl;
             return;
         }
         else
