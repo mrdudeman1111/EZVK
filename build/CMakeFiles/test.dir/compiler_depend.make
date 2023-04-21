@@ -500,10 +500,26 @@ CMakeFiles/test.dir/src/main.cpp.o: /home/ethanw/Repos/VulkanWrapper/src/main.cp
   /usr/include/vulkan/vulkan_core.h \
   /usr/include/stb/stb_image.h \
   /usr/include/c++/12.2.1/stdlib.h \
+  /usr/include/vulkan/vk_enum_string_helper.h \
   /usr/include/c++/12.2.1/cstring \
   /usr/include/string.h \
-  /usr/include/strings.h
+  /usr/include/strings.h \
+  /usr/include/fcntl.h \
+  /usr/include/bits/fcntl.h \
+  /usr/include/bits/fcntl-linux.h \
+  /usr/include/bits/types/struct_iovec.h \
+  /usr/include/linux/falloc.h \
+  /usr/include/bits/stat.h \
+  /usr/include/bits/struct_stat.h
 
+
+/usr/include/bits/struct_stat.h:
+
+/usr/include/bits/fcntl.h:
+
+/usr/include/fcntl.h:
+
+/usr/include/vulkan/vk_enum_string_helper.h:
 
 /home/ethanw/Repos/VulkanWrapper/src/Base/Instance.h:
 
@@ -645,6 +661,8 @@ CMakeFiles/test.dir/src/main.cpp.o: /home/ethanw/Repos/VulkanWrapper/src/main.cp
 
 /usr/include/glm/gtc/constants.inl:
 
+/usr/include/bits/types/struct_iovec.h:
+
 /usr/include/glm/ext/scalar_constants.inl:
 
 /usr/include/glm/ext/scalar_constants.hpp:
@@ -684,6 +702,8 @@ CMakeFiles/test.dir/src/main.cpp.o: /home/ethanw/Repos/VulkanWrapper/src/main.cp
 /usr/include/c++/12.2.1/tr1/hypergeometric.tcc:
 
 /usr/include/c++/12.2.1/tr1/exp_integral.tcc:
+
+/usr/include/linux/falloc.h:
 
 /usr/include/c++/12.2.1/tr1/bessel_function.tcc:
 
@@ -1145,6 +1165,8 @@ CMakeFiles/test.dir/src/main.cpp.o: /home/ethanw/Repos/VulkanWrapper/src/main.cp
 
 /usr/include/vk_video/vulkan_video_codec_h264std.h:
 
+/usr/include/bits/stat.h:
+
 /usr/include/c++/12.2.1/initializer_list:
 
 /usr/include/c++/12.2.1/bits/stl_pair.h:
@@ -1168,6 +1190,8 @@ CMakeFiles/test.dir/src/main.cpp.o: /home/ethanw/Repos/VulkanWrapper/src/main.cp
 /usr/include/glm/mat2x3.hpp:
 
 /usr/include/c++/12.2.1/ext/type_traits.h:
+
+/usr/include/bits/fcntl-linux.h:
 
 /usr/include/c++/12.2.1/cctype:
 

@@ -10,7 +10,6 @@
     #include <glm/ext/matrix_clip_space.hpp>
     #include <glm/gtx/string_cast.hpp>
 
-
 // std namespace includes
     #include <memory>
     #include <fstream>
@@ -38,13 +37,12 @@
         return VK_FALSE;
     }
 
-// Types
-    enum VertexType{VTX_Basic, VTX_Rigged};
+// Types enum VertexType{VTX_Basic, VTX_Rigged};
 
     enum CommandBufferUsage
     {
-        OneTime = 0x00000001, 
-        RenderPass = 0x00000002, 
+        OneTime = 0x00000001,
+        RenderPass = 0x00000002,
         Simultaneous = 0x00000004
     };
 
@@ -367,46 +365,19 @@ namespace Ek
 }
 
 // Vertices:
-    struct BasicVertex
+namespace Ek
+{
+    class BasicVertex
     {
         public:
-            alignas(16) glm::vec3 Position = glm::vec3(0.0f);
-            alignas(16) glm::vec3 Color = glm::vec3(1.0f);
-            alignas(16) glm::vec3 Normal = glm::vec3(0.0f);
+            virtual std::vector<VkVertexInputBindingDescription> GetBindingDescription()
+            {}
 
-            static std::vector<VkVertexInputBindingDescription> GetBindingDescription()
-            {
-                std::vector<VkVertexInputBindingDescription> BindingDescription(1);
-                BindingDescription[0].binding = 0;
-                BindingDescription[0].stride = sizeof(BasicVertex);
-                BindingDescription[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-
-                return BindingDescription;
-            }
-
-            static std::vector<VkVertexInputAttributeDescription> GetAttributeDescription()
-            {
-                std::vector<VkVertexInputAttributeDescription> AttributeDescription(3);
-                AttributeDescription[0].binding = 0;
-                AttributeDescription[0].location = 0;
-                AttributeDescription[0].format = VK_FORMAT_R32G32B32_SFLOAT;
-                AttributeDescription[0].offset = offsetof(BasicVertex, Position);
-
-                AttributeDescription[1].binding = 0;
-                AttributeDescription[1].location = 1;
-                AttributeDescription[1].format = VK_FORMAT_R32G32B32_SFLOAT;
-                AttributeDescription[1].offset = offsetof(BasicVertex, Color);
-                
-                AttributeDescription[2].binding = 0;
-                    AttributeDescription[2].location = 2;
-                    AttributeDescription[2].format = VK_FORMAT_R32G32B32_SFLOAT;
-                    AttributeDescription[2].offset = offsetof(BasicVertex, Normal);
-
-                return AttributeDescription;
-            }
+            virtual std::vector<VkVertexInputAttributeDescription> GetAttributeDescription()
+            {}
     };
 
-    struct RiggedVertex
+    class RiggedVertex
     {
         public:
         alignas(16) glm::vec3 Position = glm::vec3(0.0f);
@@ -501,4 +472,4 @@ namespace Ek
         alignas(16) glm::vec3 Color;
         alignas(16) glm::vec3 Normal;
     };
-
+}

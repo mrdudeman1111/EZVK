@@ -126,285 +126,47 @@ EkWrappers: cmake_check_build_system
 
 # fast build rule for target.
 EkWrappers/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/build
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/EkWrappers.dir/build.make src/CMakeFiles/EkWrappers.dir/build
 .PHONY : EkWrappers/fast
 
 #=============================================================================
-# Target rules for targets named test
+# Target rules for targets named ExternalResources
 
 # Build rule for target.
-test: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test
-.PHONY : test
+ExternalResources: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ExternalResources
+.PHONY : ExternalResources
 
 # fast build rule for target.
-test/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
-.PHONY : test/fast
-
-src/Base/Device.o: src/Base/Device.cpp.o
-.PHONY : src/Base/Device.o
-
-# target to build an object file
-src/Base/Device.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o
-.PHONY : src/Base/Device.cpp.o
-
-src/Base/Device.i: src/Base/Device.cpp.i
-.PHONY : src/Base/Device.i
-
-# target to preprocess a source file
-src/Base/Device.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.i
-.PHONY : src/Base/Device.cpp.i
-
-src/Base/Device.s: src/Base/Device.cpp.s
-.PHONY : src/Base/Device.s
-
-# target to generate assembly for a file
-src/Base/Device.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.s
-.PHONY : src/Base/Device.cpp.s
-
-src/Base/EkVulkan.o: src/Base/EkVulkan.cpp.o
-.PHONY : src/Base/EkVulkan.o
-
-# target to build an object file
-src/Base/EkVulkan.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o
-.PHONY : src/Base/EkVulkan.cpp.o
-
-src/Base/EkVulkan.i: src/Base/EkVulkan.cpp.i
-.PHONY : src/Base/EkVulkan.i
-
-# target to preprocess a source file
-src/Base/EkVulkan.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.i
-.PHONY : src/Base/EkVulkan.cpp.i
-
-src/Base/EkVulkan.s: src/Base/EkVulkan.cpp.s
-.PHONY : src/Base/EkVulkan.s
-
-# target to generate assembly for a file
-src/Base/EkVulkan.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.s
-.PHONY : src/Base/EkVulkan.cpp.s
-
-src/Base/EkWindow.o: src/Base/EkWindow.cpp.o
-.PHONY : src/Base/EkWindow.o
-
-# target to build an object file
-src/Base/EkWindow.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o
-.PHONY : src/Base/EkWindow.cpp.o
-
-src/Base/EkWindow.i: src/Base/EkWindow.cpp.i
-.PHONY : src/Base/EkWindow.i
-
-# target to preprocess a source file
-src/Base/EkWindow.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.i
-.PHONY : src/Base/EkWindow.cpp.i
-
-src/Base/EkWindow.s: src/Base/EkWindow.cpp.s
-.PHONY : src/Base/EkWindow.s
-
-# target to generate assembly for a file
-src/Base/EkWindow.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.s
-.PHONY : src/Base/EkWindow.cpp.s
-
-src/Base/Instance.o: src/Base/Instance.cpp.o
-.PHONY : src/Base/Instance.o
-
-# target to build an object file
-src/Base/Instance.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o
-.PHONY : src/Base/Instance.cpp.o
-
-src/Base/Instance.i: src/Base/Instance.cpp.i
-.PHONY : src/Base/Instance.i
-
-# target to preprocess a source file
-src/Base/Instance.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.i
-.PHONY : src/Base/Instance.cpp.i
-
-src/Base/Instance.s: src/Base/Instance.cpp.s
-.PHONY : src/Base/Instance.s
-
-# target to generate assembly for a file
-src/Base/Instance.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.s
-.PHONY : src/Base/Instance.cpp.s
-
-src/Base/PhysicalDevice.o: src/Base/PhysicalDevice.cpp.o
-.PHONY : src/Base/PhysicalDevice.o
-
-# target to build an object file
-src/Base/PhysicalDevice.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o
-.PHONY : src/Base/PhysicalDevice.cpp.o
-
-src/Base/PhysicalDevice.i: src/Base/PhysicalDevice.cpp.i
-.PHONY : src/Base/PhysicalDevice.i
-
-# target to preprocess a source file
-src/Base/PhysicalDevice.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.i
-.PHONY : src/Base/PhysicalDevice.cpp.i
-
-src/Base/PhysicalDevice.s: src/Base/PhysicalDevice.cpp.s
-.PHONY : src/Base/PhysicalDevice.s
-
-# target to generate assembly for a file
-src/Base/PhysicalDevice.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.s
-.PHONY : src/Base/PhysicalDevice.cpp.s
-
-src/Camera/Camera.o: src/Camera/Camera.cpp.o
-.PHONY : src/Camera/Camera.o
-
-# target to build an object file
-src/Camera/Camera.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o
-.PHONY : src/Camera/Camera.cpp.o
-
-src/Camera/Camera.i: src/Camera/Camera.cpp.i
-.PHONY : src/Camera/Camera.i
-
-# target to preprocess a source file
-src/Camera/Camera.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.i
-.PHONY : src/Camera/Camera.cpp.i
-
-src/Camera/Camera.s: src/Camera/Camera.cpp.s
-.PHONY : src/Camera/Camera.s
-
-# target to generate assembly for a file
-src/Camera/Camera.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.s
-.PHONY : src/Camera/Camera.cpp.s
-
-src/Images/EkImages.o: src/Images/EkImages.cpp.o
-.PHONY : src/Images/EkImages.o
-
-# target to build an object file
-src/Images/EkImages.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o
-.PHONY : src/Images/EkImages.cpp.o
-
-src/Images/EkImages.i: src/Images/EkImages.cpp.i
-.PHONY : src/Images/EkImages.i
-
-# target to preprocess a source file
-src/Images/EkImages.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.i
-.PHONY : src/Images/EkImages.cpp.i
-
-src/Images/EkImages.s: src/Images/EkImages.cpp.s
-.PHONY : src/Images/EkImages.s
-
-# target to generate assembly for a file
-src/Images/EkImages.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.s
-.PHONY : src/Images/EkImages.cpp.s
-
-src/Meshes/EkMesh.o: src/Meshes/EkMesh.cpp.o
-.PHONY : src/Meshes/EkMesh.o
-
-# target to build an object file
-src/Meshes/EkMesh.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o
-.PHONY : src/Meshes/EkMesh.cpp.o
-
-src/Meshes/EkMesh.i: src/Meshes/EkMesh.cpp.i
-.PHONY : src/Meshes/EkMesh.i
-
-# target to preprocess a source file
-src/Meshes/EkMesh.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.i
-.PHONY : src/Meshes/EkMesh.cpp.i
-
-src/Meshes/EkMesh.s: src/Meshes/EkMesh.cpp.s
-.PHONY : src/Meshes/EkMesh.s
-
-# target to generate assembly for a file
-src/Meshes/EkMesh.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.s
-.PHONY : src/Meshes/EkMesh.cpp.s
-
-src/Rendering/EkPipeline.o: src/Rendering/EkPipeline.cpp.o
-.PHONY : src/Rendering/EkPipeline.o
-
-# target to build an object file
-src/Rendering/EkPipeline.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o
-.PHONY : src/Rendering/EkPipeline.cpp.o
-
-src/Rendering/EkPipeline.i: src/Rendering/EkPipeline.cpp.i
-.PHONY : src/Rendering/EkPipeline.i
-
-# target to preprocess a source file
-src/Rendering/EkPipeline.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.i
-.PHONY : src/Rendering/EkPipeline.cpp.i
-
-src/Rendering/EkPipeline.s: src/Rendering/EkPipeline.cpp.s
-.PHONY : src/Rendering/EkPipeline.s
-
-# target to generate assembly for a file
-src/Rendering/EkPipeline.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.s
-.PHONY : src/Rendering/EkPipeline.cpp.s
-
-src/Rendering/EkRenderpass.o: src/Rendering/EkRenderpass.cpp.o
-.PHONY : src/Rendering/EkRenderpass.o
-
-# target to build an object file
-src/Rendering/EkRenderpass.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o
-.PHONY : src/Rendering/EkRenderpass.cpp.o
-
-src/Rendering/EkRenderpass.i: src/Rendering/EkRenderpass.cpp.i
-.PHONY : src/Rendering/EkRenderpass.i
-
-# target to preprocess a source file
-src/Rendering/EkRenderpass.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.i
-.PHONY : src/Rendering/EkRenderpass.cpp.i
-
-src/Rendering/EkRenderpass.s: src/Rendering/EkRenderpass.cpp.s
-.PHONY : src/Rendering/EkRenderpass.s
-
-# target to generate assembly for a file
-src/Rendering/EkRenderpass.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.s
-.PHONY : src/Rendering/EkRenderpass.cpp.s
-
-src/main.o: src/main.cpp.o
-.PHONY : src/main.o
-
-# target to build an object file
-src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main.cpp.o
-.PHONY : src/main.cpp.o
-
-src/main.i: src/main.cpp.i
-.PHONY : src/main.i
-
-# target to preprocess a source file
-src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main.cpp.i
-.PHONY : src/main.cpp.i
-
-src/main.s: src/main.cpp.s
-.PHONY : src/main.s
-
-# target to generate assembly for a file
-src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/src/main.cpp.s
-.PHONY : src/main.cpp.s
+ExternalResources/fast:
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExternalResources.dir/build.make Examples/CMakeFiles/ExternalResources.dir/build
+.PHONY : ExternalResources/fast
+
+#=============================================================================
+# Target rules for targets named ExtImgQuery
+
+# Build rule for target.
+ExtImgQuery: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ExtImgQuery
+.PHONY : ExtImgQuery
+
+# fast build rule for target.
+ExtImgQuery/fast:
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExtImgQuery.dir/build.make Examples/CMakeFiles/ExtImgQuery.dir/build
+.PHONY : ExtImgQuery/fast
+
+#=============================================================================
+# Target rules for targets named ExternalImporter
+
+# Build rule for target.
+ExternalImporter: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ExternalImporter
+.PHONY : ExternalImporter
+
+# fast build rule for target.
+ExternalImporter/fast:
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExternalImporter.dir/build.make Examples/CMakeFiles/ExternalImporter.dir/build
+.PHONY : ExternalImporter/fast
 
 # Help Target
 help:
@@ -415,40 +177,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... EkWrappers"
-	@echo "... test"
-	@echo "... src/Base/Device.o"
-	@echo "... src/Base/Device.i"
-	@echo "... src/Base/Device.s"
-	@echo "... src/Base/EkVulkan.o"
-	@echo "... src/Base/EkVulkan.i"
-	@echo "... src/Base/EkVulkan.s"
-	@echo "... src/Base/EkWindow.o"
-	@echo "... src/Base/EkWindow.i"
-	@echo "... src/Base/EkWindow.s"
-	@echo "... src/Base/Instance.o"
-	@echo "... src/Base/Instance.i"
-	@echo "... src/Base/Instance.s"
-	@echo "... src/Base/PhysicalDevice.o"
-	@echo "... src/Base/PhysicalDevice.i"
-	@echo "... src/Base/PhysicalDevice.s"
-	@echo "... src/Camera/Camera.o"
-	@echo "... src/Camera/Camera.i"
-	@echo "... src/Camera/Camera.s"
-	@echo "... src/Images/EkImages.o"
-	@echo "... src/Images/EkImages.i"
-	@echo "... src/Images/EkImages.s"
-	@echo "... src/Meshes/EkMesh.o"
-	@echo "... src/Meshes/EkMesh.i"
-	@echo "... src/Meshes/EkMesh.s"
-	@echo "... src/Rendering/EkPipeline.o"
-	@echo "... src/Rendering/EkPipeline.i"
-	@echo "... src/Rendering/EkPipeline.s"
-	@echo "... src/Rendering/EkRenderpass.o"
-	@echo "... src/Rendering/EkRenderpass.i"
-	@echo "... src/Rendering/EkRenderpass.s"
-	@echo "... src/main.o"
-	@echo "... src/main.i"
-	@echo "... src/main.s"
+	@echo "... ExtImgQuery"
+	@echo "... ExternalImporter"
+	@echo "... ExternalResources"
 .PHONY : help
 
 

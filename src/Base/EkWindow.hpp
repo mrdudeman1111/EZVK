@@ -1,12 +1,13 @@
-#ifdef GLFWAPP
-
 #pragma once
+
+#include <Images/EkImages.hpp>
+#include <Rendering/EkRenderpass.hpp>
+
+#ifdef GLFWAPP
 
 #define GLFW_INCLUDE_VULKAN
 #include <GLFW/glfw3.h>
 
-#include <Images/EkImages.hpp>
-#include <Rendering/EkRenderpass.hpp>
 #include <optional>
 
 namespace Ek

@@ -1,9 +1,10 @@
 #include <Base/Device.h>
 #include <vulkan/vulkan_core.h>
+#include <vulkan/vk_enum_string_helper.h>
 
 namespace Ek
 {
-    bool PhysicalDevice::CheckDevice(VkPhysicalDevice* PhysicalDevice)
+    bool PhysicalDevice::CheckDevice(VkPhysicalDevice *PhysicalDevice)
     {
         VkPhysicalDeviceProperties DeviceProperties;
         vkGetPhysicalDeviceProperties(*PhysicalDevice, &DeviceProperties);
@@ -13,7 +14,7 @@ namespace Ek
 
         std::cout << DeviceProperties.deviceName << std::endl;
 
-        if(DeviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
+        if (DeviceProperties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
         {
             return true;
         }
@@ -25,7 +26,7 @@ namespace Ek
         return *new Device(&VkPhysDev);
     }
 
-    void PhysicalDevice::PickPhysDev(Instance* Instance)
+    void PhysicalDevice::PickPhysDev(Instance *Instance)
     {
         uint32_t DeviceCount = 0;
         vkEnumeratePhysicalDevices(Instance->VkInst, &DeviceCount, nullptr);
@@ -33,16 +34,16 @@ namespace Ek
         std::vector<VkPhysicalDevice> Devices(DeviceCount);
         vkEnumeratePhysicalDevices(Instance->VkInst, &DeviceCount, Devices.data());
 
-        if(DeviceCount == 0)
+        if (DeviceCount == 0)
         {
             ThrowError("Failed to find Physical Device with vulkan support");
         }
 
         std::cout << "Found " << Devices.size() << " Physical Devices:\n";
 
-        for(uint32_t i = 0; i < Devices.size(); i++) 
+        for (uint32_t i = 0; i < Devices.size(); i++)
         {
-            if(CheckDevice(&Devices[i])) 
+            if (CheckDevice(&Devices[i]))
             {
                 VkPhysDev = Devices[i];
                 break;
@@ -52,17 +53,18 @@ namespace Ek
 
     uint32_t PhysicalDevice::GetMemType(VkMemoryPropertyFlags Props)
     {
-      VkPhysicalDeviceMemoryProperties memProperties;
-      vkGetPhysicalDeviceMemoryProperties(VkPhysDev, &memProperties);
+        VkPhysicalDeviceMemoryProperties MemProperties;
+        vkGetPhysicalDeviceMemoryProperties(VkPhysDev, &MemProperties);
 
-      for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++)
-      {
-        if(memProperties.memoryTypes[i].propertyFlags & Props)
+        for (uint32_t i = 0; i < MemProperties.memoryTypeCount; i++)
         {
-            return i;
+            if (MemProperties.memoryTypes[i].propertyFlags & Props)
+            {
+                return i;
+            }
         }
-      }
 
-      return -1;
+        std::cout << "Ek::PhysicalDevice::GetMemType() : couldn't find compatible memory Range\n";
+        return -1;
     }
 }

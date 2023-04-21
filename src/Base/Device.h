@@ -2,21 +2,21 @@
 
 #include <Base/EkWindow.hpp>
 #include <Base/PhysicalDevice.h>
-#include <Rendering/EkPipeline.hpp>
+#include <Rendering/EkRenderpass.hpp>
 
 #include <stb/stb_image.h>
 
 enum QueueType
 {
-    Graphics =   0x00000001,
-    Compute =    0x00000010,
-    Transfer =   0x00000100,
-    SparseBind = 0x00001000,
-    Protected =  0x00010000,
-    OpticFlow =  0x00100000,
+    Graphics =   0b00000001,
+    Compute =    0b00000010,
+    Transfer =   0b00000100,
+    SparseBind = 0b00001000,
+    Protected =  0b00010000,
+    OpticFlow =  0b00100000,
     #ifdef VK_ENABLE_BETA_EXTENSIONS
-        Decode = 0x01000000,
-        Encode = 0x10000000
+        Decode = 0b01000000,
+        Encode = 0b10000000
     #endif
 };
 
@@ -103,7 +103,9 @@ namespace Ek
    
         Shader CreateShader(const char* FileName);
 
-        Window* CreateWindow(Ek::Queue* PresentQueue);
+        #ifdef GLFWAPP
+            Window* CreateWindow(Ek::Queue* PresentQueue);
+        #endif
 
         Ek::CmdPool* CreateCommandPool(QueueType QueueType);
 

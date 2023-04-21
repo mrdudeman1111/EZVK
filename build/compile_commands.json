@@ -1,68 +1,80 @@
 [
 {
-  "directory": "/home/ethanw/Repos/VulkanWrapper/build",
-  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Base/Device.cpp",
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/src",
+  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/Base/Device.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Base/Device.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/src/Base/Device.cpp",
-  "output": "CMakeFiles/EkWrappers.dir/src/Base/Device.cpp.o"
+  "output": "src/CMakeFiles/EkWrappers.dir/Base/Device.cpp.o"
 },
 {
-  "directory": "/home/ethanw/Repos/VulkanWrapper/build",
-  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Base/EkVulkan.cpp",
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/src",
+  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/Base/EkVulkan.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Base/EkVulkan.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/src/Base/EkVulkan.cpp",
-  "output": "CMakeFiles/EkWrappers.dir/src/Base/EkVulkan.cpp.o"
+  "output": "src/CMakeFiles/EkWrappers.dir/Base/EkVulkan.cpp.o"
 },
 {
-  "directory": "/home/ethanw/Repos/VulkanWrapper/build",
-  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Base/EkWindow.cpp",
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/src",
+  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/Base/EkWindow.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Base/EkWindow.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/src/Base/EkWindow.cpp",
-  "output": "CMakeFiles/EkWrappers.dir/src/Base/EkWindow.cpp.o"
+  "output": "src/CMakeFiles/EkWrappers.dir/Base/EkWindow.cpp.o"
 },
 {
-  "directory": "/home/ethanw/Repos/VulkanWrapper/build",
-  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Base/Instance.cpp",
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/src",
+  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/Base/Instance.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Base/Instance.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/src/Base/Instance.cpp",
-  "output": "CMakeFiles/EkWrappers.dir/src/Base/Instance.cpp.o"
+  "output": "src/CMakeFiles/EkWrappers.dir/Base/Instance.cpp.o"
 },
 {
-  "directory": "/home/ethanw/Repos/VulkanWrapper/build",
-  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Base/PhysicalDevice.cpp",
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/src",
+  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/Base/PhysicalDevice.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Base/PhysicalDevice.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/src/Base/PhysicalDevice.cpp",
-  "output": "CMakeFiles/EkWrappers.dir/src/Base/PhysicalDevice.cpp.o"
+  "output": "src/CMakeFiles/EkWrappers.dir/Base/PhysicalDevice.cpp.o"
 },
 {
-  "directory": "/home/ethanw/Repos/VulkanWrapper/build",
-  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Camera/Camera.cpp",
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/src",
+  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/Camera/Camera.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Camera/Camera.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/src/Camera/Camera.cpp",
-  "output": "CMakeFiles/EkWrappers.dir/src/Camera/Camera.cpp.o"
+  "output": "src/CMakeFiles/EkWrappers.dir/Camera/Camera.cpp.o"
 },
 {
-  "directory": "/home/ethanw/Repos/VulkanWrapper/build",
-  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Images/EkImages.cpp",
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/src",
+  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/Images/EkImages.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Images/EkImages.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/src/Images/EkImages.cpp",
-  "output": "CMakeFiles/EkWrappers.dir/src/Images/EkImages.cpp.o"
+  "output": "src/CMakeFiles/EkWrappers.dir/Images/EkImages.cpp.o"
 },
 {
-  "directory": "/home/ethanw/Repos/VulkanWrapper/build",
-  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Meshes/EkMesh.cpp",
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/src",
+  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/Meshes/EkMesh.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Meshes/EkMesh.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/src/Meshes/EkMesh.cpp",
-  "output": "CMakeFiles/EkWrappers.dir/src/Meshes/EkMesh.cpp.o"
+  "output": "src/CMakeFiles/EkWrappers.dir/Meshes/EkMesh.cpp.o"
 },
 {
-  "directory": "/home/ethanw/Repos/VulkanWrapper/build",
-  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Rendering/EkPipeline.cpp",
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/src",
+  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/Rendering/EkPipeline.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Rendering/EkPipeline.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/src/Rendering/EkPipeline.cpp",
-  "output": "CMakeFiles/EkWrappers.dir/src/Rendering/EkPipeline.cpp.o"
+  "output": "src/CMakeFiles/EkWrappers.dir/Rendering/EkPipeline.cpp.o"
 },
 {
-  "directory": "/home/ethanw/Repos/VulkanWrapper/build",
-  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Rendering/EkRenderpass.cpp",
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/src",
+  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/EkWrappers.dir/Rendering/EkRenderpass.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/Rendering/EkRenderpass.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/src/Rendering/EkRenderpass.cpp",
-  "output": "CMakeFiles/EkWrappers.dir/src/Rendering/EkRenderpass.cpp.o"
+  "output": "src/CMakeFiles/EkWrappers.dir/Rendering/EkRenderpass.cpp.o"
 },
 {
-  "directory": "/home/ethanw/Repos/VulkanWrapper/build",
-  "command": "/usr/bin/g++ -DGLFWAPP -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/test.dir/src/main.cpp.o -c /home/ethanw/Repos/VulkanWrapper/src/main.cpp",
-  "file": "/home/ethanw/Repos/VulkanWrapper/src/main.cpp",
-  "output": "CMakeFiles/test.dir/src/main.cpp.o"
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/Examples",
+  "command": "/usr/bin/g++ -DSHADERDIR=\\\"/home/ethanw/Repos/VulkanWrapper/build/Shaders\\\" -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/ExternalResources.dir/ExternalResources.cpp.o -c /home/ethanw/Repos/VulkanWrapper/Examples/ExternalResources.cpp",
+  "file": "/home/ethanw/Repos/VulkanWrapper/Examples/ExternalResources.cpp",
+  "output": "Examples/CMakeFiles/ExternalResources.dir/ExternalResources.cpp.o"
+},
+{
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/Examples",
+  "command": "/usr/bin/g++ -DSHADERDIR=\\\"/home/ethanw/Repos/VulkanWrapper/build/Shaders\\\" -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/ExtImgQuery.dir/ExtImgQuery.cpp.o -c /home/ethanw/Repos/VulkanWrapper/Examples/ExtImgQuery.cpp",
+  "file": "/home/ethanw/Repos/VulkanWrapper/Examples/ExtImgQuery.cpp",
+  "output": "Examples/CMakeFiles/ExtImgQuery.dir/ExtImgQuery.cpp.o"
+},
+{
+  "directory": "/home/ethanw/Repos/VulkanWrapper/build/Examples",
+  "command": "/usr/bin/g++ -DSHADERDIR=\\\"/home/ethanw/Repos/VulkanWrapper/build/Shaders\\\" -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/ExternalImporter.dir/ExternalImporter.cpp.o -c /home/ethanw/Repos/VulkanWrapper/Examples/ExternalImporter.cpp",
+  "file": "/home/ethanw/Repos/VulkanWrapper/Examples/ExternalImporter.cpp",
+  "output": "Examples/CMakeFiles/ExternalImporter.dir/ExternalImporter.cpp.o"
 }
 ]

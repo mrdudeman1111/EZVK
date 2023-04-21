@@ -63,70 +63,175 @@ CMAKE_BINARY_DIR = /home/ethanw/Repos/VulkanWrapper/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/EkWrappers.dir/all
-all: CMakeFiles/test.dir/all
+all: src/all
+all: Examples/all
+all: Shaders/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
-preinstall:
+preinstall: src/preinstall
+preinstall: Examples/preinstall
+preinstall: Shaders/preinstall
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/EkWrappers.dir/clean
-clean: CMakeFiles/test.dir/clean
+clean: src/clean
+clean: Examples/clean
+clean: Shaders/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/EkWrappers.dir
+# Directory level rules for directory Examples
+
+# Recursive "all" directory target.
+Examples/all: Examples/CMakeFiles/ExternalResources.dir/all
+Examples/all: Examples/CMakeFiles/ExtImgQuery.dir/all
+Examples/all: Examples/CMakeFiles/ExternalImporter.dir/all
+.PHONY : Examples/all
+
+# Recursive "preinstall" directory target.
+Examples/preinstall:
+.PHONY : Examples/preinstall
+
+# Recursive "clean" directory target.
+Examples/clean: Examples/CMakeFiles/ExternalResources.dir/clean
+Examples/clean: Examples/CMakeFiles/ExtImgQuery.dir/clean
+Examples/clean: Examples/CMakeFiles/ExternalImporter.dir/clean
+.PHONY : Examples/clean
+
+#=============================================================================
+# Directory level rules for directory Shaders
+
+# Recursive "all" directory target.
+Shaders/all:
+.PHONY : Shaders/all
+
+# Recursive "preinstall" directory target.
+Shaders/preinstall:
+.PHONY : Shaders/preinstall
+
+# Recursive "clean" directory target.
+Shaders/clean:
+.PHONY : Shaders/clean
+
+#=============================================================================
+# Directory level rules for directory src
+
+# Recursive "all" directory target.
+src/all: src/CMakeFiles/EkWrappers.dir/all
+.PHONY : src/all
+
+# Recursive "preinstall" directory target.
+src/preinstall:
+.PHONY : src/preinstall
+
+# Recursive "clean" directory target.
+src/clean: src/CMakeFiles/EkWrappers.dir/clean
+.PHONY : src/clean
+
+#=============================================================================
+# Target rules for target src/CMakeFiles/EkWrappers.dir
 
 # All Build rule for target.
-CMakeFiles/EkWrappers.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/build
+src/CMakeFiles/EkWrappers.dir/all:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/EkWrappers.dir/build.make src/CMakeFiles/EkWrappers.dir/depend
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/EkWrappers.dir/build.make src/CMakeFiles/EkWrappers.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ethanw/Repos/VulkanWrapper/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11 "Built target EkWrappers"
-.PHONY : CMakeFiles/EkWrappers.dir/all
+.PHONY : src/CMakeFiles/EkWrappers.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/EkWrappers.dir/rule: cmake_check_build_system
+src/CMakeFiles/EkWrappers.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethanw/Repos/VulkanWrapper/build/CMakeFiles 11
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/EkWrappers.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 src/CMakeFiles/EkWrappers.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethanw/Repos/VulkanWrapper/build/CMakeFiles 0
-.PHONY : CMakeFiles/EkWrappers.dir/rule
+.PHONY : src/CMakeFiles/EkWrappers.dir/rule
 
 # Convenience name for target.
-EkWrappers: CMakeFiles/EkWrappers.dir/rule
+EkWrappers: src/CMakeFiles/EkWrappers.dir/rule
 .PHONY : EkWrappers
 
 # clean rule for target.
-CMakeFiles/EkWrappers.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/EkWrappers.dir/build.make CMakeFiles/EkWrappers.dir/clean
-.PHONY : CMakeFiles/EkWrappers.dir/clean
+src/CMakeFiles/EkWrappers.dir/clean:
+	$(MAKE) $(MAKESILENT) -f src/CMakeFiles/EkWrappers.dir/build.make src/CMakeFiles/EkWrappers.dir/clean
+.PHONY : src/CMakeFiles/EkWrappers.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/test.dir
+# Target rules for target Examples/CMakeFiles/ExternalResources.dir
 
 # All Build rule for target.
-CMakeFiles/test.dir/all: CMakeFiles/EkWrappers.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ethanw/Repos/VulkanWrapper/build/CMakeFiles --progress-num=12,13 "Built target test"
-.PHONY : CMakeFiles/test.dir/all
+Examples/CMakeFiles/ExternalResources.dir/all: src/CMakeFiles/EkWrappers.dir/all
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExternalResources.dir/build.make Examples/CMakeFiles/ExternalResources.dir/depend
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExternalResources.dir/build.make Examples/CMakeFiles/ExternalResources.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ethanw/Repos/VulkanWrapper/build/CMakeFiles --progress-num=16,17 "Built target ExternalResources"
+.PHONY : Examples/CMakeFiles/ExternalResources.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/test.dir/rule: cmake_check_build_system
+Examples/CMakeFiles/ExternalResources.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethanw/Repos/VulkanWrapper/build/CMakeFiles 13
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/test.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Examples/CMakeFiles/ExternalResources.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethanw/Repos/VulkanWrapper/build/CMakeFiles 0
-.PHONY : CMakeFiles/test.dir/rule
+.PHONY : Examples/CMakeFiles/ExternalResources.dir/rule
 
 # Convenience name for target.
-test: CMakeFiles/test.dir/rule
-.PHONY : test
+ExternalResources: Examples/CMakeFiles/ExternalResources.dir/rule
+.PHONY : ExternalResources
 
 # clean rule for target.
-CMakeFiles/test.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/clean
-.PHONY : CMakeFiles/test.dir/clean
+Examples/CMakeFiles/ExternalResources.dir/clean:
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExternalResources.dir/build.make Examples/CMakeFiles/ExternalResources.dir/clean
+.PHONY : Examples/CMakeFiles/ExternalResources.dir/clean
+
+#=============================================================================
+# Target rules for target Examples/CMakeFiles/ExtImgQuery.dir
+
+# All Build rule for target.
+Examples/CMakeFiles/ExtImgQuery.dir/all: src/CMakeFiles/EkWrappers.dir/all
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExtImgQuery.dir/build.make Examples/CMakeFiles/ExtImgQuery.dir/depend
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExtImgQuery.dir/build.make Examples/CMakeFiles/ExtImgQuery.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ethanw/Repos/VulkanWrapper/build/CMakeFiles --progress-num=12,13 "Built target ExtImgQuery"
+.PHONY : Examples/CMakeFiles/ExtImgQuery.dir/all
+
+# Build rule for subdir invocation for target.
+Examples/CMakeFiles/ExtImgQuery.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethanw/Repos/VulkanWrapper/build/CMakeFiles 13
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Examples/CMakeFiles/ExtImgQuery.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethanw/Repos/VulkanWrapper/build/CMakeFiles 0
+.PHONY : Examples/CMakeFiles/ExtImgQuery.dir/rule
+
+# Convenience name for target.
+ExtImgQuery: Examples/CMakeFiles/ExtImgQuery.dir/rule
+.PHONY : ExtImgQuery
+
+# clean rule for target.
+Examples/CMakeFiles/ExtImgQuery.dir/clean:
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExtImgQuery.dir/build.make Examples/CMakeFiles/ExtImgQuery.dir/clean
+.PHONY : Examples/CMakeFiles/ExtImgQuery.dir/clean
+
+#=============================================================================
+# Target rules for target Examples/CMakeFiles/ExternalImporter.dir
+
+# All Build rule for target.
+Examples/CMakeFiles/ExternalImporter.dir/all: src/CMakeFiles/EkWrappers.dir/all
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExternalImporter.dir/build.make Examples/CMakeFiles/ExternalImporter.dir/depend
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExternalImporter.dir/build.make Examples/CMakeFiles/ExternalImporter.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/ethanw/Repos/VulkanWrapper/build/CMakeFiles --progress-num=14,15 "Built target ExternalImporter"
+.PHONY : Examples/CMakeFiles/ExternalImporter.dir/all
+
+# Build rule for subdir invocation for target.
+Examples/CMakeFiles/ExternalImporter.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethanw/Repos/VulkanWrapper/build/CMakeFiles 13
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Examples/CMakeFiles/ExternalImporter.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/ethanw/Repos/VulkanWrapper/build/CMakeFiles 0
+.PHONY : Examples/CMakeFiles/ExternalImporter.dir/rule
+
+# Convenience name for target.
+ExternalImporter: Examples/CMakeFiles/ExternalImporter.dir/rule
+.PHONY : ExternalImporter
+
+# clean rule for target.
+Examples/CMakeFiles/ExternalImporter.dir/clean:
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExternalImporter.dir/build.make Examples/CMakeFiles/ExternalImporter.dir/clean
+.PHONY : Examples/CMakeFiles/ExternalImporter.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

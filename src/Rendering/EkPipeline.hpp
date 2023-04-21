@@ -2,7 +2,6 @@
 
 #include <Base/EkTypes.hpp>
 
-
 namespace Ek
 {
     // Add Push Constant support
@@ -57,11 +56,9 @@ namespace Ek
 
         uint32_t Height, Width;
 
-        VertexType VT;
-
         PipeLayout PipelineLayout;
 
-        void Build(uint32_t SubpassToUse);
+        void Build(Ek::BasicVertex* VertexClass, uint32_t SubpassToUse);
 
         private:
         VkDevice* p_Dev;

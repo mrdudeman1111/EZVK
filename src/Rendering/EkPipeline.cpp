@@ -1,3 +1,4 @@
+#include "Base/EkTypes.hpp"
 #include <Rendering/EkPipeline.hpp>
 
 /*
@@ -25,7 +26,7 @@
 */
 
 // When messing with descriptors you do have to mess with the pipelinelayout in CreateGraphicsPipeline
-void Ek::Pipeline::Build(uint32_t SubpassToUse)
+void Ek::Pipeline::Build(Ek::BasicVertex* VertexClass, uint32_t SubpassToUse)
 {
     // 1
         std::vector<VkPipelineShaderStageCreateInfo> ShaderStages;
@@ -47,20 +48,7 @@ void Ek::Pipeline::Build(uint32_t SubpassToUse)
     // 2
         std::vector<VkVertexInputBindingDescription> BindingDescription;
         std::vector<VkVertexInputAttributeDescription> AttributeDescription;
-        if(VT = VertexType::VTX_Rigged)
-        {
-            BindingDescription.resize(1);
-            BindingDescription = RiggedVertex::GetBindingDescription();
-            AttributeDescription.resize(5);
-            AttributeDescription = RiggedVertex::GetAttributeDescription();
-        }
-        else
-        {
-            BindingDescription.resize(1);
-            BindingDescription = BasicVertex::GetBindingDescription();
-            AttributeDescription.resize(3);
-            AttributeDescription = BasicVertex::GetAttributeDescription();
-        }
+        
 
     // 3
         VkPipelineVertexInputStateCreateInfo VertInputInfo{};

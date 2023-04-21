@@ -382,11 +382,13 @@ namespace Ek
         DelQueue([DevHandle](){ vkDestroyDevice(*DevHandle, nullptr); });
     }
 
+    #ifdef GLFWAPP
     Window* Device::CreateWindow(Ek::Queue* PresentQueue)
     {
         Window* Win = new Ek::Window(this, PInstance, PDev, &PresentQueue->VulkanQueue);
         return Win;
     }
+    #endif
 
     Ek::Renderpass Device::CreateRenderpass()
     {

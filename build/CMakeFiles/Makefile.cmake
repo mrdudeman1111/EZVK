@@ -8,9 +8,12 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
   "/home/ethanw/Repos/VulkanWrapper/CMakeLists.txt"
+  "/home/ethanw/Repos/VulkanWrapper/Examples/CMakeLists.txt"
+  "/home/ethanw/Repos/VulkanWrapper/Shaders/CMakeLists.txt"
   "CMakeFiles/3.26.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.26.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.26.3/CMakeSystem.cmake"
+  "/home/ethanw/Repos/VulkanWrapper/src/CMakeLists.txt"
   "/usr/lib/cmake/glfw3/glfw3Config.cmake"
   "/usr/lib/cmake/glfw3/glfw3ConfigVersion.cmake"
   "/usr/lib/cmake/glfw3/glfw3Targets-noconfig.cmake"
@@ -50,10 +53,15 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "src/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "Examples/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "Shaders/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "CMakeFiles/EkWrappers.dir/DependInfo.cmake"
-  "CMakeFiles/test.dir/DependInfo.cmake"
+  "src/CMakeFiles/EkWrappers.dir/DependInfo.cmake"
+  "Examples/CMakeFiles/ExternalResources.dir/DependInfo.cmake"
+  "Examples/CMakeFiles/ExtImgQuery.dir/DependInfo.cmake"
+  "Examples/CMakeFiles/ExternalImporter.dir/DependInfo.cmake"
   )

@@ -1,0 +1,1 @@
+/usr/bin/g++ -g CMakeFiles/ExtImgQuery.dir/ExtImgQuery.cpp.o -o ExtImgQuery  ../src/libEkWrappers.a -lvulkan /usr/lib/libglfw.so.3.3 
