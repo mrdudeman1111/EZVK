@@ -198,20 +198,49 @@ namespace Ek
         FindQueueFamilies();
         std::cout << "Family indices full" << std::endl;
 
-        std::vector<VkDeviceQueueCreateInfo> QueueInfos;
-        int GraphicsCount, ComputeCount, TransferCount, SparseBindCount, ProtectedCount, OpticFlowCount;
+        std::vector<VkDeviceQueueCreateInfo> QueueInfos(0);
+        int GraphicsCount = 0;
+        int ComputeCount = 0;
+        int TransferCount = 0;
+        int SparseBindCount = 0;
+        int ProtectedCount = 0;
+        int OpticFlowCount = 0;
         #ifdef VK_ENABLE_BETA_EXTENSIONS
-            int DecodeCount, EncodeCount;
+            int DecodeCount = 0;
+            int EncodeCount = 0;
         #endif
 
         if(DesiredQueues)
         {
-            GraphicsCount = (DesiredQueues->at(QueueType::Graphics) > FamilyIndices.GraphicsCount) ? FamilyIndices.GraphicsCount : DesiredQueues->at(QueueType::Graphics);
-            ComputeCount = (DesiredQueues->at(QueueType::Compute) > FamilyIndices.ComputeCount) ? FamilyIndices.ComputeCount : DesiredQueues->at(QueueType::Compute);
-            TransferCount = (DesiredQueues->at(QueueType::Transfer) > FamilyIndices.TransferCount) ? FamilyIndices.TransferCount : DesiredQueues->at(QueueType::Transfer);
-            SparseBindCount = (DesiredQueues->at(QueueType::SparseBind) > FamilyIndices.SparseBindingCount) ? FamilyIndices.SparseBindingCount : DesiredQueues->at(QueueType::SparseBind);
-            ProtectedCount = (DesiredQueues->at(QueueType::Protected) > FamilyIndices.ProtectedCount) ? FamilyIndices.ProtectedCount : DesiredQueues->at(QueueType::SparseBind);
-            OpticFlowCount = (DesiredQueues->at(QueueType::OpticFlow) > FamilyIndices.OpticFlowCount) ? FamilyIndices.OpticFlowCount : DesiredQueues->at(QueueType::OpticFlow);
+            if(DesiredQueues->at(QueueType::Graphics))
+            {
+                GraphicsCount = (DesiredQueues->at(QueueType::Graphics) > FamilyIndices.GraphicsCount) ? FamilyIndices.GraphicsCount : DesiredQueues->at(QueueType::Graphics);
+            }
+
+            if(DesiredQueues->at(QueueType::Compute))
+            {
+                ComputeCount = (DesiredQueues->at(QueueType::Compute) > FamilyIndices.ComputeCount) ? FamilyIndices.ComputeCount : DesiredQueues->at(QueueType::Compute);
+            }
+
+            if(DesiredQueues->at(QueueType::OpticFlow))
+            {
+                TransferCount = (DesiredQueues->at(QueueType::Transfer) > FamilyIndices.TransferCount) ? FamilyIndices.TransferCount : DesiredQueues->at(QueueType::Transfer);
+            }
+
+            if(DesiredQueues->at(QueueType::SparseBind))
+            {
+                SparseBindCount = (DesiredQueues->at(QueueType::SparseBind) > FamilyIndices.SparseBindingCount) ? FamilyIndices.SparseBindingCount : DesiredQueues->at(QueueType::SparseBind);
+            }
+
+            if(DesiredQueues->at(QueueType::Protected))
+            {
+                ProtectedCount = (DesiredQueues->at(QueueType::Protected) > FamilyIndices.ProtectedCount) ? FamilyIndices.ProtectedCount : DesiredQueues->at(QueueType::SparseBind);
+            }
+
+            if(DesiredQueues->at(QueueType::OpticFlow))
+            {
+                OpticFlowCount = (DesiredQueues->at(QueueType::OpticFlow) > FamilyIndices.OpticFlowCount) ? FamilyIndices.OpticFlowCount : DesiredQueues->at(QueueType::OpticFlow);
+            }
 
             #ifdef VK_ENABLE_BETA_EXTENSIONS
                 DecodeCount = (DesiredQueues[QueueType::Decode] > FamilyIndices.DecodeCount) ? FamilyIndices.DecodeCount : DesiredQueues[QueueType::Decode];
@@ -295,7 +324,7 @@ namespace Ek
                     EncodeQueueInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
                     EncodeQueueInfo.queueFamilyIndex = FamilyIndices.EncodeFamily;
                     EncodeQueueInfo.queueCount = EncodeCount;
-                    std::cout << "Encode Queue Info Pushed" << std::endl;   
+                    std::cout << "Encode Queue Info Pushed" << std::endl;
                     QueueInfos.push_back(EncodeQueueInfo);
                 }
             #endif
@@ -306,7 +335,7 @@ namespace Ek
 
         VkDeviceCreateInfo DevInfo{};
         DevInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-        
+
         DevInfo.queueCreateInfoCount = QueueInfos.size();
         DevInfo.pQueueCreateInfos = QueueInfos.data();
 
@@ -379,13 +408,14 @@ namespace Ek
         InitVMA();
 
         VkDevice* DevHandle = &VkDev;
-        DelQueue([DevHandle](){ vkDestroyDevice(*DevHandle, nullptr); });
+        DevDelete([DevHandle](){ vkDestroyDevice(*DevHandle, nullptr); });
     }
 
     #ifdef GLFWAPP
     Window* Device::CreateWindow(Ek::Queue* PresentQueue)
     {
         Window* Win = new Ek::Window(this, PInstance, PDev, &PresentQueue->VulkanQueue);
+        DevDelete([Win]{ delete Win;});
         return Win;
     }
     #endif
@@ -398,7 +428,7 @@ namespace Ek
 
     Ek::Shader Ek::Device::CreateShader(const char* FileName)
     {
-        Ek::Shader Shader;
+        Ek::Shader Sh(&VkDev);
 
         std::vector<char> Code = ReadFile(FileName);
 
@@ -407,12 +437,21 @@ namespace Ek
         ShaderCI.codeSize = Code.size();
         ShaderCI.pCode = reinterpret_cast<const uint32_t*>(Code.data());
 
-        if(vkCreateShaderModule(VkDev, &ShaderCI, nullptr, &Shader.ShaderModule) != VK_SUCCESS)
+        if(vkCreateShaderModule(VkDev, &ShaderCI, nullptr, &Sh.ShaderModule) != VK_SUCCESS)
         {
             ThrowError("Device: Failed to create Shader module");
         }
+        
+        Sh.CleanupQueue( [&Sh]{vkDestroyShaderModule(*Sh.pDev, Sh.ShaderModule, nullptr);} );
 
-        return Shader;
+        return Sh;
+    }
+
+    Ek::Material Ek::Device::CreateMaterial()
+    {
+        Material Mat(&VkDev);
+        DevDelete([&Mat]{ Mat.~Material(); });
+        return Mat;
     }
 
     // Queue Type is a string indicating what type of queue you are using, Options are graphics, compute, transfer, "sparse bind", protected, "optic flow", decode, and encode
@@ -420,51 +459,51 @@ namespace Ek
     {
         if(QType & QueueType::Graphics)
         {
-            Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.GraphicsFamily, &DelQueue);
-            DelQueue([Pool](){ delete Pool; });
+            Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.GraphicsFamily, &DevDelete);
+            DevDelete([Pool](){ delete Pool; });
             return Pool;
         }
         else if(QType & QueueType::Compute)
         {
-            Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.ComputeFamily, &DelQueue);
-            DelQueue([Pool](){ delete Pool; });
+            Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.ComputeFamily, &DevDelete);
+            DevDelete([Pool](){ delete Pool; });
             return Pool;
         }
         else if(QType & QueueType::Transfer)
         {
-            Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.TransferFamily, &DelQueue);
-            DelQueue([Pool](){ delete Pool; });
+            Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.TransferFamily, &DevDelete);
+            DevDelete([Pool](){ delete Pool; });
             return Pool;
         }
         else if(QType & QueueType::SparseBind)
         {
-            Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.SparseBindingFamily, &DelQueue);
-            DelQueue([Pool](){ delete Pool; });
+            Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.SparseBindingFamily, &DevDelete);
+            DevDelete([Pool](){ delete Pool; });
             return Pool;
         }
         else if(QType & QueueType::Protected)
         {
-            Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.ProtectedFamily, &DelQueue);
-            DelQueue([Pool](){ delete Pool; });
+            Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.ProtectedFamily, &DevDelete);
+            DevDelete([Pool](){ delete Pool; });
             return Pool;
         }
         else if(QType & QueueType::OpticFlow)
         {
-            Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.OpticFlowFamily, &DelQueue);
-            DelQueue([Pool](){ delete Pool; });
+            Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.OpticFlowFamily, &DevDelete);
+            DevDelete([Pool](){ delete Pool; });
             return Pool;
         }
         #ifdef VK_ENABLE_BETA_EXTENSIONS
             else(QType & QueueType::Decode)
             {
-                Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.DecodeFamily, &DelQueue);
-                DelQueue([Pool](){ delete Pool; });
+                Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.DecodeFamily, &DevDelete);
+                DevDelete([Pool](){ delete Pool; });
                 return Pool;
             }
             else(QType & QueueType::Encode)
             {
-                Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.EncodeFamily, &DelQueue);
-                DelQueue([Pool](){ delete Pool; });
+                Ek::CmdPool* Pool = new Ek::CmdPool(&VkDev, FamilyIndices.EncodeFamily, &DevDelete);
+                DevDelete([Pool](){ delete Pool; });
                 return &Pool;
             }
         #endif

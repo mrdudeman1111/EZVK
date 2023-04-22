@@ -13,6 +13,7 @@ namespace Ek
         void RequestLayer(const char* LayerName);
 
         private:
+        DeleteQueue DelQueue;
         bool CheckInstanceExtensionSupport(const char* ExtensionName, const char* ExtensionLayer = NULL);
         bool CheckLayerSupport(const char* LayerName);
 

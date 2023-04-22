@@ -19,6 +19,10 @@ namespace Ek
         Window();
         Window(struct Device* Device, VkInstance* Instance, VkPhysicalDevice* PhysDev, VkQueue* PresentQueue) : pDev{Device}, pInst{Instance}, pPhysicalDevice{PhysDev}, pPresentQueue{PresentQueue}
         {}
+        ~Window()
+        {
+            DelQueue.Run();
+        }
 
         std::vector<FrameBuffer*> FrameBuffers;
         uint32_t glfwExtCount = 0;
@@ -33,11 +37,14 @@ namespace Ek
 
         void CreateSwapchain(uint32_t DesiredFBCount);
 
+        bool ShouldClose();
+
         FrameBuffer* GetNextFrame(VkSemaphore* WaitSemaphore = nullptr, VkFence* Fence = nullptr);
 
         void cmdPresentFrame(uint32_t WaitSemaphoreCount = 0, VkSemaphore* WaitSemaphores = nullptr);
 
         private:
+        DeleteQueue DelQueue;
 
         VkPhysicalDevice* pPhysicalDevice;
         VkInstance* pInst;
@@ -50,8 +57,6 @@ namespace Ek
             VkSurfaceFormatKHR SurfaceFormat;
             uint32_t PresentFamily;
             uint32_t CurrentFrameIndex;
-
-        private:
 
         void QueryFormats();
 

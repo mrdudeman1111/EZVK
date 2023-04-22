@@ -89,8 +89,14 @@ namespace Ek
     public:
         Device()
         {}
+
         Device(VkPhysicalDevice* PhysDev) : PDev{PhysDev}
         {}
+
+        ~Device()
+        {
+            DevDelete.Run();
+        }
 
         VkDevice VkDev;
         void RequestExtension(const char* ExtensionName);
@@ -102,6 +108,7 @@ namespace Ek
         AllocatedImage LoadTexture(const char* Path);
    
         Shader CreateShader(const char* FileName);
+        Material CreateMaterial();
 
         #ifdef GLFWAPP
             Window* CreateWindow(Ek::Queue* PresentQueue);
@@ -115,6 +122,7 @@ namespace Ek
         VkPhysicalDevice* PDev;
         VkInstance* PInstance;
         VmaAllocator Allocator;
+        DeleteQueue DevDelete;
 
         void ListQueueFamilies();
         void FindQueueFamilies();

@@ -26,43 +26,65 @@
 */
 
 // When messing with descriptors you do have to mess with the pipelinelayout in CreateGraphicsPipeline
-void Ek::Pipeline::Build(Ek::BasicVertex* VertexClass, uint32_t SubpassToUse)
+void Ek::Pipeline::Build(Material* Mat, uint32_t SubpassToUse, Ek::BasicVertex* VertexClass)
 {
     // 1
-        std::vector<VkPipelineShaderStageCreateInfo> ShaderStages;
-        std::vector<VkDescriptorSetLayout> ShaderLayouts;
-        for(const auto Shader : Shaders)
-        {
-            VkPipelineShaderStageCreateInfo ShaderInfo{};
-            ShaderInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
-            ShaderInfo.stage = Shader->Stage;
-            ShaderInfo.module = Shader->ShaderModule;
-            ShaderInfo.pName = Shader->ShaderEntryPoint;
-            ShaderStages.push_back(ShaderInfo);
-
-            ShaderLayouts.insert(ShaderLayouts.end(), Shader->DescriptorLayouts.begin(), Shader->DescriptorLayouts.end());
-        }
-
-        ShaderStages.shrink_to_fit();
-
-    // 2
-        std::vector<VkVertexInputBindingDescription> BindingDescription;
-        std::vector<VkVertexInputAttributeDescription> AttributeDescription;
-        
-
-    // 3
+        // NOTE: move to material class
         VkPipelineVertexInputStateCreateInfo VertInputInfo{};
-        VertInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-        VertInputInfo.vertexBindingDescriptionCount = static_cast<uint32_t>(BindingDescription.size());
-        VertInputInfo.pVertexBindingDescriptions = BindingDescription.data();
-        VertInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(AttributeDescription.size());
-        VertInputInfo.pVertexAttributeDescriptions = AttributeDescription.data();
+        std::vector<VkPipelineShaderStageCreateInfo> ShaderStages(0);
+        std::vector<VkDescriptorSetLayout> ShaderLayouts(0);
+
+        if(VertexClass)
+        {
+            for(uint32_t i = 0; i < Mat->Shaders.size(); i++)
+            {
+                VkPipelineShaderStageCreateInfo ShaderInfo{};
+                ShaderInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
+                ShaderInfo.stage = Mat->Shaders[i].Stage;
+                ShaderInfo.module = Mat->Shaders[i].ShaderModule;
+                ShaderInfo.pName = Mat->Shaders[i].ShaderEntryPoint;
+                ShaderStages.push_back(ShaderInfo);
+
+                ShaderLayouts.insert(ShaderLayouts.end(), Mat->Layouts.begin(), Mat->Layouts.end());
+            }
+
+            ShaderStages.shrink_to_fit();
+
+        // 2
+            std::vector<VkVertexInputBindingDescription> BindingDescription;
+            std::vector<VkVertexInputAttributeDescription> AttributeDescription;
+            
+
+        // 3
+            VertInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+            VertInputInfo.vertexBindingDescriptionCount = static_cast<uint32_t>(BindingDescription.size());
+            VertInputInfo.pVertexBindingDescriptions = BindingDescription.data();
+            VertInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(AttributeDescription.size());
+            VertInputInfo.pVertexAttributeDescriptions = AttributeDescription.data();
+        }
+        else
+        {
+            VertInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
+            VertInputInfo.vertexAttributeDescriptionCount = 0;
+            VertInputInfo.pVertexAttributeDescriptions = nullptr;
+            VertInputInfo.vertexBindingDescriptionCount = 0;
+            VertInputInfo.pVertexBindingDescriptions = nullptr;
+        }
 
     // 4
         VkPipelineLayoutCreateInfo PipelineLayoutInfo{};
         PipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-        PipelineLayoutInfo.setLayoutCount = ShaderLayouts.size();
-        PipelineLayoutInfo.pSetLayouts = ShaderLayouts.data();
+
+        if(VertexClass)
+        {
+            PipelineLayoutInfo.setLayoutCount = ShaderLayouts.size();
+            PipelineLayoutInfo.pSetLayouts = ShaderLayouts.data();
+        }
+        else
+        {
+            PipelineLayoutInfo.setLayoutCount = 0;
+            PipelineLayoutInfo.pSetLayouts = 0;
+        }
             
             // Add Push Constants to EkShader.
         // PipelineLayoutInfo.pushConstantRangeCount = .size();
@@ -172,19 +194,19 @@ void Ek::Pipeline::Build(Ek::BasicVertex* VertexClass, uint32_t SubpassToUse)
             std::cout << "Failed to create graphics pipeline! Error: " << Error << std::endl;
             throw std::runtime_error("failed to create graphics pipeline!");
         }
-
     // 11
         CleanupQueue([this, DevHandle](){ vkDestroyPipeline(*DevHandle, VkPipe, nullptr); });
 }
 
-void Ek::Shader::AddShaderInput(VkDevice* pDev, uint32_t Location, VkDescriptorType Type, uint32_t InputCount)
+void Ek::Shader::AddShaderInput(uint32_t Location, VkDescriptorType Type, uint32_t InputCount)
 {
-    p_Dev = pDev;
+    // Size of the "hole" in our shader to shove input through.
     VkDescriptorPoolSize InputSize;
     InputSize.descriptorCount = InputCount;
     InputSize.type = Type;
     PoolSizes.push_back(InputSize);
 
+    // Layout, Binding, and general position info, relative to the shader
     VkDescriptorSetLayoutBinding LayoutBinding;
     LayoutBinding.binding = Location;
     LayoutBinding.descriptorType = Type;
@@ -193,12 +215,13 @@ void Ek::Shader::AddShaderInput(VkDevice* pDev, uint32_t Location, VkDescriptorT
 
     DescriptorBindings.push_back(LayoutBinding);
 
+    // The info for the descriptor
     VkDescriptorSetLayoutCreateInfo LayoutInf;
     LayoutInf.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
     LayoutInf.bindingCount = 1;
     LayoutInf.pBindings = &LayoutBinding;
 
-    if(vkCreateDescriptorSetLayout(*p_Dev, &LayoutInf, nullptr, &DescriptorLayouts[LayoutIterator]) != VK_SUCCESS)
+    if(vkCreateDescriptorSetLayout(*pDev, &LayoutInf, nullptr, &DescriptorLayouts[LayoutIterator]) != VK_SUCCESS)
     {
         ThrowError("Failed to add Shader Input(s)\n");
     }
@@ -207,32 +230,83 @@ void Ek::Shader::AddShaderInput(VkDevice* pDev, uint32_t Location, VkDescriptorT
     return;
 }
 
-void Ek::Shader::BuildShaderLayout()
+// void Ek::Shader::BuildShaderLayout()
+// {
+    // VkDescriptorPoolCreateInfo PoolInf;
+    // PoolInf.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+    // PoolInf.poolSizeCount = PoolSizes.size();
+    // PoolInf.pPoolSizes = PoolSizes.data();
+    // PoolInf.maxSets = DescriptorBindings.size();
+
+
+    // for(uint32_t i = 0; i < DescriptorBindings.size(); i++)
+    // {
+    //     VkDescriptorSetAllocateInfo AllocInf;
+    //     AllocInf.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+    //     AllocInf.descriptorPool = DescriptorPool;
+    //     AllocInf.descriptorSetCount = DescriptorLayouts.size();
+    //     AllocInf.pSetLayouts = DescriptorLayouts.data();
+
+    //     if(vkAllocateDescriptorSets(*p_Dev, &AllocInf, &DescriptorSets[i]) != VK_SUCCESS)
+    //     {
+    //         ThrowError("Failed to allocate some Descriptors");
+    //     }
+    // }
+
+//     return;
+// }
+
+Ek::Material::Material(VkDevice* Device)
 {
-    VkDescriptorPoolCreateInfo PoolInf;
+    pDev = Device;
+}
+
+void Ek::Material::AddShader(Ek::Shader* Shader)
+{
+    Shaders.push_back(*Shader);
+}
+
+void Ek::Material::Build()
+{
+    // Layout bindings aren't needed, they are included inside the layout object.
+    std::vector<VkDescriptorPoolSize> PoolSizes{};
+
+    for(Shader Sh : Shaders)
+    {
+        PoolSizes.insert(PoolSizes.end(), Sh.PoolSizes.begin(), Sh.PoolSizes.end());
+        Layouts.insert(Layouts.end(), Sh.DescriptorLayouts.begin(), Sh.DescriptorLayouts.end());
+    }
+
+    VkDescriptorPoolCreateInfo PoolInf{};
     PoolInf.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
     PoolInf.poolSizeCount = PoolSizes.size();
     PoolInf.pPoolSizes = PoolSizes.data();
-    PoolInf.maxSets = DescriptorBindings.size();
+    PoolInf.maxSets = PoolSizes.size();
 
-    if(vkCreateDescriptorPool(*p_Dev, &PoolInf, nullptr, &DescriptorPool) != VK_SUCCESS)
+    if(vkCreateDescriptorPool(*pDev, &PoolInf, nullptr, &DescriptorPool) != VK_SUCCESS)
     {
-        ThrowError("Failed to create descriptor pool\n");
+        throw std::runtime_error("Failed to create Descriptor Pool For a material");
     }
 
-    for(uint32_t i = 0; i < DescriptorBindings.size(); i++)
+    for(int i = 0; i < Layouts.size(); i++)
     {
-        VkDescriptorSetAllocateInfo AllocInf;
-        AllocInf.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-        AllocInf.descriptorPool = DescriptorPool;
-        AllocInf.descriptorSetCount = DescriptorLayouts.size();
-        AllocInf.pSetLayouts = DescriptorLayouts.data();
+        VkDescriptorSetAllocateInfo AllocInfo{};
+        AllocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
+        AllocInfo.descriptorPool = DescriptorPool;
+        AllocInfo.descriptorSetCount = 1;
+        AllocInfo.pSetLayouts = &Layouts[i];
 
-        if(vkAllocateDescriptorSets(*p_Dev, &AllocInf, &DescriptorSets[i]) != VK_SUCCESS)
+        Descriptors.push_back(NULL);
+        VkDescriptorSetLayout Layout;
+
+        if(vkAllocateDescriptorSets(*pDev, &AllocInfo, &Descriptors[i]) != VK_SUCCESS)
         {
-            ThrowError("Failed to allocate some Descriptors");
+            throw std::runtime_error("Failed to create Descriptors");
         }
     }
+}
 
-    return;
+Ek::Shader::Shader(VkDevice* Device)
+{
+    pDev = Device;
 }

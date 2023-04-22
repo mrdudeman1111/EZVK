@@ -39,7 +39,7 @@ struct AttDesc
 struct AllocatedImage
 {
     public:
-    AllocatedImage();
+    AllocatedImage(){};
     AllocatedImage(VkDevice* PDev);
 
     VkImage Image;

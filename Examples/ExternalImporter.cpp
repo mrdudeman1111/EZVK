@@ -10,15 +10,22 @@
 class Importer
 {
     public:
+    Importer()
+    {};
     void main(int FileDescriptor);
     void SetupRenderer();
+
+    Ek::CmdPool* Pool;
+    Ek::CommandBuffer CmdBuffer;
 
     Ek::Pipeline Pipe;
     Ek::Window* Window;
     AllocatedImage ImportedImage;
+
     Ek::Instance Instance;
     Ek::PhysicalDevice PDevice;
     Ek::Device Device;
+
     Ek::Queues Queues;
 };
 
@@ -30,6 +37,38 @@ class Exporter
     Ek::PhysicalDevice PDev;
     Ek::Device Device;
     int ExportedHandle;
+};
+
+class OurVertex : Ek::BasicVertex
+{
+    public:
+    glm::vec3 Position;
+    glm::vec2 TexCoord;
+
+    virtual std::vector<VkVertexInputBindingDescription> GetBindingDescription()
+    {
+        // Only one vertex per struct
+        std::vector<VkVertexInputBindingDescription> Ret(1);
+        Ret[0].binding = 0;
+        Ret[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
+        Ret[0].stride = sizeof(OurVertex);
+
+        return Ret;
+    }
+
+    virtual std::vector<VkVertexInputAttributeDescription> GetAttributeDescription()
+    {
+      std::vector<VkVertexInputAttributeDescription> Ret(2);
+      Ret[0].binding = 0;
+      Ret[0].format = VK_FORMAT_R32G32B32_SFLOAT;
+      Ret[0].offset = offsetof(OurVertex, Position);
+
+      Ret[1].binding = 0;
+      Ret[1].format = VK_FORMAT_R32G32_SFLOAT;
+      Ret[1].offset = offsetof(OurVertex, TexCoord);
+
+      return Ret;
+    }
 };
 
 void Importer::main(int FileDescriptor)
@@ -46,6 +85,11 @@ void Importer::main(int FileDescriptor)
 
     QueueList Desired{};
     Desired[QueueType::Graphics] = 1;
+    Desired[QueueType::Compute] = 0;
+    Desired[QueueType::OpticFlow] = 0;
+    Desired[QueueType::Protected] = 0;
+    Desired[QueueType::SparseBind] = 0;
+    Desired[QueueType::Transfer] = 0;
 
     Device.Create(&Instance, &Desired, &Queues);
 
@@ -91,6 +135,7 @@ void Importer::main(int FileDescriptor)
 
     VkImportMemoryFdInfoKHR ImportInfo;
     ImportInfo.sType = VK_STRUCTURE_TYPE_IMPORT_MEMORY_FD_INFO_KHR;
+    ImportInfo.pNext = nullptr;
     ImportInfo.fd = FileDescriptor;
     ImportInfo.handleType = VK_EXTERNAL_MEMORY_HANDLE_TYPE_OPAQUE_FD_BIT;
 
@@ -107,6 +152,8 @@ void Importer::main(int FileDescriptor)
     }
 
     vkBindImageMemory(Device.VkDev, ImportedImage.Image, ImageMemory, 0);
+
+    Pool = Device.CreateCommandPool(QueueType::Graphics);
 
     // Allocation Requirements can be found in MemProps.memoryTypeBits
     return;
@@ -233,53 +280,74 @@ void Importer::SetupRenderer()
     RP.BuildSubpass(Attachments);
     Pipe = RP.CreatePipeline(1920, 1080);
 
-
     Ek::Shader Frag = Device.CreateShader(SHADERDIR"ImgFrag.glsl.spv");
     
     Ek::Shader Vert = Device.CreateShader(SHADERDIR"ImgVert.glsl.spv");
 
+    Vert.Stage = VK_SHADER_STAGE_VERTEX_BIT;
+    Vert.ShaderEntryPoint = "main";
+
+    Frag.AddShaderInput(0, VK_DESCRIPTOR_TYPE_SAMPLER, 1);
+    Frag.Stage = VK_SHADER_STAGE_VERTEX_BIT;
+    Frag.ShaderEntryPoint = "main";
+
+    Ek::Material PrimaryMaterial = Device.CreateMaterial();
+
+    PrimaryMaterial.AddShader(&Vert);
+    PrimaryMaterial.AddShader(&Frag);
+
+    OurVertex VT;
+
+    CmdBuffer = Pool->AllocateCmdBuffer(VK_COMMAND_BUFFER_LEVEL_PRIMARY, CommandBufferUsage::RenderPass);
+
+    CmdBuffer.Name = "Primary Render Op Cmd";
+
+    VkRect2D RenderArea;
+    RenderArea.extent.height = 1080;
+    RenderArea.extent.width = 1920;
+    RenderArea.offset.x = 0;
+    RenderArea.offset.y = 0;
+
+    VkClearColorValue ColorValue;
+
+    for(uint32_t i = 0; i < 4; i++)
+    {
+        ColorValue.float32[i] = 0.f;
+        ColorValue.uint32[i] = 0;
+        ColorValue.int32[i] = 0;
+    }
+
+    VkClearDepthStencilValue DepthValue;
+    DepthValue.depth = 0.f;
+    DepthValue.stencil = 0;
+
+    VkClearValue Clears;
+    Clears.color = ColorValue;
+    Clears.depthStencil = DepthValue;
+
+    std::vector<VkClearValue> ClearValues = {Clears};
+
+    CmdBuffer.Begin();
+        RP.Begin((Ek::CommandBase*)&CmdBuffer, &Window->GetNextFrame()->FB, &RenderArea, &ClearValues);
+        RP.End((Ek::CommandBase*)&CmdBuffer);
+    CmdBuffer.End();
 }
-
-class OurVertex : Ek::BasicVertex
-{
-    public:
-    glm::vec3 Position;
-    glm::vec2 TexCoord;
-
-    virtual std::vector<VkVertexInputBindingDescription> GetBindingDescription()
-    {
-        // Only one vertex per struct
-        std::vector<VkVertexInputBindingDescription> Ret(1);
-        Ret[0].binding = 0;
-        Ret[0].inputRate = VK_VERTEX_INPUT_RATE_VERTEX;
-        Ret[0].stride = sizeof(OurVertex);
-
-        return Ret;
-    }
-
-    virtual std::vector<VkVertexInputAttributeDescription> GetAttributeDescription()
-    {
-      std::vector<VkVertexInputAttributeDescription> Ret(2);
-      Ret[0].binding = 0;
-      Ret[0].format = VK_FORMAT_R32G32B32_SFLOAT;
-      Ret[0].offset = offsetof(OurVertex, Position);
-
-      Ret[1].binding = 0;
-      Ret[1].format = VK_FORMAT_R32G32_SFLOAT;
-      Ret[1].offset = offsetof(OurVertex, TexCoord);
-
-      return Ret;
-    }
-};
 
 int main()
 {
-    Importer* In = new Importer();
-    Exporter* Out = new Exporter();
+    Importer In;
+    Exporter Out;
 
-    int Fd = Out->main();
-    In->main(Fd);
+    int Fd = Out.main();
+    In.main(Fd);
+    In.SetupRenderer();
 
     std::cout << "Everything ran successfully, closing the file descriptor now\n";
+
+    while(!In.Window->ShouldClose())
+    {
+        glfwPollEvents();
+    }
+
     close(Fd);
 }

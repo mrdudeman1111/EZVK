@@ -121,3 +121,21 @@ void Ek::Renderpass::Build()
         throw std::runtime_error("Failed to create a renderpass");
     }
 }
+
+void Ek::Renderpass::Begin(Ek::CommandBase* CommandBuffer, VkFramebuffer* FrameBuffer, VkRect2D* RenderArea, std::vector<VkClearValue>* ClearValues)
+{
+    VkRenderPassBeginInfo BeginInf{};
+    BeginInf.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+    BeginInf.framebuffer = *FrameBuffer;
+    BeginInf.clearValueCount = ClearValues->size();
+    BeginInf.pClearValues = ClearValues->data();
+    BeginInf.renderArea = *RenderArea;
+    BeginInf.renderPass = RenderPass;
+
+    vkCmdBeginRenderPass(CommandBuffer->CmdBuffer, &BeginInf, VK_SUBPASS_CONTENTS_INLINE);
+}
+
+void Ek::Renderpass::End(Ek::CommandBase* CommandBuffer)
+{
+    vkCmdEndRenderPass(CommandBuffer->CmdBuffer);
+}

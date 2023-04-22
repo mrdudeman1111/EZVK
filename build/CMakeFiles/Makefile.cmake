@@ -64,4 +64,5 @@ set(CMAKE_DEPEND_INFO_FILES
   "Examples/CMakeFiles/ExternalResources.dir/DependInfo.cmake"
   "Examples/CMakeFiles/ExtImgQuery.dir/DependInfo.cmake"
   "Examples/CMakeFiles/ExternalImporter.dir/DependInfo.cmake"
+  "Examples/CMakeFiles/Render.dir/DependInfo.cmake"
   )

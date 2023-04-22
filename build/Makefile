@@ -168,6 +168,19 @@ ExternalImporter/fast:
 	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExternalImporter.dir/build.make Examples/CMakeFiles/ExternalImporter.dir/build
 .PHONY : ExternalImporter/fast
 
+#=============================================================================
+# Target rules for targets named Render
+
+# Build rule for target.
+Render: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Render
+.PHONY : Render
+
+# fast build rule for target.
+Render/fast:
+	$(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/Render.dir/build.make Examples/CMakeFiles/Render.dir/build
+.PHONY : Render/fast
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -180,6 +193,7 @@ help:
 	@echo "... ExtImgQuery"
 	@echo "... ExternalImporter"
 	@echo "... ExternalResources"
+	@echo "... Render"
 .PHONY : help
 
 

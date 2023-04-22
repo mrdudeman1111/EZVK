@@ -76,8 +76,6 @@
         }
     };
 
-    extern DeleteQueue DelQueue;
-
 namespace Ek
 {
 
@@ -155,7 +153,17 @@ namespace Ek
         public:
         VkCommandBufferBeginInfo BeginInfo;
 
+        CommandBuffer() {}
+
         CommandBuffer(CommandBufferUsage Usage)
+        {
+            BeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+            BeginInfo.pNext = NULL;
+            BeginInfo.flags = Usage;
+            BeginInfo.pInheritanceInfo = nullptr;
+        }
+
+        void Setup(CommandBufferUsage Usage)
         {
             BeginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
             BeginInfo.pNext = NULL;
@@ -369,12 +377,9 @@ namespace Ek
 {
     class BasicVertex
     {
-        public:
-            virtual std::vector<VkVertexInputBindingDescription> GetBindingDescription()
-            {}
+        virtual std::vector<VkVertexInputBindingDescription> GetBindingDescription() { };
 
-            virtual std::vector<VkVertexInputAttributeDescription> GetAttributeDescription()
-            {}
+        virtual std::vector<VkVertexInputAttributeDescription> GetAttributeDescription() { };
     };
 
     class RiggedVertex

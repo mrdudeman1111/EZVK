@@ -37,6 +37,10 @@ namespace Ek
         glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 
         glfwWindow = glfwCreateWindow(Width, Height, WindowName, nullptr, nullptr);
+        if(!glfwWindow)
+        {
+            throw std::runtime_error("Failed to create Window");
+        }
 
         WindowExtent.depth = 1.f;
         WindowExtent.height = Height;
@@ -44,6 +48,11 @@ namespace Ek
 
         GLFWwindow *WindowHandle = glfwWindow;
         DelQueue([WindowHandle]{ glfwDestroyWindow(WindowHandle); });
+    }
+
+    bool Window::ShouldClose()
+    {
+        return glfwWindowShouldClose(glfwWindow);
     }
 
     void Window::CreateSwapchain(uint32_t DesiredFBCount)
@@ -55,11 +64,12 @@ namespace Ek
 
         VkSwapchainCreateInfoKHR SwapCI{};
         SwapCI.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
+        SwapCI.pNext = nullptr;
 
         SwapCI.imageFormat = SurfaceFormat.format;
         SwapCI.imageColorSpace = SurfaceFormat.colorSpace;
-        SwapCI.imageExtent.height = WindowExtent.height;
-        SwapCI.imageExtent.width = WindowExtent.width;
+        SwapCI.imageExtent.height = (WindowExtent.height > SurfaceCap.maxImageExtent.height) ? SurfaceCap.maxImageExtent.height : WindowExtent.height;
+        SwapCI.imageExtent.width = (WindowExtent.width > SurfaceCap.maxImageExtent.width) ? SurfaceCap.maxImageExtent.width : WindowExtent.width;
         SwapCI.imageArrayLayers = 1;
         SwapCI.imageUsage = VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT;
 

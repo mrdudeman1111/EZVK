@@ -158,6 +158,20 @@ ExternalImporter/fast:
 	cd /home/ethanw/Repos/VulkanWrapper/build && $(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExternalImporter.dir/build.make Examples/CMakeFiles/ExternalImporter.dir/build
 .PHONY : ExternalImporter/fast
 
+# Convenience name for target.
+Examples/CMakeFiles/Render.dir/rule:
+	cd /home/ethanw/Repos/VulkanWrapper/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Examples/CMakeFiles/Render.dir/rule
+.PHONY : Examples/CMakeFiles/Render.dir/rule
+
+# Convenience name for target.
+Render: Examples/CMakeFiles/Render.dir/rule
+.PHONY : Render
+
+# fast build rule for target.
+Render/fast:
+	cd /home/ethanw/Repos/VulkanWrapper/build && $(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/Render.dir/build.make Examples/CMakeFiles/Render.dir/build
+.PHONY : Render/fast
+
 ExtImgQuery.o: ExtImgQuery.cpp.o
 .PHONY : ExtImgQuery.o
 
@@ -230,6 +244,30 @@ ExternalResources.cpp.s:
 	cd /home/ethanw/Repos/VulkanWrapper/build && $(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/ExternalResources.dir/build.make Examples/CMakeFiles/ExternalResources.dir/ExternalResources.cpp.s
 .PHONY : ExternalResources.cpp.s
 
+Render.o: Render.cpp.o
+.PHONY : Render.o
+
+# target to build an object file
+Render.cpp.o:
+	cd /home/ethanw/Repos/VulkanWrapper/build && $(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/Render.dir/build.make Examples/CMakeFiles/Render.dir/Render.cpp.o
+.PHONY : Render.cpp.o
+
+Render.i: Render.cpp.i
+.PHONY : Render.i
+
+# target to preprocess a source file
+Render.cpp.i:
+	cd /home/ethanw/Repos/VulkanWrapper/build && $(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/Render.dir/build.make Examples/CMakeFiles/Render.dir/Render.cpp.i
+.PHONY : Render.cpp.i
+
+Render.s: Render.cpp.s
+.PHONY : Render.s
+
+# target to generate assembly for a file
+Render.cpp.s:
+	cd /home/ethanw/Repos/VulkanWrapper/build && $(MAKE) $(MAKESILENT) -f Examples/CMakeFiles/Render.dir/build.make Examples/CMakeFiles/Render.dir/Render.cpp.s
+.PHONY : Render.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -241,6 +279,7 @@ help:
 	@echo "... ExtImgQuery"
 	@echo "... ExternalImporter"
 	@echo "... ExternalResources"
+	@echo "... Render"
 	@echo "... ExtImgQuery.o"
 	@echo "... ExtImgQuery.i"
 	@echo "... ExtImgQuery.s"
@@ -250,6 +289,9 @@ help:
 	@echo "... ExternalResources.o"
 	@echo "... ExternalResources.i"
 	@echo "... ExternalResources.s"
+	@echo "... Render.o"
+	@echo "... Render.i"
+	@echo "... Render.s"
 .PHONY : help
 
 
