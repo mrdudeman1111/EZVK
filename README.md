@@ -8,6 +8,8 @@ But with this project I decided to take different approach to vulkan, and decide
 ***
 
 Assuming that you have installed and configured conan, you can run this in the build folder to compile this project:
+
 > conan install ../ --build=missing
+>
 > cmake ../ --preset conan-release
 
