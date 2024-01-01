@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/ExternalImporter.dir/ExternalImporter.cpp.o -o ExternalImporter  ../src/libEkWrappers.a -lvulkan /usr/lib/libglfw.so.3.3 

@@ -1,0 +1,1 @@
+. "/home/ethan/Repos/VulkanWrapper/build/Debug/generators/deactivate_conanbuildenv-debug-x86_64.sh"

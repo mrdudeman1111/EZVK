@@ -8,7 +8,6 @@
 
 #include <vk_mem_alloc.h>
 
-
 void ThrowError(const char* Error);
 
 void Warn(const char* Error);

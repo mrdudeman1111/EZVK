@@ -1,6 +1,4 @@
 #include <Base/Device.h>
-#include <vulkan/vulkan_core.h>
-#include <vulkan/vk_enum_string_helper.h>
 
 #include <fstream>
 #include <cstring>
@@ -319,7 +317,7 @@ struct FormatConf
 
     void Print()
     {
-        OutFile << "  " << StringTiling(Tiling) << '\n' << "  " << string_VkImageType(Type) << '\n' << "  " << string_VkImageUsageFlagBits(UsageFlags) << "\n\n";
+        OutFile << "  " << Tiling << '\n' << "  " << Type << '\n' << "  " << UsageFlags << "\n\n";
     }
 };
 

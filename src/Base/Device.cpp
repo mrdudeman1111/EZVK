@@ -1,6 +1,7 @@
-#include <vulkan/vulkan_core.h>
+
 #define STB_IMAGE_IMPLEMENTATION
 #include <Base/Device.h>
+
 #include <cstring>
 
 namespace Ek

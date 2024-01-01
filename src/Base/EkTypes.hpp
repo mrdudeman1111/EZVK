@@ -3,6 +3,7 @@
 #include <vulkan/vulkan.h>
 #include <Images/EkImages.hpp>
 
+
 // GLM/GLFW Includes
     #include <glm/vec4.hpp>
     #include <glm/mat4x4.hpp>
@@ -378,9 +379,9 @@ namespace Ek
     class BasicVertex
     {
         public:
-        virtual std::vector<VkVertexInputBindingDescription> GetBindingDescription() { };
+        virtual std::vector<VkVertexInputBindingDescription> GetBindingDescription() = 0;
 
-        virtual std::vector<VkVertexInputAttributeDescription> GetAttributeDescription() { };
+        virtual std::vector<VkVertexInputAttributeDescription> GetAttributeDescription() = 0;
     };
 
     class RiggedVertex

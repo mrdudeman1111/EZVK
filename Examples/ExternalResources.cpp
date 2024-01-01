@@ -1,6 +1,5 @@
 #include <Base/Device.h>
 #include <vulkan/vulkan_core.h>
-#include <vulkan/vk_enum_string_helper.h>
 
 #include <fstream>
 #include <cstring>

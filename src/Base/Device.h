@@ -4,7 +4,7 @@
 #include <Base/PhysicalDevice.h>
 #include <Rendering/EkRenderpass.hpp>
 
-#include <stb/stb_image.h>
+#include <stb_image.h>
 
 enum QueueType
 {

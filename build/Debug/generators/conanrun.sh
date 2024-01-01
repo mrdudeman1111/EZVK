@@ -1,0 +1,1 @@
+. "/home/ethan/Repos/VulkanWrapper/build/Debug/generators/conanrunenv-debug-x86_64.sh"

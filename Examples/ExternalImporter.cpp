@@ -4,9 +4,6 @@
 #include <cstring>
 #include <unistd.h>
 
-#include <vulkan/vulkan_core.h>
-#include <vulkan/vk_enum_string_helper.h>
-
 class Importer
 {
     public:
