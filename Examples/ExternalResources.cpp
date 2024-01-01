@@ -56,14 +56,9 @@ int main()
     Device.RequestExtension("VK_KHR_external_memory_fd");
     Device.Create(&EkInstance, nullptr, nullptr);
 
-    VkPhysicalDeviceExternalImageFormatInfoKHR ExtInf{};
-    ExtInf.sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_IMAGE_FORMAT_INFO_KHR;
-    ExtInf.handleType = VK_EXTERNAL_MEMORY_HANDLE_TYPE_OPAQUE_FD_BIT;
-
     VkExternalMemoryImageCreateInfoKHR ExtImgInf{};
     ExtImgInf.sType = VK_STRUCTURE_TYPE_EXTERNAL_MEMORY_IMAGE_CREATE_INFO_KHR;
     ExtImgInf.handleTypes = VK_EXTERNAL_MEMORY_HANDLE_TYPE_OPAQUE_FD_BIT;
-
     VkExtent3D Extent{};
     Extent.width = 1920;
     Extent.height = 1080;

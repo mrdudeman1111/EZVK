@@ -1,87 +1,74 @@
 #include <Rendering/EkRenderpass.hpp>
+#include <Base/EkWindow.hpp>
 
-void Ek::Subpass::Build(std::vector<RenderpassResource>* InputSets, uint32_t* AttIterator, std::vector<VkSubpassDependency>* Depends)
+void Ek::Subpass::Build(std::vector<RenderpassResource>* pInputSets)
 {
     // Use AttIterator as Index. AttIterator is the index of the last attachment we processed, meaning if we continue from there
-    uint32_t i;
-    for(i = *AttIterator; i < InputSets->size()-*AttIterator; i++)
-    {
-        RenderpassResource* Resource = &InputSets->at(*AttIterator);
-        if(Resource->Resource->Type & RtColor)
-        {
-            VkAttachmentReference AttRef;
-            AttRef.attachment = i;
-            AttRef.layout = Resource->Resource->Layout;
-            Colors.push_back(Resource->Reference);
-        }
-
-        else if(Resource->Resource->Type & RtInput)
-        {
-            VkAttachmentReference AttRef;
-            AttRef.attachment = i;
-            AttRef.layout = Resource->Resource->Layout;
-            Inputs.push_back(Resource->Reference);
-        }
-
-        else if(Resource->Resource->Type & RtResolve) 
-        {
-            VkAttachmentReference AttRef;
-            AttRef.attachment = i;
-            AttRef.layout = Resource->Resource->Layout;
-            Resolves.push_back(Resource->Reference);
-        }
-
-        else if(Resource->Resource->Type & RtDepth)
-        {
-            throw std::runtime_error("Failed to Create Subpass.\n There was a depth buffer in the AttachmentImages in the SubpassCI passed from the renderpass. This means you passed a DepthBuffer in the Ek::RenderPass::BuildSubpass(...). Don't, A Subpass can only have one depthstencil attachment.");
-        }
-
-        if(Resource->Resource->Type & RtPreserve)
-        {
-            ReserveIndices.push_back(i);
-        }
-
-        if(Resource->Resource->Type & RtDepth)
-        {
-            DepthAtt = i;
-        }
-    }
-
-    for(uint32_t i = 0; i < Depends->size(); i++)
-    {
-        Dependencies[i] = Depends->at(i);
-    }
-
-    *AttIterator = i;
-
     colorAttachmentCount = Colors.size();
-
-    pColorAttachments = Colors.data();
+    pColorAttachments = *Colors.data();
     inputAttachmentCount = Inputs.size();
-    pInputAttachments = Inputs.data();
-    pResolveAttachments = Resolves.data();
+    pInputAttachments = *Inputs.data();
     preserveAttachmentCount = ReserveIndices.size();
     pPreserveAttachments = ReserveIndices.data();
-    pDepthStencilAttachment = &InputSets->at(DepthAtt).Reference;
+    pResolveAttachments = *Resolves.data();
+
+    pDepthStencilAttachment = &pInputSets->at(DepthAtt).Reference;
 }
 
-void Ek::Renderpass::BuildSubpass(std::vector<AllocatedImage*> Attachments, std::vector<VkSubpassDependency> Dependencies)
+void Ek::Subpass::PushAttachment(RenderpassResource* Resource, uint32_t* Iterator)
 {
-    Ek::Subpass Subpass;
-
-    for(uint32_t i = 0; i< Attachments.size(); i++)
+    *Iterator++;
+    if(Resource->Resource->Type & RtColor)
     {
-        VkAttachmentReference AttRef;
-
-        AttRef.attachment = AttachmentIterator;
-        AttRef.layout = Attachments[i]->Layout;
-
-        InputSets.push_back({});
-        InputSets[i].Reference = AttRef;
-        InputSets[i].Resource = Attachments[i];
+        Colors.push_back(&Resource->Reference);
     }
 
-    Subpass.Build(&InputSets, &AttachmentIterator, &Dependencies);
+    else if(Resource->Resource->Type & RtDepth)
+    {
+        DepthAtt = *Iterator;
+    }
+
+    else if(Resource->Resource->Type & RtInput)
+    {
+        Inputs.push_back(&Resource->Reference);
+    }
+
+    else if(Resource->Resource->Type & RtResolve)
+    {
+        Resolves.push_back(&Resource->Reference);
+    }
+
+    else
+    {
+        throw std::runtime_error("Failed to create subpass attachment, Uknown Attachment Type");
+    }
+
+    NumberOfAtts++;
+
+    if(Resource->Resource->Type & RtPreserve)
+    {
+        ReserveIndices.push_back(*Iterator);
+    }
+}
+
+void Ek::Renderpass::PushAttachment(AllocatedImage* Image, uint32_t SubpassIndex)
+{
+    VkAttachmentReference Ref;
+    Ref.attachment = AttachmentIterator;
+    Ref.layout = Image->Layout;
+
+    RenderpassResource Resource;
+    Resource.Resource = Image;
+    Resource.Reference = Ref;
+
+    InputSets.push_back(Resource);
+
+    Subpasses[SubpassIndex].PushAttachment(&Resource, &AttachmentIterator);
+}
+
+void Ek::Renderpass::BuildSubpass(std::vector<VkSubpassDependency> Dependencies)
+{
+    Ek::Subpass Subpass{};
     Subpasses.push_back(Subpass);
 }
 
@@ -92,11 +79,19 @@ Ek::Pipeline Ek::Renderpass::CreatePipeline(int Height, int Width)
 }
 
 // Pointer to an array of Subpasses
-void Ek::Renderpass::Build()
+void Ek::Renderpass::Build(Ek::Window* Window)
 {
     VkRenderPassCreateInfo RenderPassCI{};
     RenderPassCI.sType = VK_STRUCTURE_TYPE_RENDER_PASS_CREATE_INFO;
-    RenderPassCI.attachmentCount = InputSets.size();
+
+    std::vector<VkAttachmentDescription*> Descriptions(InputSets.size());
+    for(uint32_t i = 0; i < InputSets.size(); i++)
+    {
+        Descriptions[i] = &InputSets[i].Resource->Description;
+    }
+
+    RenderPassCI.attachmentCount = Descriptions.size();
+    RenderPassCI.pAttachments = *Descriptions.data();
 
     std::vector<VkSubpassDependency> Deps;
     for(uint32_t i = 0; i < Subpasses.size(); i++)

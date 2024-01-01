@@ -5,6 +5,8 @@ namespace Ek
     class Instance
     {
         public:
+        ~Instance();
+
         VkInstance VkInst;
 
         void CreateInstance(uint32_t VkVersion, const char* AppName);

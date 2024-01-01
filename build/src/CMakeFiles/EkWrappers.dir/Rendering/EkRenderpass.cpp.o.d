@@ -386,4 +386,7 @@ src/CMakeFiles/EkWrappers.dir/Rendering/EkRenderpass.cpp.o: \
  /usr/include/c++/12.2.1/bits/stl_set.h \
  /usr/include/c++/12.2.1/bits/stl_multiset.h /usr/include/c++/12.2.1/map \
  /usr/include/c++/12.2.1/bits/stl_map.h \
- /usr/include/c++/12.2.1/bits/stl_multimap.h
+ /usr/include/c++/12.2.1/bits/stl_multimap.h \
+ /home/ethanw/Repos/VulkanWrapper/src/Base/EkWindow.hpp \
+ /usr/include/GLFW/glfw3.h /usr/include/GL/gl.h /usr/include/GL/glext.h \
+ /usr/include/KHR/khrplatform.h /usr/include/c++/12.2.1/optional

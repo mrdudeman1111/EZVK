@@ -29,10 +29,10 @@ namespace Ek
             ImageCI.pNext = pNext;
         }
 
-        if(vkCreateImage(VkDev, &ImageCI, nullptr, &Image.Image) != VK_SUCCESS)
-        {
-          throw std::runtime_error("Failed to Create Image");
-        }
+        https://cdn.discordapp.com/attachments/840468559640920065/1097418739303071755/v12044gd0000cgstcnjc77u5rlp6kpu0.mov// if(vkCreateImage(VkDev, &ImageCI, nullptr, &Image.Image) != VK_SUCCESS)
+        // {
+        //   throw std::runtime_error("Failed to Create Image");
+        // }
 
         VmaAllocationCreateInfo AllocInfo = {};
         AllocInfo.usage = MemUse;
@@ -52,7 +52,7 @@ namespace Ek
         Extent.height = Height;
         Extent.depth = 1.0f;
 
-        AllocatedImage Texture = CreateTexture(VK_IMAGE_TYPE_3D, Extent, VK_FORMAT_R32G32B32_UINT, VK_IMAGE_LAYOUT_GENERAL, VmaMemoryUsage::VMA_MEMORY_USAGE_CPU_TO_GPU, 1, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT);
+        AllocatedImage Texture = CreateTexture(VK_IMAGE_TYPE_2D, Extent, VK_FORMAT_R8G8B8A8_SRGB, VK_IMAGE_LAYOUT_UNDEFINED, VmaMemoryUsage::VMA_MEMORY_USAGE_CPU_TO_GPU, 1, VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT);
 
         void* DstMem;
 
@@ -341,6 +341,10 @@ namespace Ek
 
         DevInfo.pEnabledFeatures = &DeviceFeatures;
 
+        #ifdef GLFWAPP
+            DeviceExtensions.push_back("VK_KHR_swapchain");
+        #endif
+
         DevInfo.enabledExtensionCount = DeviceExtensions.size();
         DevInfo.ppEnabledExtensionNames = DeviceExtensions.data();
 
@@ -450,7 +454,6 @@ namespace Ek
     Ek::Material Ek::Device::CreateMaterial()
     {
         Material Mat(&VkDev);
-        DevDelete([&Mat]{ Mat.~Material(); });
         return Mat;
     }
 

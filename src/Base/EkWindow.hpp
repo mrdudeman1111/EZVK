@@ -21,6 +21,10 @@ namespace Ek
         {}
         ~Window()
         {
+            for(uint32_t i = 0; i < FrameBuffers.size(); i++)
+            {
+                delete FrameBuffers[i];
+            }
             DelQueue.Run();
         }
 

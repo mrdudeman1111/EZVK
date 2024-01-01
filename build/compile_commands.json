@@ -61,25 +61,25 @@
 },
 {
   "directory": "/home/ethanw/Repos/VulkanWrapper/build/Examples",
-  "command": "/usr/bin/g++ -DSHADERDIR=\\\"/home/ethanw/Repos/VulkanWrapper/build/Shaders\\\" -DTEXPATH=\\\"/home/ethanw/Repos/VulkanWrapper/src/Textures/\\\" -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/ExternalResources.dir/ExternalResources.cpp.o -c /home/ethanw/Repos/VulkanWrapper/Examples/ExternalResources.cpp",
+  "command": "/usr/bin/g++ -DSHADERDIR=\\\"/home/ethanw/Repos/VulkanWrapper/build/Shaders/\\\" -DTEXPATH=\\\"/home/ethanw/Repos/VulkanWrapper/src/Textures\\\" -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -I/home/ethanw/Repos/Speed -g -o CMakeFiles/ExternalResources.dir/ExternalResources.cpp.o -c /home/ethanw/Repos/VulkanWrapper/Examples/ExternalResources.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/Examples/ExternalResources.cpp",
   "output": "Examples/CMakeFiles/ExternalResources.dir/ExternalResources.cpp.o"
 },
 {
   "directory": "/home/ethanw/Repos/VulkanWrapper/build/Examples",
-  "command": "/usr/bin/g++ -DSHADERDIR=\\\"/home/ethanw/Repos/VulkanWrapper/build/Shaders\\\" -DTEXPATH=\\\"/home/ethanw/Repos/VulkanWrapper/src/Textures/\\\" -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/ExtImgQuery.dir/ExtImgQuery.cpp.o -c /home/ethanw/Repos/VulkanWrapper/Examples/ExtImgQuery.cpp",
+  "command": "/usr/bin/g++ -DSHADERDIR=\\\"/home/ethanw/Repos/VulkanWrapper/build/Shaders/\\\" -DTEXPATH=\\\"/home/ethanw/Repos/VulkanWrapper/src/Textures\\\" -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -I/home/ethanw/Repos/Speed -g -o CMakeFiles/ExtImgQuery.dir/ExtImgQuery.cpp.o -c /home/ethanw/Repos/VulkanWrapper/Examples/ExtImgQuery.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/Examples/ExtImgQuery.cpp",
   "output": "Examples/CMakeFiles/ExtImgQuery.dir/ExtImgQuery.cpp.o"
 },
 {
   "directory": "/home/ethanw/Repos/VulkanWrapper/build/Examples",
-  "command": "/usr/bin/g++ -DSHADERDIR=\\\"/home/ethanw/Repos/VulkanWrapper/build/Shaders\\\" -DTEXPATH=\\\"/home/ethanw/Repos/VulkanWrapper/src/Textures/\\\" -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/ExternalImporter.dir/ExternalImporter.cpp.o -c /home/ethanw/Repos/VulkanWrapper/Examples/ExternalImporter.cpp",
+  "command": "/usr/bin/g++ -DSHADERDIR=\\\"/home/ethanw/Repos/VulkanWrapper/build/Shaders/\\\" -DTEXPATH=\\\"/home/ethanw/Repos/VulkanWrapper/src/Textures\\\" -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -I/home/ethanw/Repos/Speed -g -o CMakeFiles/ExternalImporter.dir/ExternalImporter.cpp.o -c /home/ethanw/Repos/VulkanWrapper/Examples/ExternalImporter.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/Examples/ExternalImporter.cpp",
   "output": "Examples/CMakeFiles/ExternalImporter.dir/ExternalImporter.cpp.o"
 },
 {
   "directory": "/home/ethanw/Repos/VulkanWrapper/build/Examples",
-  "command": "/usr/bin/g++ -DSHADERDIR=\\\"/home/ethanw/Repos/VulkanWrapper/build/Shaders\\\" -DTEXPATH=\\\"/home/ethanw/Repos/VulkanWrapper/src/Textures/\\\" -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -g -o CMakeFiles/Render.dir/Render.cpp.o -c /home/ethanw/Repos/VulkanWrapper/Examples/Render.cpp",
+  "command": "/usr/bin/g++ -DSHADERDIR=\\\"/home/ethanw/Repos/VulkanWrapper/build/Shaders/\\\" -DTEXPATH=\\\"/home/ethanw/Repos/VulkanWrapper/src/Textures\\\" -I/home/ethanw/Repos/VulkanWrapper/src -I/home/ethanw/Repos/VulkanWrapper/include -I/home/ethanw/Repos/Speed -g -o CMakeFiles/Render.dir/Render.cpp.o -c /home/ethanw/Repos/VulkanWrapper/Examples/Render.cpp",
   "file": "/home/ethanw/Repos/VulkanWrapper/Examples/Render.cpp",
   "output": "Examples/CMakeFiles/Render.dir/Render.cpp.o"
 }

@@ -30,6 +30,7 @@ namespace Ek
         VkSurfaceKHR *SurfaceHandle = &Surface;
         DelQueue([InstanceHandle, SurfaceHandle]
                       { vkDestroySurfaceKHR(*InstanceHandle, *SurfaceHandle, nullptr); });
+        QueryFormats();
     }
 
     void Window::CreateWindow(int Width, int Height, const char *WindowName)
@@ -108,7 +109,7 @@ namespace Ek
 
             for(uint32_t i = 0; i < DesiredFBCount; i++)
             {
-                AllocatedImage Depth = pDev->CreateTexture(VK_IMAGE_TYPE_3D, WindowExtent, VK_FORMAT_D16_UNORM, VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL, VMA_MEMORY_USAGE_GPU_ONLY, 1, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT);
+                AllocatedImage Depth = pDev->CreateTexture(VK_IMAGE_TYPE_3D, WindowExtent, VK_FORMAT_D16_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VMA_MEMORY_USAGE_GPU_ONLY, 1, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT);
 
                 AllocatedImage Color(&pDev->VkDev);
                 Color.Image = SwapImages[i];
@@ -116,26 +117,30 @@ namespace Ek
                 Color.Layout = VK_IMAGE_LAYOUT_UNDEFINED;
 
                 FrameBuffers[i] = new FrameBuffer(&pDev->VkDev);
-                FrameBuffers[i]->InitImages(&Color, &Depth, VK_IMAGE_VIEW_TYPE_3D);
+                FrameBuffers[i]->InitImages(VK_IMAGE_VIEW_TYPE_2D);
             }
         }
         else
         {
-            FrameBuffers.resize(SurfaceCap.minImageCount);
-            VkImage SwapImages[SurfaceCap.minImageCount];
-            vkGetSwapchainImagesKHR(pDev->VkDev, Swapchain, &SurfaceCap.minImageCount, SwapImages);
+            uint32_t ImageCount;
+            vkGetSwapchainImagesKHR(pDev->VkDev, Swapchain, &ImageCount, nullptr);
+            VkImage SwapImages[ImageCount];
+            vkGetSwapchainImagesKHR(pDev->VkDev, Swapchain, &ImageCount, SwapImages);
+
+            FrameBuffers.resize(ImageCount);
 
             for(uint32_t i = 0; i < SurfaceCap.minImageCount; i++)
             {
-                AllocatedImage Depth = pDev->CreateTexture(VK_IMAGE_TYPE_3D, WindowExtent, VK_FORMAT_D16_UNORM, VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL, VMA_MEMORY_USAGE_GPU_ONLY, 1, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT);
-
-                AllocatedImage Color(&pDev->VkDev);
-                Color.Image = SwapImages[i];
-                Color.Type = RtType::RtColor;
-                Color.Layout = VK_IMAGE_LAYOUT_UNDEFINED;
-
                 FrameBuffers[i] = new FrameBuffer(&pDev->VkDev);
-                FrameBuffers[i]->InitImages(&Color, &Depth, VK_IMAGE_VIEW_TYPE_3D);
+
+                FrameBuffers[i]->DepthBuffer = pDev->CreateTexture(VK_IMAGE_TYPE_2D, WindowExtent, VK_FORMAT_D16_UNORM, VK_IMAGE_LAYOUT_UNDEFINED, VMA_MEMORY_USAGE_GPU_ONLY, 1, VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT);
+
+                FrameBuffers[i]->ImageBuffer.Image = SwapImages[i];
+                FrameBuffers[i]->ImageBuffer.Format = SurfaceFormat.format;
+                FrameBuffers[i]->ImageBuffer.Type = RtType::RtColor;
+                FrameBuffers[i]->ImageBuffer.Layout = VK_IMAGE_LAYOUT_UNDEFINED;
+
+                FrameBuffers[i]->InitImages(VK_IMAGE_VIEW_TYPE_2D);
             }
         }
     }

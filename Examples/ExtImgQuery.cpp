@@ -329,7 +329,7 @@ struct FormatConfigs
     std::map<VkFormat, std::vector<FormatConf>> Confs;
 };
 
-int main()
+int QueryFormats()
 {
     EkInstance.RequestInstanceExtension("VK_KHR_external_memory_capabilities");
     EkInstance.RequestLayer("VK_LAYER_KHRONOS_validation");

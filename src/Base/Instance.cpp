@@ -10,6 +10,10 @@ void ThrowError(const char* ErrorMsg)
 
 namespace Ek
 {
+    Instance::~Instance()
+    {
+        DelQueue.Run();
+    }
     #ifdef GLFWAPP
         void Instance::CreateInstance(uint32_t VkVersion, const char* AppName)
         {

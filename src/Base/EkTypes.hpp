@@ -377,6 +377,7 @@ namespace Ek
 {
     class BasicVertex
     {
+        public:
         virtual std::vector<VkVertexInputBindingDescription> GetBindingDescription() { };
 
         virtual std::vector<VkVertexInputAttributeDescription> GetAttributeDescription() { };

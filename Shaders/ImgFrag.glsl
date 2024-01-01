@@ -2,7 +2,7 @@
 #pragma shader_stage(fragment)
 
 // Uniforms
-layout(binding=0, location=0) uniform sampler2D InTexture;
+layout(binding=0) uniform sampler2D InTexture;
 
 // Input
 layout(location=0) in vec2 inCoord;

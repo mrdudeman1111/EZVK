@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Base/EkTypes.hpp>
+#include <Images/EkImages.hpp>
 #include <Rendering/EkPipeline.hpp>
 #include <set>
 #include <map>
@@ -22,26 +23,38 @@ namespace Ek
 
     struct RenderpassResource
     {
-        AllocatedImage* Resource;
-        VkAttachmentReference Reference;
+        AllocatedImage* Resource; VkAttachmentReference Reference;
     };
+
+    struct Renderpass;
 
     struct Subpass : public VkSubpassDescription
     {
-        public:
+        friend Renderpass;
+        private:
         DeleteQueue CleanupQueue;
 
-        std::vector<VkAttachmentReference> Colors, Inputs, Resolves;
+
+        // Quick explanation : Renderpass / Subpass attachments.
+        // Renderpasses have several rendering operations to perform. So to make this easier and faster on the GPU, Vulkan introduced subpasses. Subpasses are small Bite sized rendering operations which you can intersperse throughout rendering operations.
+        // Renderpasses take in "Attachment References". These attachment references are used to cut holes in the renderpass for input, You need these holes if you provide any form of input from outside the renderpass. Anything inside can be passed to the pipeline
+        // So long as you have the proper VkPipelineLayout setup.
+
+        // So Attachments are all stored in the renderpass, it contains a huge pool of Information and attachments, and the subpasses pick and choose what parts of that pool they want to use
         std::vector<uint32_t> ReserveIndices;
+        std::vector<VkAttachmentReference*> Colors, Inputs, Resolves;
         uint32_t DepthAtt = -1;
 
         std::vector<VkSubpassDependency> Dependencies;
 
-        // This variable stores the index of the first attachment in InputSets.
         uint32_t IndexOffset;
         uint32_t NumberOfAtts = 0;
 
-        void Build(std::vector<RenderpassResource>* InputSets, uint32_t* AttIterator, std::vector<VkSubpassDependency>* Depends = {});
+        void PushAttachment(RenderpassResource* Resource, uint32_t* Iterator);
+
+        public:
+
+        void Build(std::vector<RenderpassResource>* pInputSets);
     };
 
     struct Renderpass
@@ -52,16 +65,17 @@ namespace Ek
 
         private:
         DeleteQueue CleanupQueue;
-        uint32_t AttachmentIterator = 0;;
+        uint32_t AttachmentIterator = 0;
         VkDevice* Device;
-        int Height, Width;
+        class Window* pWindow;
+        VkRenderPass RenderPass;
 
         // Contains references to the resource, as well as a AttachmentReference object for use with renderpass.
         std::vector<RenderpassResource> InputSets;
 
+        public:
         std::vector<Subpass> Subpasses;
 
-        public:
         Renderpass(VkDevice* PDev)
         {
             Device = PDev;
@@ -72,11 +86,11 @@ namespace Ek
             CleanupQueue.Run();
         }
 
-        VkRenderPass RenderPass;
+        void Build(Ek::Window* Window);
 
-        void Build();
+        void BuildSubpass(std::vector<VkSubpassDependency> Dependencies = {});
 
-        void BuildSubpass(std::vector<AllocatedImage*> Attachments, std::vector<VkSubpassDependency> Dependencies = {});
+        void PushAttachment(AllocatedImage* Image, uint32_t SubpassIndex);
 
         Ek::Pipeline CreatePipeline(int Height, int Width);
 

@@ -42,20 +42,20 @@ struct AllocatedImage
     AllocatedImage(){};
     AllocatedImage(VkDevice* PDev);
 
-    VkImage Image;
-    VkImageView ImageView;
-
-    VmaAllocation Allocation;
+    void CreateImageView(VkImageViewType ViewType, VkImageAspectFlagBits Aspects);
+    void BuildAttachmentInformation(VkAttachmentLoadOp LoadOp, VkAttachmentStoreOp StoreOp, VkAttachmentLoadOp StencilLoad, VkAttachmentStoreOp StencilStore, int EndLayout = -1);
 
     VkFormat Format;
     VkImageLayout Layout = VK_IMAGE_LAYOUT_UNDEFINED;
-
     int Type;
 
-    void CreateImageView(VkImageViewType ViewType, VkImageAspectFlagBits Aspects);
-    void CreateRenderTarget(VkAttachmentLoadOp LoadOp, VkAttachmentStoreOp StoreOp, VkAttachmentLoadOp StencilLoad, VkAttachmentStoreOp StencilStore, int EndLayout = -1);
+    // For memory mapping
+    VmaAllocation Allocation;
 
-    private:
+    VkImage Image;
+    VkImageView ImageView;
+
+    VkAttachmentDescription Description;
     VkDevice* Device;
 };
 
@@ -63,14 +63,23 @@ struct AllocatedImage
 class FrameBuffer
 {
     public:
+    FrameBuffer()
+    {}
     FrameBuffer(VkDevice* PDev) : ImageBuffer{PDev}, DepthBuffer{PDev}
     {
 
     }
+    ~FrameBuffer()
+    {
+        vkDestroyFramebuffer(*Device, FB, nullptr);
+        ImageBuffer.~AllocatedImage();
+        DepthBuffer.~AllocatedImage();
+        Device = nullptr;
+    }
 
     // This function will Allocate a color and depth buffer in gpu memory, Then it will build render targets(Create an attachment description for use with a subpass). after that it creates an image view for both buffers
     // This will fill a VkFrameBufferCreateInfo struct and then create The FrameBuffer (FB) with it
-    void InitImages(AllocatedImage* SwapImage, AllocatedImage* DepthImage, VkImageViewType ViewType);
+    void InitImages(VkImageViewType ViewType);
 
     void Build(VkRenderPass* RenderPass, VkExtent3D ImageExtent);
 

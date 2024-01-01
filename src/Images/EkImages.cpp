@@ -59,41 +59,42 @@ std::vector<char> ReadFile(const char* FileName)
         }
     }
 
-    void AllocatedImage::CreateRenderTarget(VkAttachmentLoadOp LoadOp, VkAttachmentStoreOp StoreOp, VkAttachmentLoadOp StencilLoad, VkAttachmentStoreOp StencilStore, int EndLayout)
+    void AllocatedImage::BuildAttachmentInformation(VkAttachmentLoadOp LoadOp, VkAttachmentStoreOp StoreOp, VkAttachmentLoadOp StencilLoad, VkAttachmentStoreOp StencilStore, int EndLayout)
     {
-        AttDesc Attachment;
-        Attachment.Att.samples = VK_SAMPLE_COUNT_1_BIT;
-
-        Attachment.Att.format = Format;
-        Attachment.Att.samples = VK_SAMPLE_COUNT_1_BIT;
-        Attachment.Att.loadOp = LoadOp;
-        Attachment.Att.storeOp = StoreOp;
-        Attachment.Att.stencilLoadOp = StencilLoad;
-        Attachment.Att.stencilStoreOp = StencilStore;
-        Attachment.Att.initialLayout = Layout;
+        Description.format = Format;
+        Description.samples = VK_SAMPLE_COUNT_1_BIT;
+        Description.loadOp = LoadOp;
+        Description.storeOp = StoreOp;
+        Description.stencilLoadOp = StencilLoad;
+        Description.stencilStoreOp = StencilStore;
+        Description.initialLayout = Layout;
 
         if(EndLayout != -1)
         {
-            Attachment.Att.finalLayout = static_cast<VkImageLayout>(EndLayout);
+            Description.finalLayout = static_cast<VkImageLayout>(EndLayout);
         }
         else
         {
-            Attachment.Att.finalLayout = Layout;
+            Description.finalLayout = Layout;
         }
-
-        Attachment.Layout = Layout;
     }
 
+    // AllocatedImage::~AllocatedImage()
+    // {
+        // vkDestroyImageView(*Device, ImageView, nullptr);
+        // vkDestroyImage(*Device, Image, nullptr);
+    // }
+
 // Frame Buffer
-    void FrameBuffer::InitImages(AllocatedImage* SwapImage, AllocatedImage* DepthImage, VkImageViewType ViewType)
+    void FrameBuffer::InitImages(VkImageViewType ViewType)
     {
         // These Images are already allocated and instantiated, they are created with the Swapchain
         ImageBuffer.CreateImageView(ViewType, VK_IMAGE_ASPECT_COLOR_BIT);
-        ImageBuffer.CreateRenderTarget(VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
+        ImageBuffer.BuildAttachmentInformation(VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, VK_ATTACHMENT_LOAD_OP_DONT_CARE, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_IMAGE_LAYOUT_PRESENT_SRC_KHR);
         ImageBuffer.Type = RtType::RtColor;
 
         DepthBuffer.CreateImageView(ViewType, VK_IMAGE_ASPECT_DEPTH_BIT);
-        DepthBuffer.CreateRenderTarget(VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL);
+        DepthBuffer.BuildAttachmentInformation(VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_STORE, VK_ATTACHMENT_LOAD_OP_CLEAR, VK_ATTACHMENT_STORE_OP_DONT_CARE, VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL);
         DepthBuffer.Type = RtType::RtDepth;
     }
 

@@ -1,8 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ExtImgQuery.dir/ExtImgQuery.cpp.o"
   "CMakeFiles/ExtImgQuery.dir/ExtImgQuery.cpp.o.d"
-  "ExtImgQuery"
-  "ExtImgQuery.pdb"
+  "libExtImgQuery.a"
+  "libExtImgQuery.pdb"
 )
 
 # Per-language clean rules from dependency scanning.
