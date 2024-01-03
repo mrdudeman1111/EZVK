@@ -1,9 +1,0 @@
-{
-    "version": 4,
-    "vendor": {
-        "conan": {}
-    },
-    "include": [
-        "/home/ethan/Repos/VulkanWrapper/build/Debug/generators/CMakePresets.json"
-    ]
-}
